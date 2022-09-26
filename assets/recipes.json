@@ -1,0 +1,506 @@
+{
+  "recipes": [
+    {
+      "vegetarian": false,
+      "vegan": false,
+      "glutenFree": true,
+      "dairyFree": true,
+      "veryHealthy": false,
+      "cheap": false,
+      "veryPopular": false,
+      "sustainable": false,
+      "lowFodmap": false,
+      "weightWatcherSmartPoints": 16,
+      "preparationMinutes": 100,
+      "cookingMinutes": -1,
+      "aggregateLikes": 6,
+      "healthScore": 27,
+      "pricePerServing": 228.22,
+      "extendedIngredients": [
+        {
+          "id": 11266,
+          "aisle": "Produce",
+          "image": "mushrooms.png",
+          "consistency": "SOLID",
+          "name": "baby bella mushrooms",
+          "nameClean": "crimini mushrooms",
+          "original": "3 baby portabella mushrooms, coarsely chopped",
+          "originalName": "baby portabella mushrooms, coarsely chopped",
+          "amount": 3.0,
+          "unit": ""
+        },
+        {
+          "id": 1027063,
+          "aisle": "Meat",
+          "image": "breakfast-sausage-links.jpg",
+          "consistency": "SOLID",
+          "name": "breakfast sausage",
+          "nameClean": "breakfast sausage",
+          "original": "6 ounces Diestel Breakfast Sausage",
+          "originalName": "Diestel Breakfast Sausage",
+          "amount": 6.0,
+          "unit": "ounces"
+        },
+        {
+          "id": 11147,
+          "aisle": "Produce",
+          "image": "swiss-chard.jpg",
+          "consistency": "SOLID",
+          "name": "chard",
+          "nameClean": "swiss chard",
+          "original": "2-3 stalks rainbow chard, stems removed and chopped, leaves chopped",
+          "originalName": "rainbow chard, stems removed and chopped, leaves chopped",
+          "amount": 2.0,
+          "unit": "stalks"
+        },
+        {
+          "id": 1123,
+          "aisle": "Milk, Eggs, Other Dairy",
+          "image": "egg.png",
+          "consistency": "SOLID",
+          "name": "eggs",
+          "nameClean": "egg",
+          "original": "6 eggs",
+          "originalName": "eggs",
+          "amount": 6.0,
+          "unit": ""
+        },
+        {
+          "id": 11291,
+          "aisle": "Produce",
+          "image": "spring-onions.jpg",
+          "consistency": "SOLID",
+          "name": "green onion",
+          "nameClean": "spring onions",
+          "original": "2 stalks green onion, chopped",
+          "originalName": "green onion, chopped",
+          "amount": 2.0,
+          "unit": "stalks"
+        },
+        {
+          "id": 4053,
+          "aisle": "Oil, Vinegar, Salad Dressing",
+          "image": "olive-oil.jpg",
+          "consistency": "LIQUID",
+          "name": "olive oil",
+          "nameClean": "olive oil",
+          "original": "2 teaspoons olive oil",
+          "originalName": "olive oil",
+          "amount": 2.0,
+          "unit": "teaspoons"
+        },
+        {
+          "id": 11507,
+          "aisle": "Produce",
+          "image": "sweet-potato.png",
+          "consistency": "SOLID",
+          "name": "sweet potato",
+          "nameClean": "sweet potato",
+          "original": "½ sweet potato",
+          "originalName": "sweet potato",
+          "amount": 0.5,
+          "unit": ""
+        },
+        {
+          "id": 14412,
+          "aisle": "Beverages",
+          "image": "water.png",
+          "consistency": "LIQUID",
+          "name": "water",
+          "nameClean": "water",
+          "original": "¼ cup water",
+          "originalName": "water",
+          "amount": 0.25,
+          "unit": "cup"
+        }
+      ],
+      "id": 664054,
+      "title": "Turkey Sausage, Chard & Sweet Potato Breakfast Scramble",
+      "readyInMinutes": 45,
+      "servings": 2,
+      "image": "https://spoonacular.com/recipeImages/664054-556x370.jpg",
+      "summary": "Turkey Sausage, Chard & Sweet Potato Breakfast Scramble might be just the morn meal you are searching for. One serving contains <b>471 calories</b>, <b>32g of protein</b>, and <b>32g of fat</b>. For <b>$2.28 per serving</b>, this recipe <b>covers 33%</b> of your daily requirements of vitamins and minerals. 3 people were impressed by this recipe. A mixture of olive oil, baby portabella mushrooms, green onion, and a handful of other ingredients are all it takes to make this recipe so tasty. From preparation to the plate, this recipe takes about <b>45 minutes</b>. It is a good option if you're following a <b>caveman, gluten free, dairy free, and primal</b> diet. All things considered, we decided this recipe <b>deserves a spoonacular score of 82%</b>. This score is spectacular. Try <a href=\"https://spoonacular.com/recipes/rutabaga-and-sweet-potato-breakfast-hash-with-turkey-sausage-587476\">Rutabagan and Sweet Potato Breakfast Hash with Turkey Sausage</a>, <a href=\"https://spoonacular.com/recipes/mexican-egg-and-sweet-potato-breakfast-scramble-476084\">Mexican Egg and Sweet Potato Breakfast Scramble</a>, and <a href=\"https://spoonacular.com/recipes/smoked-salmon-collards-and-sweet-potato-breakfast-scramble-551533\">Smoked Salmon, Collards and Sweet Potato Breakfast Scramble</a> for similar recipes.",
+      "analyzedInstructions": [
+        {
+          "name": "",
+          "steps": [
+            {
+              "number": 1,
+              "step": "In a medium-sized skillet, heat about two teaspoons of olive oil on medium heat."
+            },
+            {
+              "number": 2,
+              "step": "Add the chopped sweet potato and saut 3 or 4 minutes before adding a little liquid and covering. In about 2 minutes, check to see if the liquid has burned off. If it has, add a little more and cover again. Repeat this several times until the sweet potato is soften, but still al dente.",
+              "length": {
+                "number": 6,
+                "unit": "minutes"
+              }
+            },
+            {
+              "number": 3,
+              "step": "Add the mushrooms and the chopped chard stems. Saut another 3 to 5 minutes and add additional liquid if necessary.Move the veggies to one side of the skillet with a wooden spoon and add the ground breakfast sausage. Brown the meat and using the wooden spoon break it apart. Continue sauting until the sausage is cooked all the way through.Immediately add the green onion and chard leaves. Allow to steam for about 30 seconds before pouring the scrambled egg mixture evenly over the meat and veggies. This is where the technique comes in. Avoid the temptation to stir. Simply allow the skillet to sit 2 to three minutes. Then, using a wooden spoon or spatula, begin flipping sections of egg and veggies (similar to how you would fold whipped egg whites into a cake batter, just gently fold the scramble onto itself). Once all sections have been flipped over, everything to sit and cook another 2 or 3 minutes. Repeat the flipping.  Continue doing this until the egg is no longer cooking to the skillet.",
+              "length": {
+                "number": 8,
+                "unit": "minutes"
+              }
+            },
+            {
+              "number": 4,
+              "step": "Serve with your favorite toppings!"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "vegetarian": false,
+      "vegan": false,
+      "glutenFree": true,
+      "dairyFree": false,
+      "veryHealthy": false,
+      "cheap": false,
+      "veryPopular": true,
+      "sustainable": false,
+      "lowFodmap": false,
+      "preparationMinutes": 30,
+      "cookingMinutes": 30,
+      "aggregateLikes": 1416,
+      "healthScore": 8,
+      "pricePerServing": 175.64,
+      "extendedIngredients": [
+        {
+          "id": 5062,
+          "aisle": "Meat",
+          "image": "chicken-breasts.png",
+          "consistency": "SOLID",
+          "name": "chicken breasts",
+          "nameClean": "chicken breast",
+          "original": "2 grilled chicken breasts",
+          "originalName": "grilled chicken breasts",
+          "amount": 2.0,
+          "unit": ""
+        },
+        {
+          "id": 10220445,
+          "aisle": "Pasta and Rice",
+          "image": "rice-white-long-grain-or-basmatii-cooked.jpg",
+          "consistency": "SOLID",
+          "name": "cooked rice",
+          "nameClean": "cooked rice",
+          "original": "2 cups rice (cooked)",
+          "originalName": "rice (cooked)",
+          "amount": 2.0,
+          "unit": "cups"
+        },
+        {
+          "id": 1017,
+          "aisle": "Cheese",
+          "image": "cream-cheese.jpg",
+          "consistency": "SOLID",
+          "name": "cream cheese",
+          "nameClean": "cream cheese",
+          "original": "1 8oz package cream cheese",
+          "originalName": "package cream cheese",
+          "amount": 8.0,
+          "unit": "oz"
+        },
+        {
+          "id": 6147,
+          "aisle": "Canned and Jarred",
+          "image": "cream-of-mushroom-soup.png",
+          "consistency": "LIQUID",
+          "name": "cream of mushroom soup",
+          "nameClean": "condensed cream of mushroom soup",
+          "original": "1 10oz. can cream of mushroom soup",
+          "originalName": "cream of mushroom soup",
+          "amount": 10.0,
+          "unit": "oz"
+        },
+        {
+          "id": 11333,
+          "aisle": "Produce",
+          "image": "green-pepper.jpg",
+          "consistency": "SOLID",
+          "name": "green bell pepper",
+          "nameClean": "green pepper",
+          "original": "1 medium green pepper",
+          "originalName": "green pepper",
+          "amount": 1.0,
+          "unit": "medium"
+        },
+        {
+          "id": 1001025,
+          "aisle": "Cheese",
+          "image": "shredded-cheese-white.jpg",
+          "consistency": "SOLID",
+          "name": "jack cheese",
+          "nameClean": "monterey jack cheese",
+          "original": "1½ cup shredded Monterrey Jack cheese",
+          "originalName": "shredded Monterrey Jack cheese",
+          "amount": 1.5,
+          "unit": "cup"
+        },
+        {
+          "id": 10011282,
+          "aisle": "Produce",
+          "image": "red-onion.png",
+          "consistency": "SOLID",
+          "name": "red onion",
+          "nameClean": "red onion",
+          "original": "½ red onion",
+          "originalName": "red onion",
+          "amount": 0.5,
+          "unit": ""
+        },
+        {
+          "id": 1102047,
+          "aisle": "Spices and Seasonings",
+          "image": "salt-and-pepper.jpg",
+          "consistency": "SOLID",
+          "name": "salt and pepper",
+          "nameClean": "salt and pepper",
+          "original": "Salt and pepper to taste",
+          "originalName": "Salt and pepper to taste",
+          "amount": 6.0,
+          "unit": "servings"
+        },
+        {
+          "id": 4673,
+          "aisle": "Milk, Eggs, Other Dairy",
+          "image": "light-buttery-spread.png",
+          "consistency": "SOLID",
+          "name": "soy buttery spread",
+          "nameClean": "soy buttery spread",
+          "original": "2 Tbsp Country crock buttery spread",
+          "originalName": "Country crock buttery spread",
+          "amount": 2.0,
+          "unit": "Tbsp"
+        }
+      ],
+      "id": 715397,
+      "title": "Cheesy Chicken and Rice Casserole",
+      "readyInMinutes": 60,
+      "servings": 6,
+      "image": "https://spoonacular.com/recipeImages/715397-556x370.jpg",
+      "summary": "Cheesy Chicken and Rice Casserole might be just the main course you are searching for. One serving contains <b>410 calories</b>, <b>21g of protein</b>, and <b>27g of fat</b>. This gluten free recipe serves 6 and costs <b>$1.42 per serving</b>. From preparation to the plate, this recipe takes approximately <b>1 hour</b>. 1411 person have made this recipe and would make it again. If you have monterrey jack cheese, rice, country crock buttery spread, and a few other ingredients on hand, you can make it. To use up the salt and pepper you could follow this main course with the <a href=\"https://spoonacular.com/recipes/dr-pepper-cake-with-flour-cooked-frosting-539165\">Dr. Pepper Cake with Flour Cooked Frosting</a> as a dessert. It will be a hit at your <b>Autumn</b> event. All things considered, we decided this recipe <b>deserves a spoonacular score of 58%</b>. This score is solid. Try <a href=\"https://spoonacular.com/recipes/cheesy-chicken-and-rice-casserole-170797\">Cheesy Chicken and Rice Casserole</a>, <a href=\"https://spoonacular.com/recipes/cheesy-chicken-and-rice-casserole-114311\">Cheesy Chicken and Rice Casserole</a>, and <a href=\"https://spoonacular.com/recipes/cheesy-chicken-and-wild-rice-casserole-12092\">Cheesy Chicken And Wild Rice Casserole</a> for similar recipes.",
+      "analyzedInstructions": [
+        {
+          "name": "",
+          "steps": [
+            {
+              "number": 1,
+              "step": "Heat your oven to 350.Take your 2 grilled chicken breasts and allow them to slightly cool. Shred chicken breasts and place to the side in a mixing bowl.Finely chop your pepper and onion and saut in 2 Tbsp Country Crock for 5 minutes until soft.",
+              "length": {
+                "number": 5,
+                "unit": "minutes"
+              }
+            },
+            {
+              "number": 2,
+              "step": "Add cream cheese into the onion and pepper and mix well."
+            },
+            {
+              "number": 3,
+              "step": "Pour into the large bowl with chicken."
+            },
+            {
+              "number": 4,
+              "step": "Mix in rice, hot sauce, cream of mushroom soup,  cup Monterrey Jack cheese, and salt and pepper."
+            },
+            {
+              "number": 5,
+              "step": "Mix well."
+            },
+            {
+              "number": 6,
+              "step": "Pour mixture in a 9 x 13 dish, and cover with remaining cheese and add salt and pepper to taste."
+            },
+            {
+              "number": 7,
+              "step": "Bake for 30 minutes. Allow to cool for 5 minutes before serving.",
+              "length": {
+                "number": 35,
+                "unit": "minutes"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "vegetarian": false,
+      "vegan": false,
+      "glutenFree": false,
+      "dairyFree": false,
+      "veryHealthy": false,
+      "cheap": false,
+      "veryPopular": false,
+      "sustainable": false,
+      "lowFodmap": false,
+      "preparationMinutes": 45,
+      "cookingMinutes": -1,
+      "aggregateLikes": 12,
+      "healthScore": 24,
+      "pricePerServing": 359.85,
+      "extendedIngredients": [
+        {
+          "id": 11206,
+          "aisle": "Produce",
+          "image": "cucumber.jpg",
+          "consistency": "SOLID",
+          "name": "cucumber",
+          "nameClean": "cucumber",
+          "original": "1 cucumber, seeded and diced",
+          "originalName": "cucumber, seeded and diced",
+          "amount": 1.0,
+          "unit": ""
+        },
+        {
+          "id": 1123,
+          "aisle": "Milk, Eggs, Other Dairy",
+          "image": "egg.png",
+          "consistency": "SOLID",
+          "name": "egg",
+          "nameClean": "egg",
+          "original": "1 egg",
+          "originalName": "egg",
+          "amount": 1.0,
+          "unit": ""
+        },
+        {
+          "id": 1034053,
+          "aisle": "Oil, Vinegar, Salad Dressing",
+          "image": "olive-oil.jpg",
+          "consistency": "LIQUID",
+          "name": "extra virgin olive oil",
+          "nameClean": "extra virgin olive oil",
+          "original": "2 tablespoons extra virgin olive oil",
+          "originalName": "extra virgin olive oil",
+          "amount": 2.0,
+          "unit": "tablespoons"
+        },
+        {
+          "id": 11297,
+          "aisle": "Produce;Spices and Seasonings",
+          "image": "parsley.jpg",
+          "consistency": "SOLID",
+          "name": "flat leaf parsley",
+          "nameClean": "parsley",
+          "original": "1/4 cup chopped flat leaf parsley",
+          "originalName": "chopped flat leaf parsley",
+          "amount": 0.25,
+          "unit": "cup"
+        },
+        {
+          "id": 2045,
+          "aisle": "Produce;Spices and Seasonings",
+          "image": "dill.jpg",
+          "consistency": "SOLID",
+          "name": "fresh dill",
+          "nameClean": "dill",
+          "original": "1 handful of minced fresh dill",
+          "originalName": "minced fresh dill",
+          "amount": 1.0,
+          "unit": "handful"
+        },
+        {
+          "id": 11215,
+          "aisle": "Produce",
+          "image": "garlic.png",
+          "consistency": "SOLID",
+          "name": "garlic",
+          "nameClean": "garlic",
+          "original": "12 Cloves garlic, peeled and cut in ha",
+          "originalName": "garlic, peeled and cut in ha",
+          "amount": 12.0,
+          "unit": "Cloves"
+        },
+        {
+          "id": 1256,
+          "aisle": "Milk, Eggs, Other Dairy",
+          "image": "plain-yogurt.jpg",
+          "consistency": "LIQUID",
+          "name": "greek yogurt",
+          "nameClean": "greek yogurt",
+          "original": "1 pint Greek yogurt",
+          "originalName": "Greek yogurt",
+          "amount": 1.0,
+          "unit": "pint"
+        },
+        {
+          "id": 17224,
+          "aisle": "Meat",
+          "image": "meat-ground.jpg",
+          "consistency": "SOLID",
+          "name": "ground lamb",
+          "nameClean": "ground lamb",
+          "original": "1 pound ground lamb",
+          "originalName": "ground lamb",
+          "amount": 1.0,
+          "unit": "pound"
+        },
+        {
+          "id": 18350,
+          "aisle": "Bakery/Bread",
+          "image": "hamburger-bun.jpg",
+          "consistency": "SOLID",
+          "name": "hamburger buns",
+          "nameClean": "hamburger bun",
+          "original": "4 hamburger buns",
+          "originalName": "hamburger buns",
+          "amount": 4.0,
+          "unit": ""
+        },
+        {
+          "id": 9152,
+          "aisle": "Produce",
+          "image": "lemon-juice.jpg",
+          "consistency": "LIQUID",
+          "name": "juice of lemon",
+          "nameClean": "lemon juice",
+          "original": "juice of 2 lemons",
+          "originalName": "juice of lemons",
+          "amount": 2.0,
+          "unit": ""
+        },
+        {
+          "id": 1082047,
+          "aisle": "Spices and Seasonings",
+          "image": "salt.jpg",
+          "consistency": "SOLID",
+          "name": "kosher salt",
+          "nameClean": "kosher salt",
+          "original": "Kosher salt & pepper to taste",
+          "originalName": "Kosher salt & pepper to taste",
+          "amount": 4.0,
+          "unit": "servings"
+        }
+      ],
+      "id": 649195,
+      "title": "Lamb Burgers With Tzatziki Sauce",
+      "readyInMinutes": 45,
+      "servings": 4,
+      "image": "https://spoonacular.com/recipeImages/649195-556x370.jpg",
+      "summary": "You can never have too many main course recipes, so give Lamb Burgers With Tzatziki Sauce a try. For <b>$3.6 per serving</b>, this recipe <b>covers 28%</b> of your daily requirements of vitamins and minerals. One serving contains <b>614 calories</b>, <b>38g of protein</b>, and <b>37g of fat</b>. A few people made this recipe, and 12 would say it hit the spot. A mixture of dill, greek yogurt, kosher salt & pepper, and a handful of other ingredients are all it takes to make this recipe so delicious. To use up the juice of lemon you could follow this main course with the <a href=\"https://spoonacular.com/recipes/fruit-juice-pops-433326\">Fruit Juice Pops</a> as a dessert. This recipe is typical of Mediterranean cuisine. From preparation to the plate, this recipe takes about <b>45 minutes</b>. All things considered, we decided this recipe <b>deserves a spoonacular score of 79%</b>. This score is solid. Try <a href=\"https://spoonacular.com/recipes/greek-lamb-burgers-with-tzatziki-sauce-888153\">Greek Lamb Burgers with Tzatziki Sauce</a>, <a href=\"https://spoonacular.com/recipes/lamb-burgers-with-tzatziki-sauce-and-parsley-salad-98147\">Lamb Burgers with Tzatziki Sauce and Parsley Salad</a>, and <a href=\"https://spoonacular.com/recipes/lamb-burgers-with-tzatziki-221403\">Lamb burgers with tzatziki</a> for similar recipes.",
+      "analyzedInstructions": [
+        {
+          "name": "",
+          "steps": [
+            {
+              "number": 1,
+              "step": "For the lamb burger, mix 1 pound ground lamb, 1 egg, 1 splash of extra virgin olive oil, the juice of 1 lemon, 1/4 cup chopped flat leaf parsley, and 6 cloves of chopped garlic. Season with kosher salt &amp; pepper to taste and let sit for  to 1 hour.Grill burgers to your liking.For the tzatziki sauce, mix together 1 pint Greek yogurt, 1 diced cucumber, juice of 1 lemon, 1 tablespoon extra virgin olive oil, 6 garlic cloves (add garlic bit by bit until you have the level of garlic you like), 1 handful minced fresh dill, and kosher salt and fresh cracked pepper to taste. Refrigerate overnight to let the flavors intensify.",
+              "length": {
+                "number": 60,
+                "unit": "minutes"
+              }
+            },
+            {
+              "number": 2,
+              "step": "Serve the grilled burgers on toasted buns and add a dollop of the sauce on top."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
