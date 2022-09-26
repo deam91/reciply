@@ -1,6 +1,6 @@
 # recipe_app
 
-A new Flutter project.
+Recipes app concept developed during Flutter London DevCamp 2022
 
 ## Getting Started
 
