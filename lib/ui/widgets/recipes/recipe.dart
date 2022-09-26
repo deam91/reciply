@@ -132,15 +132,16 @@ class RecipeWidget extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 0,
+            top: 35,
             left: 0,
             right: 0,
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).push(
                   PageRouteBuilder(
-                    transitionDuration: const Duration(seconds: 1),
-                    reverseTransitionDuration: const Duration(seconds: 1),
+                    transitionDuration: const Duration(milliseconds: 500),
+                    reverseTransitionDuration:
+                        const Duration(milliseconds: 500),
                     pageBuilder: (_, animation, secondaryAnimation) {
                       final curvedAnimation = CurvedAnimation(
                         parent: animation,
@@ -167,7 +168,7 @@ class RecipeWidget extends StatelessWidget {
                 tag: HeroTag.image(recipe),
                 child: Center(
                   child: Container(
-                    width: size.width * 0.6,
+                    // width: size.width * 0.6,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30.0),
                       boxShadow: const [

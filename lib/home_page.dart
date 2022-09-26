@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_app/core/constants.dart';
-import 'package:recipe_app/data/recipes_service.dart';
-import 'package:recipe_app/models/recipe/recipe.dart';
 import 'package:recipe_app/ui/widgets/bottom_section.dart';
-import 'package:recipe_app/core/widgets/loading.dart';
 import 'package:recipe_app/ui/widgets/recipes/recipes_container.dart';
-import 'package:recipe_app/ui/widgets/recipes/recipes_list.dart';
 import 'package:recipe_app/ui/widgets/top_section.dart';
 
 class HomePage extends StatefulWidget {
