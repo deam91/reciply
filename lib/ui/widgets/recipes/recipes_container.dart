@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_app/data/recipes_service.dart';
-import 'package:recipe_app/models/recipe/recipe.dart';
+import 'package:recipe_app/data/models/models.dart';
 import 'package:recipe_app/core/widgets/loading.dart';
+import 'package:recipe_app/data/repository/recipes_repository.dart';
 import 'package:recipe_app/ui/widgets/recipes/recipes_list.dart';
 
 class RecipesContainer extends StatefulWidget {
@@ -14,13 +14,12 @@ class RecipesContainer extends StatefulWidget {
 class _RecipesContainerState extends State<RecipesContainer> {
   final PageController pageController =
       PageController(initialPage: 0, viewportFraction: 0.8);
-  final RecipeService recipeService = RecipeService();
-  late final Future<List<Recipe>> _future;
+  late final Future<List<Recipe>?> _future;
 
   @override
   void initState() {
     super.initState();
-    _future = recipeService.getRecipes();
+    _future = recipesRepository.getRecipes(fromAPI: true);
   }
 
   @override
@@ -39,7 +38,7 @@ class _RecipesContainerState extends State<RecipesContainer> {
           height: 15,
         ),
         Expanded(
-          child: FutureBuilder<List<Recipe>>(
+          child: FutureBuilder<List<Recipe>?>(
             future: _future,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -48,7 +47,7 @@ class _RecipesContainerState extends State<RecipesContainer> {
                   snapshot.data != null) {
                 return RecipesList(
                   pageController: pageController,
-                  recipes: snapshot.data!,
+                  recipes: snapshot.data ?? [],
                 );
               }
               return const LoadingWidget();
