@@ -2,15 +2,13 @@
 
 Recipes app concept developed during Flutter London DevCamp 2022
 
-## Getting Started
+> This project uses Spoonacular API to request recipes data. Use your own API key by adding an `env.development` file under `assets/env/` and setting `SPOONACULAR_KEY` environment variable inside it.
 
-This project is a starting point for a Flutter application.
+## Getting started with Flutter
 
-A few resources to get you started if this is your first Flutter project:
+A few resources to get you started if this is your first time with Flutter:
 
 - [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
+- View the [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
