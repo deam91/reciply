@@ -5,8 +5,8 @@ part 'recipe.g.dart';
 
 @collection
 @JsonSerializable()
-class RecipeEntity {
-  RecipeEntity();
+class Recipe {
+  Recipe();
   bool? vegetarian;
   bool? vegan;
   bool? glutenFree;
@@ -35,7 +35,7 @@ class RecipeEntity {
 
   /// Connect the generated [_$RecipeEntityFromJson] function to the `fromJson`
   /// factory.
-  factory RecipeEntity.fromJson(Map<String, dynamic> json) =>
+  factory Recipe.fromJson(Map<String, dynamic> json) =>
       _$RecipeEntityFromJson(json);
 
   /// Connect the generated [_$RecipeEntityToJson] function to the `toJson` method.
