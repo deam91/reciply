@@ -34,9 +34,69 @@ class RecipeWidget extends StatelessWidget {
               child: Container(),
             ),
           ),
+          Positioned(
+            top: 30,
+            left: 0,
+            right: 0,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  PageRouteBuilder(
+                    transitionDuration: const Duration(milliseconds: 500),
+                    reverseTransitionDuration:
+                        const Duration(milliseconds: 500),
+                    pageBuilder: (_, animation, secondaryAnimation) {
+                      final curvedAnimation = CurvedAnimation(
+                        parent: animation,
+                        curve: const Interval(0.0, 0.5),
+                      );
+                      final textAnimation = CurvedAnimation(
+                        parent: animation,
+                        curve: const Interval(0.25, 1.0),
+                      );
+
+                      return FadeTransition(
+                        opacity: curvedAnimation,
+                        child: RecipeDetailsPage(
+                          recipe: recipe,
+                          color: color,
+                          animation: textAnimation,
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
+              child: HeroWidget(
+                tag: HeroTag.image(recipe),
+                child: Center(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30.0),
+                      boxShadow: const [
+                        BoxShadow(
+                          blurRadius: 10,
+                          color: Colors.black38,
+                          offset: Offset.zero,
+                          spreadRadius: 3,
+                        )
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(30.0),
+                      child: Image.network(
+                        recipe.image ?? '',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
           Container(
             margin: const EdgeInsets.only(left: 10, right: 10),
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(10),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -86,7 +146,7 @@ class RecipeWidget extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(
-                              width: 10,
+                              width: 5,
                             ),
                             HeroWidget(
                               tag: HeroTag.servings(recipe),
@@ -129,67 +189,6 @@ class RecipeWidget extends StatelessWidget {
                   ],
                 )
               ],
-            ),
-          ),
-          Positioned(
-            top: 35,
-            left: 0,
-            right: 0,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(
-                  PageRouteBuilder(
-                    transitionDuration: const Duration(milliseconds: 500),
-                    reverseTransitionDuration:
-                        const Duration(milliseconds: 500),
-                    pageBuilder: (_, animation, secondaryAnimation) {
-                      final curvedAnimation = CurvedAnimation(
-                        parent: animation,
-                        curve: const Interval(0.0, 0.5),
-                      );
-                      final textAnimation = CurvedAnimation(
-                        parent: animation,
-                        curve: const Interval(0.25, 1.0),
-                      );
-
-                      return FadeTransition(
-                        opacity: curvedAnimation,
-                        child: RecipeDetailsPage(
-                          recipe: recipe,
-                          color: color,
-                          animation: textAnimation,
-                        ),
-                      );
-                    },
-                  ),
-                );
-              },
-              child: HeroWidget(
-                tag: HeroTag.image(recipe),
-                child: Center(
-                  child: Container(
-                    // width: size.width * 0.6,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30.0),
-                      boxShadow: const [
-                        BoxShadow(
-                          blurRadius: 10,
-                          color: Colors.black38,
-                          offset: Offset.zero,
-                          spreadRadius: 3,
-                        )
-                      ],
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(30.0),
-                      child: Image.network(
-                        recipe.image ?? '',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
             ),
           ),
         ],
