@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_app/home_page.dart';
+import 'package:recipe_app/data/repository/recipes_repository.dart';
+import 'package:recipe_app/ui/pages/home_page.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'core/constants.dart';
 
-void main() {
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  recipesRepository = RecipesRepository();
+  await dotenv.load(fileName: "assets/env/.env.development");
   runApp(const MyApp());
 }
 
