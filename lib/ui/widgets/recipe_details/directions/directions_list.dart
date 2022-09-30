@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_app/models/recipe/analyzed_instruction.dart';
+import 'package:recipe_app/data/models/models.dart';
 import 'package:recipe_app/ui/widgets/recipe_details/directions/direction.dart';
 
 class DirectionsList extends StatelessWidget {
   const DirectionsList({super.key, required this.analyzedInstructions});
-  final List<AnalyzedInstruction> analyzedInstructions;
+  final List<AnalyzedInstructionEntity> analyzedInstructions;
 
   _buildList() {
     final List<Widget> steps = [];

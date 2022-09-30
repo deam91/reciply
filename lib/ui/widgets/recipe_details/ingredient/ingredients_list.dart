@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_app/models/recipe/extended_ingredient.dart';
+import 'package:recipe_app/data/models/models.dart';
 import 'package:recipe_app/ui/widgets/recipe_details/ingredient/ingredient.dart';
 
 class IngredientsList extends StatelessWidget {
   const IngredientsList({super.key, required this.extendedIngredients});
-  final List<ExtendedIngredient> extendedIngredients;
+  final List<ExtendedIngredientEntity> extendedIngredients;
 
   _getFirstHalf() {
     final List<Widget> ingredients = [];

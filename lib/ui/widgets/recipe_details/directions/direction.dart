@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_app/models/recipe/step.dart';
+import 'package:recipe_app/data/models/models.dart';
 
 class Instruction extends StatelessWidget {
   const Instruction(
       {super.key, required this.instruction, required this.number});
-  final RecipeStep instruction;
+  final RecipeStepEntity instruction;
   final int number;
 
   @override

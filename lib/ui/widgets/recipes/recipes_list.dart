@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/core/constants.dart';
-import 'package:recipe_app/models/models.dart';
+import 'package:recipe_app/data/models/models.dart';
 import 'package:recipe_app/ui/widgets/recipes/recipe.dart';
 
 class RecipesList extends StatelessWidget {

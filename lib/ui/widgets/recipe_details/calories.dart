@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:recipe_app/models/recipe/recipe.dart';
+import 'package:recipe_app/data/models/models.dart';
 
 class Calories extends StatelessWidget {
   const Calories({

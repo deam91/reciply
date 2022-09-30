@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/core/hero_tag.dart';
-import 'package:recipe_app/models/models.dart';
 import 'package:recipe_app/core/widgets/hero_widget.dart';
+import 'package:recipe_app/data/models/models.dart';
 import 'package:recipe_app/ui/pages/recipe_details_page.dart';
 import 'package:recipe_app/ui/widgets/recipe_details/stars.dart';
 

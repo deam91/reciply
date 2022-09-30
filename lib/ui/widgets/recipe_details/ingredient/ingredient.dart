@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_app/models/models.dart';
+import 'package:recipe_app/data/models/models.dart';
 
 class Ingredient extends StatelessWidget {
   const Ingredient({super.key, required this.ingredient});
-  final ExtendedIngredient ingredient;
+  final ExtendedIngredientEntity ingredient;
 
   @override
   Widget build(BuildContext context) {

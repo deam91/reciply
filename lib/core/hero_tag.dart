@@ -1,4 +1,4 @@
-import 'package:recipe_app/models/recipe/recipe.dart';
+import 'package:recipe_app/data/models/models.dart';
 
 class HeroTag {
   static section(Recipe recipe) => 'section${recipe.id}';
