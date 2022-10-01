@@ -4,8 +4,20 @@ import 'package:flutter/material.dart';
 const backgroundColor = Color(0xff2e5971);
 // #1a3955
 const listTagItemColor = Color(0xff1a3955);
-// tags
-const List<String> tags = ['ENTREES', 'APPS', 'MEETS', 'VEGAN', 'SALADS'];
+// types: dessert, appetizer, salad, bread, breakfast, soup, beverage, sauce, marinade, snack, drink
+const List<String> recipeTypes = [
+  'dessert',
+  'appetizer',
+  'salad',
+  'bread',
+  'breakfast',
+  'soup',
+  'beverage',
+  'sauce',
+  'marinade',
+  'snack',
+  'drink'
+];
 
 const List<Color> recipeColors = [Color(0xffed8b5b), Color(0xffaf7385)];
 
