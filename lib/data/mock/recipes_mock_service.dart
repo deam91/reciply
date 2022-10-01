@@ -18,7 +18,7 @@ class RecipeMockService extends APIService {
   }
 
   @override
-  Future<List<Recipe>?> searchRecipes({String? text, List<String>? tags}) {
+  Future<List<Recipe>?> searchRecipes({String? text, String? type}) {
     return Future.value(<Recipe>[]);
   }
 }
