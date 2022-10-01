@@ -21,7 +21,7 @@ class BottomSection extends StatelessWidget {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: tags.length,
+              itemCount: recipeTypes.length,
               scrollDirection: Axis.horizontal,
               itemExtent: 100,
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -35,7 +35,7 @@ class BottomSection extends StatelessWidget {
                   margin: const EdgeInsets.symmetric(horizontal: 15),
                   child: Center(
                     child: Text(
-                      tags[index],
+                      recipeTypes[index].toUpperCase(),
                       style: const TextStyle(
                         fontSize: 10,
                         overflow: TextOverflow.ellipsis,
