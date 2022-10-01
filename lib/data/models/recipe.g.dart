@@ -9,13 +9,13 @@ part of 'recipe.dart';
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters
 
-extension GetRecipeEntityCollection on Isar {
-  IsarCollection<Recipe> get recipeEntitys => this.collection();
+extension GetRecipeBookmarkCollection on Isar {
+  IsarCollection<RecipeBookmark> get recipeBookmarks => this.collection();
 }
 
-const RecipeEntitySchema = CollectionSchema(
-  name: r'RecipeEntity',
-  id: -2687920056723579852,
+const RecipeBookmarkSchema = CollectionSchema(
+  name: r'RecipeBookmark',
+  id: -554022335830939276,
   properties: {
     r'aggregateLikes': PropertySchema(
       id: 0,
@@ -125,10 +125,10 @@ const RecipeEntitySchema = CollectionSchema(
       type: IsarType.bool,
     )
   },
-  estimateSize: _recipeEntityEstimateSize,
-  serialize: _recipeEntitySerialize,
-  deserialize: _recipeEntityDeserialize,
-  deserializeProp: _recipeEntityDeserializeProp,
+  estimateSize: _recipeBookmarkEstimateSize,
+  serialize: _recipeBookmarkSerialize,
+  deserialize: _recipeBookmarkDeserialize,
+  deserializeProp: _recipeBookmarkDeserializeProp,
   idName: r'id',
   indexes: {
     r'aggregateLikes': IndexSchema(
@@ -178,14 +178,14 @@ const RecipeEntitySchema = CollectionSchema(
     r'RecipeStepEntity': RecipeStepEntitySchema,
     r'LengthEntity': LengthEntitySchema
   },
-  getId: _recipeEntityGetId,
-  getLinks: _recipeEntityGetLinks,
-  attach: _recipeEntityAttach,
+  getId: _recipeBookmarkGetId,
+  getLinks: _recipeBookmarkGetLinks,
+  attach: _recipeBookmarkAttach,
   version: '3.0.1',
 );
 
-int _recipeEntityEstimateSize(
-  Recipe object,
+int _recipeBookmarkEstimateSize(
+  RecipeBookmark object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
@@ -239,8 +239,8 @@ int _recipeEntityEstimateSize(
   return bytesCount;
 }
 
-void _recipeEntitySerialize(
-  Recipe object,
+void _recipeBookmarkSerialize(
+  RecipeBookmark object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
@@ -278,13 +278,13 @@ void _recipeEntitySerialize(
   writer.writeBool(offsets[20], object.veryPopular);
 }
 
-Recipe _recipeEntityDeserialize(
+RecipeBookmark _recipeBookmarkDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = Recipe();
+  final object = RecipeBookmark();
   object.aggregateLikes = reader.readLongOrNull(offsets[0]);
   object.analyzedInstructions =
       reader.readObjectList<AnalyzedInstructionEntity>(
@@ -321,7 +321,7 @@ Recipe _recipeEntityDeserialize(
   return object;
 }
 
-P _recipeEntityDeserializeProp<P>(
+P _recipeBookmarkDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
@@ -385,19 +385,3159 @@ P _recipeEntityDeserializeProp<P>(
   }
 }
 
-Id _recipeEntityGetId(Recipe object) {
+Id _recipeBookmarkGetId(RecipeBookmark object) {
   return object.id ?? Isar.autoIncrement;
 }
 
-List<IsarLinkBase<dynamic>> _recipeEntityGetLinks(Recipe object) {
+List<IsarLinkBase<dynamic>> _recipeBookmarkGetLinks(RecipeBookmark object) {
   return [];
 }
 
-void _recipeEntityAttach(IsarCollection<dynamic> col, Id id, Recipe object) {
+void _recipeBookmarkAttach(
+    IsarCollection<dynamic> col, Id id, RecipeBookmark object) {
   object.id = id;
 }
 
-extension RecipeEntityQueryWhereSort on QueryBuilder<Recipe, Recipe, QWhere> {
+extension RecipeBookmarkQueryWhereSort
+    on QueryBuilder<RecipeBookmark, RecipeBookmark, QWhere> {
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterWhere> anyId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(const IdWhereClause.any());
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterWhere>
+      anyAggregateLikes() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'aggregateLikes'),
+      );
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterWhere> anyServings() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'servings'),
+      );
+    });
+  }
+}
+
+extension RecipeBookmarkQueryWhere
+    on QueryBuilder<RecipeBookmark, RecipeBookmark, QWhereClause> {
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterWhereClause> idEqualTo(
+      Id id) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IdWhereClause.between(
+        lower: id,
+        upper: id,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterWhereClause> idNotEqualTo(
+      Id id) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(
+              IdWhereClause.lessThan(upper: id, includeUpper: false),
+            )
+            .addWhereClause(
+              IdWhereClause.greaterThan(lower: id, includeLower: false),
+            );
+      } else {
+        return query
+            .addWhereClause(
+              IdWhereClause.greaterThan(lower: id, includeLower: false),
+            )
+            .addWhereClause(
+              IdWhereClause.lessThan(upper: id, includeUpper: false),
+            );
+      }
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterWhereClause> idGreaterThan(
+      Id id,
+      {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IdWhereClause.greaterThan(lower: id, includeLower: include),
+      );
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterWhereClause> idLessThan(
+      Id id,
+      {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IdWhereClause.lessThan(upper: id, includeUpper: include),
+      );
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterWhereClause> idBetween(
+    Id lowerId,
+    Id upperId, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IdWhereClause.between(
+        lower: lowerId,
+        includeLower: includeLower,
+        upper: upperId,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterWhereClause>
+      aggregateLikesIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'aggregateLikes',
+        value: [null],
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterWhereClause>
+      aggregateLikesIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'aggregateLikes',
+        lower: [null],
+        includeLower: false,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterWhereClause>
+      aggregateLikesEqualTo(int? aggregateLikes) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'aggregateLikes',
+        value: [aggregateLikes],
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterWhereClause>
+      aggregateLikesNotEqualTo(int? aggregateLikes) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'aggregateLikes',
+              lower: [],
+              upper: [aggregateLikes],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'aggregateLikes',
+              lower: [aggregateLikes],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'aggregateLikes',
+              lower: [aggregateLikes],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'aggregateLikes',
+              lower: [],
+              upper: [aggregateLikes],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterWhereClause>
+      aggregateLikesGreaterThan(
+    int? aggregateLikes, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'aggregateLikes',
+        lower: [aggregateLikes],
+        includeLower: include,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterWhereClause>
+      aggregateLikesLessThan(
+    int? aggregateLikes, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'aggregateLikes',
+        lower: [],
+        upper: [aggregateLikes],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterWhereClause>
+      aggregateLikesBetween(
+    int? lowerAggregateLikes,
+    int? upperAggregateLikes, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'aggregateLikes',
+        lower: [lowerAggregateLikes],
+        includeLower: includeLower,
+        upper: [upperAggregateLikes],
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterWhereClause>
+      titleIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'title',
+        value: [null],
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterWhereClause>
+      titleIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'title',
+        lower: [null],
+        includeLower: false,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterWhereClause> titleEqualTo(
+      String? title) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'title',
+        value: [title],
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterWhereClause>
+      titleNotEqualTo(String? title) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'title',
+              lower: [],
+              upper: [title],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'title',
+              lower: [title],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'title',
+              lower: [title],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'title',
+              lower: [],
+              upper: [title],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterWhereClause>
+      servingsIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'servings',
+        value: [null],
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterWhereClause>
+      servingsIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'servings',
+        lower: [null],
+        includeLower: false,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterWhereClause>
+      servingsEqualTo(int? servings) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'servings',
+        value: [servings],
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterWhereClause>
+      servingsNotEqualTo(int? servings) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'servings',
+              lower: [],
+              upper: [servings],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'servings',
+              lower: [servings],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'servings',
+              lower: [servings],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'servings',
+              lower: [],
+              upper: [servings],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterWhereClause>
+      servingsGreaterThan(
+    int? servings, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'servings',
+        lower: [servings],
+        includeLower: include,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterWhereClause>
+      servingsLessThan(
+    int? servings, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'servings',
+        lower: [],
+        upper: [servings],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterWhereClause>
+      servingsBetween(
+    int? lowerServings,
+    int? upperServings, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'servings',
+        lower: [lowerServings],
+        includeLower: includeLower,
+        upper: [upperServings],
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+}
+
+extension RecipeBookmarkQueryFilter
+    on QueryBuilder<RecipeBookmark, RecipeBookmark, QFilterCondition> {
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      aggregateLikesIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'aggregateLikes',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      aggregateLikesIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'aggregateLikes',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      aggregateLikesEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'aggregateLikes',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      aggregateLikesGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'aggregateLikes',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      aggregateLikesLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'aggregateLikes',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      aggregateLikesBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'aggregateLikes',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      analyzedInstructionsIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'analyzedInstructions',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      analyzedInstructionsIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'analyzedInstructions',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      analyzedInstructionsLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'analyzedInstructions',
+        length,
+        true,
+        length,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      analyzedInstructionsIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'analyzedInstructions',
+        0,
+        true,
+        0,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      analyzedInstructionsIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'analyzedInstructions',
+        0,
+        false,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      analyzedInstructionsLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'analyzedInstructions',
+        0,
+        true,
+        length,
+        include,
+      );
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      analyzedInstructionsLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'analyzedInstructions',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      analyzedInstructionsLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'analyzedInstructions',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      cheapIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'cheap',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      cheapIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'cheap',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      cheapEqualTo(bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'cheap',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      cookingMinutesIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'cookingMinutes',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      cookingMinutesIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'cookingMinutes',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      cookingMinutesEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'cookingMinutes',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      cookingMinutesGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'cookingMinutes',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      cookingMinutesLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'cookingMinutes',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      cookingMinutesBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'cookingMinutes',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      dairyFreeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'dairyFree',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      dairyFreeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'dairyFree',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      dairyFreeEqualTo(bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'dairyFree',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      extendedIngredientsIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'extendedIngredients',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      extendedIngredientsIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'extendedIngredients',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      extendedIngredientsLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'extendedIngredients',
+        length,
+        true,
+        length,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      extendedIngredientsIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'extendedIngredients',
+        0,
+        true,
+        0,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      extendedIngredientsIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'extendedIngredients',
+        0,
+        false,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      extendedIngredientsLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'extendedIngredients',
+        0,
+        true,
+        length,
+        include,
+      );
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      extendedIngredientsLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'extendedIngredients',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      extendedIngredientsLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'extendedIngredients',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      glutenFreeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'glutenFree',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      glutenFreeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'glutenFree',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      glutenFreeEqualTo(bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'glutenFree',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      healthScoreIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'healthScore',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      healthScoreIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'healthScore',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      healthScoreEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'healthScore',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      healthScoreGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'healthScore',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      healthScoreLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'healthScore',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      healthScoreBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'healthScore',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      idIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'id',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      idIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'id',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition> idEqualTo(
+      Id? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'id',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      idGreaterThan(
+    Id? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'id',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      idLessThan(
+    Id? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'id',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition> idBetween(
+    Id? lower,
+    Id? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'id',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      imageIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'image',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      imageIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'image',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      imageEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'image',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      imageGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'image',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      imageLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'image',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      imageBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'image',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      imageStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'image',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      imageEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'image',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      imageContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'image',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      imageMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'image',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      imageIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'image',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      imageIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'image',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      lowFodmapIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'lowFodmap',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      lowFodmapIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'lowFodmap',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      lowFodmapEqualTo(bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'lowFodmap',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      preparationMinutesIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'preparationMinutes',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      preparationMinutesIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'preparationMinutes',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      preparationMinutesEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'preparationMinutes',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      preparationMinutesGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'preparationMinutes',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      preparationMinutesLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'preparationMinutes',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      preparationMinutesBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'preparationMinutes',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      pricePerServingIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'pricePerServing',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      pricePerServingIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'pricePerServing',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      pricePerServingEqualTo(
+    double? value, {
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'pricePerServing',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      pricePerServingGreaterThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'pricePerServing',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      pricePerServingLessThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'pricePerServing',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      pricePerServingBetween(
+    double? lower,
+    double? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'pricePerServing',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      readyInMinutesIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'readyInMinutes',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      readyInMinutesIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'readyInMinutes',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      readyInMinutesEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'readyInMinutes',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      readyInMinutesGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'readyInMinutes',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      readyInMinutesLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'readyInMinutes',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      readyInMinutesBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'readyInMinutes',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      servingsIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'servings',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      servingsIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'servings',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      servingsEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'servings',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      servingsGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'servings',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      servingsLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'servings',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      servingsBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'servings',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      summaryIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'summary',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      summaryIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'summary',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      summaryEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'summary',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      summaryGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'summary',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      summaryLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'summary',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      summaryBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'summary',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      summaryStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'summary',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      summaryEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'summary',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      summaryContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'summary',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      summaryMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'summary',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      summaryIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'summary',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      summaryIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'summary',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      sustainableIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'sustainable',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      sustainableIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'sustainable',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      sustainableEqualTo(bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'sustainable',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      titleIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'title',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      titleIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'title',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      titleEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'title',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      titleGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'title',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      titleLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'title',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      titleBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'title',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      titleStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'title',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      titleEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'title',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      titleContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'title',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      titleMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'title',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      titleIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'title',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      titleIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'title',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      veganIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'vegan',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      veganIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'vegan',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      veganEqualTo(bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'vegan',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      vegetarianIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'vegetarian',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      vegetarianIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'vegetarian',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      vegetarianEqualTo(bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'vegetarian',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      veryHealthyIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'veryHealthy',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      veryHealthyIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'veryHealthy',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      veryHealthyEqualTo(bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'veryHealthy',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      veryPopularIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'veryPopular',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      veryPopularIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'veryPopular',
+      ));
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      veryPopularEqualTo(bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'veryPopular',
+        value: value,
+      ));
+    });
+  }
+}
+
+extension RecipeBookmarkQueryObject
+    on QueryBuilder<RecipeBookmark, RecipeBookmark, QFilterCondition> {
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      analyzedInstructionsElement(FilterQuery<AnalyzedInstructionEntity> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.object(q, r'analyzedInstructions');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterFilterCondition>
+      extendedIngredientsElement(FilterQuery<ExtendedIngredientEntity> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.object(q, r'extendedIngredients');
+    });
+  }
+}
+
+extension RecipeBookmarkQueryLinks
+    on QueryBuilder<RecipeBookmark, RecipeBookmark, QFilterCondition> {}
+
+extension RecipeBookmarkQuerySortBy
+    on QueryBuilder<RecipeBookmark, RecipeBookmark, QSortBy> {
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      sortByAggregateLikes() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'aggregateLikes', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      sortByAggregateLikesDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'aggregateLikes', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy> sortByCheap() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'cheap', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy> sortByCheapDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'cheap', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      sortByCookingMinutes() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'cookingMinutes', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      sortByCookingMinutesDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'cookingMinutes', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy> sortByDairyFree() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dairyFree', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      sortByDairyFreeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dairyFree', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      sortByGlutenFree() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'glutenFree', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      sortByGlutenFreeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'glutenFree', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      sortByHealthScore() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'healthScore', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      sortByHealthScoreDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'healthScore', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy> sortByImage() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'image', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy> sortByImageDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'image', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy> sortByLowFodmap() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lowFodmap', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      sortByLowFodmapDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lowFodmap', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      sortByPreparationMinutes() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'preparationMinutes', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      sortByPreparationMinutesDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'preparationMinutes', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      sortByPricePerServing() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pricePerServing', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      sortByPricePerServingDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pricePerServing', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      sortByReadyInMinutes() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'readyInMinutes', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      sortByReadyInMinutesDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'readyInMinutes', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy> sortByServings() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'servings', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      sortByServingsDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'servings', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy> sortBySummary() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'summary', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      sortBySummaryDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'summary', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      sortBySustainable() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'sustainable', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      sortBySustainableDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'sustainable', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy> sortByTitle() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'title', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy> sortByTitleDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'title', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy> sortByVegan() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'vegan', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy> sortByVeganDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'vegan', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      sortByVegetarian() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'vegetarian', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      sortByVegetarianDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'vegetarian', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      sortByVeryHealthy() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'veryHealthy', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      sortByVeryHealthyDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'veryHealthy', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      sortByVeryPopular() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'veryPopular', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      sortByVeryPopularDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'veryPopular', Sort.desc);
+    });
+  }
+}
+
+extension RecipeBookmarkQuerySortThenBy
+    on QueryBuilder<RecipeBookmark, RecipeBookmark, QSortThenBy> {
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      thenByAggregateLikes() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'aggregateLikes', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      thenByAggregateLikesDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'aggregateLikes', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy> thenByCheap() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'cheap', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy> thenByCheapDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'cheap', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      thenByCookingMinutes() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'cookingMinutes', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      thenByCookingMinutesDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'cookingMinutes', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy> thenByDairyFree() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dairyFree', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      thenByDairyFreeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dairyFree', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      thenByGlutenFree() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'glutenFree', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      thenByGlutenFreeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'glutenFree', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      thenByHealthScore() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'healthScore', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      thenByHealthScoreDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'healthScore', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy> thenById() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'id', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy> thenByIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'id', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy> thenByImage() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'image', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy> thenByImageDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'image', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy> thenByLowFodmap() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lowFodmap', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      thenByLowFodmapDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lowFodmap', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      thenByPreparationMinutes() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'preparationMinutes', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      thenByPreparationMinutesDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'preparationMinutes', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      thenByPricePerServing() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pricePerServing', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      thenByPricePerServingDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pricePerServing', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      thenByReadyInMinutes() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'readyInMinutes', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      thenByReadyInMinutesDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'readyInMinutes', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy> thenByServings() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'servings', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      thenByServingsDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'servings', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy> thenBySummary() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'summary', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      thenBySummaryDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'summary', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      thenBySustainable() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'sustainable', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      thenBySustainableDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'sustainable', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy> thenByTitle() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'title', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy> thenByTitleDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'title', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy> thenByVegan() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'vegan', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy> thenByVeganDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'vegan', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      thenByVegetarian() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'vegetarian', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      thenByVegetarianDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'vegetarian', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      thenByVeryHealthy() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'veryHealthy', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      thenByVeryHealthyDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'veryHealthy', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      thenByVeryPopular() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'veryPopular', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QAfterSortBy>
+      thenByVeryPopularDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'veryPopular', Sort.desc);
+    });
+  }
+}
+
+extension RecipeBookmarkQueryWhereDistinct
+    on QueryBuilder<RecipeBookmark, RecipeBookmark, QDistinct> {
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QDistinct>
+      distinctByAggregateLikes() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'aggregateLikes');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QDistinct> distinctByCheap() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'cheap');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QDistinct>
+      distinctByCookingMinutes() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'cookingMinutes');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QDistinct>
+      distinctByDairyFree() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'dairyFree');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QDistinct>
+      distinctByGlutenFree() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'glutenFree');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QDistinct>
+      distinctByHealthScore() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'healthScore');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QDistinct> distinctByImage(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'image', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QDistinct>
+      distinctByLowFodmap() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'lowFodmap');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QDistinct>
+      distinctByPreparationMinutes() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'preparationMinutes');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QDistinct>
+      distinctByPricePerServing() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'pricePerServing');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QDistinct>
+      distinctByReadyInMinutes() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'readyInMinutes');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QDistinct> distinctByServings() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'servings');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QDistinct> distinctBySummary(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'summary', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QDistinct>
+      distinctBySustainable() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'sustainable');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QDistinct> distinctByTitle(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'title', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QDistinct> distinctByVegan() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'vegan');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QDistinct>
+      distinctByVegetarian() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'vegetarian');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QDistinct>
+      distinctByVeryHealthy() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'veryHealthy');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, RecipeBookmark, QDistinct>
+      distinctByVeryPopular() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'veryPopular');
+    });
+  }
+}
+
+extension RecipeBookmarkQueryProperty
+    on QueryBuilder<RecipeBookmark, RecipeBookmark, QQueryProperty> {
+  QueryBuilder<RecipeBookmark, int, QQueryOperations> idProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, int?, QQueryOperations>
+      aggregateLikesProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'aggregateLikes');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, List<AnalyzedInstructionEntity>?,
+      QQueryOperations> analyzedInstructionsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'analyzedInstructions');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, bool?, QQueryOperations> cheapProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'cheap');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, int?, QQueryOperations>
+      cookingMinutesProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'cookingMinutes');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, bool?, QQueryOperations> dairyFreeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'dairyFree');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, List<ExtendedIngredientEntity>?,
+      QQueryOperations> extendedIngredientsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'extendedIngredients');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, bool?, QQueryOperations> glutenFreeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'glutenFree');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, int?, QQueryOperations> healthScoreProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'healthScore');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, String?, QQueryOperations> imageProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'image');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, bool?, QQueryOperations> lowFodmapProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'lowFodmap');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, int?, QQueryOperations>
+      preparationMinutesProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'preparationMinutes');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, double?, QQueryOperations>
+      pricePerServingProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'pricePerServing');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, int?, QQueryOperations>
+      readyInMinutesProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'readyInMinutes');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, int?, QQueryOperations> servingsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'servings');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, String?, QQueryOperations> summaryProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'summary');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, bool?, QQueryOperations> sustainableProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'sustainable');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, String?, QQueryOperations> titleProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'title');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, bool?, QQueryOperations> veganProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'vegan');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, bool?, QQueryOperations> vegetarianProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'vegetarian');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, bool?, QQueryOperations> veryHealthyProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'veryHealthy');
+    });
+  }
+
+  QueryBuilder<RecipeBookmark, bool?, QQueryOperations> veryPopularProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'veryPopular');
+    });
+  }
+}
+
+// coverage:ignore-file
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters
+
+extension GetRecipeCollection on Isar {
+  IsarCollection<Recipe> get recipes => this.collection();
+}
+
+const RecipeSchema = CollectionSchema(
+  name: r'Recipe',
+  id: 8054415271972849591,
+  properties: {
+    r'aggregateLikes': PropertySchema(
+      id: 0,
+      name: r'aggregateLikes',
+      type: IsarType.long,
+    ),
+    r'analyzedInstructions': PropertySchema(
+      id: 1,
+      name: r'analyzedInstructions',
+      type: IsarType.objectList,
+      target: r'AnalyzedInstructionEntity',
+    ),
+    r'cheap': PropertySchema(
+      id: 2,
+      name: r'cheap',
+      type: IsarType.bool,
+    ),
+    r'cookingMinutes': PropertySchema(
+      id: 3,
+      name: r'cookingMinutes',
+      type: IsarType.long,
+    ),
+    r'dairyFree': PropertySchema(
+      id: 4,
+      name: r'dairyFree',
+      type: IsarType.bool,
+    ),
+    r'extendedIngredients': PropertySchema(
+      id: 5,
+      name: r'extendedIngredients',
+      type: IsarType.objectList,
+      target: r'ExtendedIngredientEntity',
+    ),
+    r'glutenFree': PropertySchema(
+      id: 6,
+      name: r'glutenFree',
+      type: IsarType.bool,
+    ),
+    r'healthScore': PropertySchema(
+      id: 7,
+      name: r'healthScore',
+      type: IsarType.long,
+    ),
+    r'image': PropertySchema(
+      id: 8,
+      name: r'image',
+      type: IsarType.string,
+    ),
+    r'lowFodmap': PropertySchema(
+      id: 9,
+      name: r'lowFodmap',
+      type: IsarType.bool,
+    ),
+    r'preparationMinutes': PropertySchema(
+      id: 10,
+      name: r'preparationMinutes',
+      type: IsarType.long,
+    ),
+    r'pricePerServing': PropertySchema(
+      id: 11,
+      name: r'pricePerServing',
+      type: IsarType.double,
+    ),
+    r'readyInMinutes': PropertySchema(
+      id: 12,
+      name: r'readyInMinutes',
+      type: IsarType.long,
+    ),
+    r'servings': PropertySchema(
+      id: 13,
+      name: r'servings',
+      type: IsarType.long,
+    ),
+    r'summary': PropertySchema(
+      id: 14,
+      name: r'summary',
+      type: IsarType.string,
+    ),
+    r'sustainable': PropertySchema(
+      id: 15,
+      name: r'sustainable',
+      type: IsarType.bool,
+    ),
+    r'title': PropertySchema(
+      id: 16,
+      name: r'title',
+      type: IsarType.string,
+    ),
+    r'vegan': PropertySchema(
+      id: 17,
+      name: r'vegan',
+      type: IsarType.bool,
+    ),
+    r'vegetarian': PropertySchema(
+      id: 18,
+      name: r'vegetarian',
+      type: IsarType.bool,
+    ),
+    r'veryHealthy': PropertySchema(
+      id: 19,
+      name: r'veryHealthy',
+      type: IsarType.bool,
+    ),
+    r'veryPopular': PropertySchema(
+      id: 20,
+      name: r'veryPopular',
+      type: IsarType.bool,
+    )
+  },
+  estimateSize: _recipeEstimateSize,
+  serialize: _recipeSerialize,
+  deserialize: _recipeDeserialize,
+  deserializeProp: _recipeDeserializeProp,
+  idName: r'id',
+  indexes: {
+    r'aggregateLikes': IndexSchema(
+      id: -7240791180452992152,
+      name: r'aggregateLikes',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'aggregateLikes',
+          type: IndexType.value,
+          caseSensitive: false,
+        )
+      ],
+    ),
+    r'title': IndexSchema(
+      id: -7636685945352118059,
+      name: r'title',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'title',
+          type: IndexType.hash,
+          caseSensitive: true,
+        )
+      ],
+    ),
+    r'servings': IndexSchema(
+      id: 3556713073986200034,
+      name: r'servings',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'servings',
+          type: IndexType.value,
+          caseSensitive: false,
+        )
+      ],
+    )
+  },
+  links: {},
+  embeddedSchemas: {
+    r'ExtendedIngredientEntity': ExtendedIngredientEntitySchema,
+    r'AnalyzedInstructionEntity': AnalyzedInstructionEntitySchema,
+    r'RecipeStepEntity': RecipeStepEntitySchema,
+    r'LengthEntity': LengthEntitySchema
+  },
+  getId: _recipeGetId,
+  getLinks: _recipeGetLinks,
+  attach: _recipeAttach,
+  version: '3.0.1',
+);
+
+int _recipeEstimateSize(
+  Recipe object,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  var bytesCount = offsets.last;
+  {
+    final list = object.analyzedInstructions;
+    if (list != null) {
+      bytesCount += 3 + list.length * 3;
+      {
+        final offsets = allOffsets[AnalyzedInstructionEntity]!;
+        for (var i = 0; i < list.length; i++) {
+          final value = list[i];
+          bytesCount += AnalyzedInstructionEntitySchema.estimateSize(
+              value, offsets, allOffsets);
+        }
+      }
+    }
+  }
+  {
+    final list = object.extendedIngredients;
+    if (list != null) {
+      bytesCount += 3 + list.length * 3;
+      {
+        final offsets = allOffsets[ExtendedIngredientEntity]!;
+        for (var i = 0; i < list.length; i++) {
+          final value = list[i];
+          bytesCount += ExtendedIngredientEntitySchema.estimateSize(
+              value, offsets, allOffsets);
+        }
+      }
+    }
+  }
+  {
+    final value = object.image;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
+    final value = object.summary;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
+    final value = object.title;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  return bytesCount;
+}
+
+void _recipeSerialize(
+  Recipe object,
+  IsarWriter writer,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  writer.writeLong(offsets[0], object.aggregateLikes);
+  writer.writeObjectList<AnalyzedInstructionEntity>(
+    offsets[1],
+    allOffsets,
+    AnalyzedInstructionEntitySchema.serialize,
+    object.analyzedInstructions,
+  );
+  writer.writeBool(offsets[2], object.cheap);
+  writer.writeLong(offsets[3], object.cookingMinutes);
+  writer.writeBool(offsets[4], object.dairyFree);
+  writer.writeObjectList<ExtendedIngredientEntity>(
+    offsets[5],
+    allOffsets,
+    ExtendedIngredientEntitySchema.serialize,
+    object.extendedIngredients,
+  );
+  writer.writeBool(offsets[6], object.glutenFree);
+  writer.writeLong(offsets[7], object.healthScore);
+  writer.writeString(offsets[8], object.image);
+  writer.writeBool(offsets[9], object.lowFodmap);
+  writer.writeLong(offsets[10], object.preparationMinutes);
+  writer.writeDouble(offsets[11], object.pricePerServing);
+  writer.writeLong(offsets[12], object.readyInMinutes);
+  writer.writeLong(offsets[13], object.servings);
+  writer.writeString(offsets[14], object.summary);
+  writer.writeBool(offsets[15], object.sustainable);
+  writer.writeString(offsets[16], object.title);
+  writer.writeBool(offsets[17], object.vegan);
+  writer.writeBool(offsets[18], object.vegetarian);
+  writer.writeBool(offsets[19], object.veryHealthy);
+  writer.writeBool(offsets[20], object.veryPopular);
+}
+
+Recipe _recipeDeserialize(
+  Id id,
+  IsarReader reader,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  final object = Recipe();
+  object.aggregateLikes = reader.readLongOrNull(offsets[0]);
+  object.analyzedInstructions =
+      reader.readObjectList<AnalyzedInstructionEntity>(
+    offsets[1],
+    AnalyzedInstructionEntitySchema.deserialize,
+    allOffsets,
+    AnalyzedInstructionEntity(),
+  );
+  object.cheap = reader.readBoolOrNull(offsets[2]);
+  object.cookingMinutes = reader.readLongOrNull(offsets[3]);
+  object.dairyFree = reader.readBoolOrNull(offsets[4]);
+  object.extendedIngredients = reader.readObjectList<ExtendedIngredientEntity>(
+    offsets[5],
+    ExtendedIngredientEntitySchema.deserialize,
+    allOffsets,
+    ExtendedIngredientEntity(),
+  );
+  object.glutenFree = reader.readBoolOrNull(offsets[6]);
+  object.healthScore = reader.readLongOrNull(offsets[7]);
+  object.id = id;
+  object.image = reader.readStringOrNull(offsets[8]);
+  object.lowFodmap = reader.readBoolOrNull(offsets[9]);
+  object.preparationMinutes = reader.readLongOrNull(offsets[10]);
+  object.pricePerServing = reader.readDoubleOrNull(offsets[11]);
+  object.readyInMinutes = reader.readLongOrNull(offsets[12]);
+  object.servings = reader.readLongOrNull(offsets[13]);
+  object.summary = reader.readStringOrNull(offsets[14]);
+  object.sustainable = reader.readBoolOrNull(offsets[15]);
+  object.title = reader.readStringOrNull(offsets[16]);
+  object.vegan = reader.readBoolOrNull(offsets[17]);
+  object.vegetarian = reader.readBoolOrNull(offsets[18]);
+  object.veryHealthy = reader.readBoolOrNull(offsets[19]);
+  object.veryPopular = reader.readBoolOrNull(offsets[20]);
+  return object;
+}
+
+P _recipeDeserializeProp<P>(
+  IsarReader reader,
+  int propertyId,
+  int offset,
+  Map<Type, List<int>> allOffsets,
+) {
+  switch (propertyId) {
+    case 0:
+      return (reader.readLongOrNull(offset)) as P;
+    case 1:
+      return (reader.readObjectList<AnalyzedInstructionEntity>(
+        offset,
+        AnalyzedInstructionEntitySchema.deserialize,
+        allOffsets,
+        AnalyzedInstructionEntity(),
+      )) as P;
+    case 2:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 3:
+      return (reader.readLongOrNull(offset)) as P;
+    case 4:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 5:
+      return (reader.readObjectList<ExtendedIngredientEntity>(
+        offset,
+        ExtendedIngredientEntitySchema.deserialize,
+        allOffsets,
+        ExtendedIngredientEntity(),
+      )) as P;
+    case 6:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 7:
+      return (reader.readLongOrNull(offset)) as P;
+    case 8:
+      return (reader.readStringOrNull(offset)) as P;
+    case 9:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 10:
+      return (reader.readLongOrNull(offset)) as P;
+    case 11:
+      return (reader.readDoubleOrNull(offset)) as P;
+    case 12:
+      return (reader.readLongOrNull(offset)) as P;
+    case 13:
+      return (reader.readLongOrNull(offset)) as P;
+    case 14:
+      return (reader.readStringOrNull(offset)) as P;
+    case 15:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 16:
+      return (reader.readStringOrNull(offset)) as P;
+    case 17:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 18:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 19:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 20:
+      return (reader.readBoolOrNull(offset)) as P;
+    default:
+      throw IsarError('Unknown property with id $propertyId');
+  }
+}
+
+Id _recipeGetId(Recipe object) {
+  return object.id ?? Isar.autoIncrement;
+}
+
+List<IsarLinkBase<dynamic>> _recipeGetLinks(Recipe object) {
+  return [];
+}
+
+void _recipeAttach(IsarCollection<dynamic> col, Id id, Recipe object) {
+  object.id = id;
+}
+
+extension RecipeQueryWhereSort on QueryBuilder<Recipe, Recipe, QWhere> {
   QueryBuilder<Recipe, Recipe, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
@@ -421,7 +3561,7 @@ extension RecipeEntityQueryWhereSort on QueryBuilder<Recipe, Recipe, QWhere> {
   }
 }
 
-extension RecipeEntityQueryWhere on QueryBuilder<Recipe, Recipe, QWhereClause> {
+extension RecipeQueryWhere on QueryBuilder<Recipe, Recipe, QWhereClause> {
   QueryBuilder<Recipe, Recipe, QAfterWhereClause> idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
@@ -772,8 +3912,7 @@ extension RecipeEntityQueryWhere on QueryBuilder<Recipe, Recipe, QWhereClause> {
   }
 }
 
-extension RecipeEntityQueryFilter
-    on QueryBuilder<Recipe, Recipe, QFilterCondition> {
+extension RecipeQueryFilter on QueryBuilder<Recipe, Recipe, QFilterCondition> {
   QueryBuilder<Recipe, Recipe, QAfterFilterCondition> aggregateLikesIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -2230,8 +5369,7 @@ extension RecipeEntityQueryFilter
   }
 }
 
-extension RecipeEntityQueryObject
-    on QueryBuilder<Recipe, Recipe, QFilterCondition> {
+extension RecipeQueryObject on QueryBuilder<Recipe, Recipe, QFilterCondition> {
   QueryBuilder<Recipe, Recipe, QAfterFilterCondition>
       analyzedInstructionsElement(FilterQuery<AnalyzedInstructionEntity> q) {
     return QueryBuilder.apply(this, (query) {
@@ -2247,10 +5385,9 @@ extension RecipeEntityQueryObject
   }
 }
 
-extension RecipeEntityQueryLinks
-    on QueryBuilder<Recipe, Recipe, QFilterCondition> {}
+extension RecipeQueryLinks on QueryBuilder<Recipe, Recipe, QFilterCondition> {}
 
-extension RecipeEntityQuerySortBy on QueryBuilder<Recipe, Recipe, QSortBy> {
+extension RecipeQuerySortBy on QueryBuilder<Recipe, Recipe, QSortBy> {
   QueryBuilder<Recipe, Recipe, QAfterSortBy> sortByAggregateLikes() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'aggregateLikes', Sort.asc);
@@ -2480,8 +5617,7 @@ extension RecipeEntityQuerySortBy on QueryBuilder<Recipe, Recipe, QSortBy> {
   }
 }
 
-extension RecipeEntityQuerySortThenBy
-    on QueryBuilder<Recipe, Recipe, QSortThenBy> {
+extension RecipeQuerySortThenBy on QueryBuilder<Recipe, Recipe, QSortThenBy> {
   QueryBuilder<Recipe, Recipe, QAfterSortBy> thenByAggregateLikes() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'aggregateLikes', Sort.asc);
@@ -2723,8 +5859,7 @@ extension RecipeEntityQuerySortThenBy
   }
 }
 
-extension RecipeEntityQueryWhereDistinct
-    on QueryBuilder<Recipe, Recipe, QDistinct> {
+extension RecipeQueryWhereDistinct on QueryBuilder<Recipe, Recipe, QDistinct> {
   QueryBuilder<Recipe, Recipe, QDistinct> distinctByAggregateLikes() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'aggregateLikes');
@@ -2843,8 +5978,7 @@ extension RecipeEntityQueryWhereDistinct
   }
 }
 
-extension RecipeEntityQueryProperty
-    on QueryBuilder<Recipe, Recipe, QQueryProperty> {
+extension RecipeQueryProperty on QueryBuilder<Recipe, Recipe, QQueryProperty> {
   QueryBuilder<Recipe, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
@@ -5648,7 +8782,64 @@ extension LengthEntityQueryObject
 // JsonSerializableGenerator
 // **************************************************************************
 
-Recipe _$RecipeEntityFromJson(Map<String, dynamic> json) => Recipe()
+RecipeBookmark _$RecipeBookmarkFromJson(Map<String, dynamic> json) =>
+    RecipeBookmark()
+      ..vegetarian = json['vegetarian'] as bool?
+      ..vegan = json['vegan'] as bool?
+      ..glutenFree = json['glutenFree'] as bool?
+      ..dairyFree = json['dairyFree'] as bool?
+      ..veryHealthy = json['veryHealthy'] as bool?
+      ..cheap = json['cheap'] as bool?
+      ..veryPopular = json['veryPopular'] as bool?
+      ..sustainable = json['sustainable'] as bool?
+      ..lowFodmap = json['lowFodmap'] as bool?
+      ..preparationMinutes = json['preparationMinutes'] as int?
+      ..cookingMinutes = json['cookingMinutes'] as int?
+      ..aggregateLikes = json['aggregateLikes'] as int?
+      ..healthScore = json['healthScore'] as int?
+      ..pricePerServing = (json['pricePerServing'] as num?)?.toDouble()
+      ..extendedIngredients = (json['extendedIngredients'] as List<dynamic>?)
+          ?.map((e) =>
+              ExtendedIngredientEntity.fromJson(e as Map<String, dynamic>))
+          .toList()
+      ..id = json['id'] as int?
+      ..title = json['title'] as String?
+      ..readyInMinutes = json['readyInMinutes'] as int?
+      ..servings = json['servings'] as int?
+      ..image = json['image'] as String?
+      ..summary = json['summary'] as String?
+      ..analyzedInstructions = (json['analyzedInstructions'] as List<dynamic>?)
+          ?.map((e) =>
+              AnalyzedInstructionEntity.fromJson(e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$RecipeBookmarkToJson(RecipeBookmark instance) =>
+    <String, dynamic>{
+      'vegetarian': instance.vegetarian,
+      'vegan': instance.vegan,
+      'glutenFree': instance.glutenFree,
+      'dairyFree': instance.dairyFree,
+      'veryHealthy': instance.veryHealthy,
+      'cheap': instance.cheap,
+      'veryPopular': instance.veryPopular,
+      'sustainable': instance.sustainable,
+      'lowFodmap': instance.lowFodmap,
+      'preparationMinutes': instance.preparationMinutes,
+      'cookingMinutes': instance.cookingMinutes,
+      'aggregateLikes': instance.aggregateLikes,
+      'healthScore': instance.healthScore,
+      'pricePerServing': instance.pricePerServing,
+      'extendedIngredients': instance.extendedIngredients,
+      'id': instance.id,
+      'title': instance.title,
+      'readyInMinutes': instance.readyInMinutes,
+      'servings': instance.servings,
+      'image': instance.image,
+      'summary': instance.summary,
+      'analyzedInstructions': instance.analyzedInstructions,
+    };
+
+Recipe _$RecipeFromJson(Map<String, dynamic> json) => Recipe()
   ..vegetarian = json['vegetarian'] as bool?
   ..vegan = json['vegan'] as bool?
   ..glutenFree = json['glutenFree'] as bool?
@@ -5677,7 +8868,7 @@ Recipe _$RecipeEntityFromJson(Map<String, dynamic> json) => Recipe()
           (e) => AnalyzedInstructionEntity.fromJson(e as Map<String, dynamic>))
       .toList();
 
-Map<String, dynamic> _$RecipeEntityToJson(Recipe instance) => <String, dynamic>{
+Map<String, dynamic> _$RecipeToJson(Recipe instance) => <String, dynamic>{
       'vegetarian': instance.vegetarian,
       'vegan': instance.vegan,
       'glutenFree': instance.glutenFree,

@@ -5,6 +5,45 @@ part 'recipe.g.dart';
 
 @collection
 @JsonSerializable()
+class RecipeBookmark {
+  RecipeBookmark();
+  bool? vegetarian;
+  bool? vegan;
+  bool? glutenFree;
+  bool? dairyFree;
+  bool? veryHealthy;
+  bool? cheap;
+  bool? veryPopular;
+  bool? sustainable;
+  bool? lowFodmap;
+  int? preparationMinutes;
+  int? cookingMinutes;
+  @Index()
+  int? aggregateLikes;
+  int? healthScore;
+  double? pricePerServing;
+  List<ExtendedIngredientEntity>? extendedIngredients;
+  Id? id;
+  @Index()
+  String? title;
+  int? readyInMinutes;
+  @Index()
+  int? servings;
+  String? image;
+  String? summary;
+  List<AnalyzedInstructionEntity>? analyzedInstructions;
+
+  /// Connect the generated [_$RecipeBookmarkFromJson] function to the `fromJson`
+  /// factory.
+  factory RecipeBookmark.fromJson(Map<String, dynamic> json) =>
+      _$RecipeBookmarkFromJson(json);
+
+  /// Connect the generated [_$RecipeBookmarkToJson] function to the `toJson` method.
+  Map<String, dynamic> toJson() => _$RecipeBookmarkToJson(this);
+}
+
+@collection
+@JsonSerializable()
 class Recipe {
   Recipe();
   bool? vegetarian;
@@ -35,11 +74,10 @@ class Recipe {
 
   /// Connect the generated [_$RecipeEntityFromJson] function to the `fromJson`
   /// factory.
-  factory Recipe.fromJson(Map<String, dynamic> json) =>
-      _$RecipeEntityFromJson(json);
+  factory Recipe.fromJson(Map<String, dynamic> json) => _$RecipeFromJson(json);
 
   /// Connect the generated [_$RecipeEntityToJson] function to the `toJson` method.
-  Map<String, dynamic> toJson() => _$RecipeEntityToJson(this);
+  Map<String, dynamic> toJson() => _$RecipeToJson(this);
 }
 
 @embedded
