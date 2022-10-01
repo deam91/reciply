@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_app/core/hero_tag.dart';
 import 'package:recipe_app/core/widgets/hero_widget.dart';
@@ -45,23 +46,19 @@ class RecipeWidget extends StatelessWidget {
                     transitionDuration: const Duration(milliseconds: 500),
                     reverseTransitionDuration:
                         const Duration(milliseconds: 500),
-                    pageBuilder: (_, animation, secondaryAnimation) {
-                      final curvedAnimation = CurvedAnimation(
-                        parent: animation,
-                        curve: const Interval(0.0, 0.5),
-                      );
-                      final textAnimation = CurvedAnimation(
-                        parent: animation,
-                        curve: const Interval(0.25, 1.0),
-                      );
-
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      final widgetAnimation = CurvedAnimation(
+                          curve: Curves.easeInOut, parent: animation);
                       return FadeTransition(
-                        opacity: curvedAnimation,
-                        child: RecipeDetailsPage(
-                          recipe: recipe,
-                          color: color,
-                          animation: textAnimation,
-                        ),
+                        opacity: widgetAnimation,
+                        child: child,
+                      );
+                    },
+                    pageBuilder: (_, animation, secondaryAnimation) {
+                      return RecipeDetailsPage(
+                        recipe: recipe,
+                        color: color,
                       );
                     },
                   ),
@@ -71,6 +68,7 @@ class RecipeWidget extends StatelessWidget {
                 tag: HeroTag.image(recipe),
                 child: Center(
                   child: Container(
+                    height: size.height * .5,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30.0),
                       boxShadow: const [
@@ -84,9 +82,14 @@ class RecipeWidget extends StatelessWidget {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(30.0),
-                      child: Image.network(
-                        recipe.image ?? '',
+                      child: CachedNetworkImage(
                         fit: BoxFit.cover,
+                        imageUrl: recipe.image ?? '',
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
                       ),
                     ),
                   ),
@@ -138,7 +141,7 @@ class RecipeWidget extends StatelessWidget {
                                       width: 3,
                                     ),
                                     Text(
-                                      '${recipe.preparationMinutes} min',
+                                      '${recipe.readyInMinutes} min',
                                       style: const TextStyle(fontSize: 18),
                                     ),
                                   ],
