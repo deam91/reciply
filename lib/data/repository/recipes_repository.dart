@@ -34,7 +34,6 @@ class RecipesRepository {
 
     final recipes = await apiService
         .getRecipes(queryParams: {'tags': 'meat', 'number': '10'});
-    print(recipes);
     if (recipes != null && recipes.isNotEmpty) {
       dbService.insertAll(recipes);
       return recipes;
@@ -51,5 +50,27 @@ class RecipesRepository {
     debugPrint('saving recipes to db local..');
     dbService.insertAll(mockRecipes ?? []);
     return mockRecipes;
+  }
+
+  Future<List<Recipe>?> searchRecipe({String? text, String? type}) async {
+    final recipes = await apiService.searchRecipes(text: text, type: type);
+    if (recipes != null && recipes.isNotEmpty) {
+      return recipes;
+    }
+
+    debugPrint('getting data from local db..');
+    final dbRecipes = await dbService.getRecipes();
+    if (dbRecipes != null && dbRecipes.isNotEmpty) {
+      debugPrint('returning data from local db..');
+      return dbRecipes;
+    }
+  }
+
+  Future<void> bookmark(Recipe recipe) async {
+    dbService.saveBookmark(recipe);
+  }
+
+  Future<bool?> removeBookmark(Recipe recipe) async {
+    return await dbService.removeBookmark(recipe);
   }
 }
