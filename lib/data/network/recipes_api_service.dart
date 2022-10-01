@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:recipe_app/data/api_service.dart';
@@ -8,7 +9,7 @@ import 'package:recipe_app/data/models/models.dart';
 import 'package:recipe_app/data/network/endpoints.dart';
 
 class RecipesAPIService extends APIService {
-  RecipesAPIService() : super(BaseUrls.baseUrl);
+  RecipesAPIService() : super(RecipeUrls.baseUrl);
 
   @override
   Future<List<Recipe>?> getRecipes({Map<String, String>? queryParams}) async {
@@ -19,7 +20,7 @@ class RecipesAPIService extends APIService {
       queryParams = {'apiKey': apiKey!};
     }
     try {
-      var url = Uri.https(BaseUrls.baseUrl, BaseUrls.random, queryParams);
+      var url = Uri.https(RecipeUrls.baseUrl, RecipeUrls.random, queryParams);
       var response = await http.get(url);
       if (response.statusCode == 200) {
         final data = await json.decode(response.body);
@@ -30,6 +31,36 @@ class RecipesAPIService extends APIService {
       }
     } catch (e) {
       log(e.toString());
+    }
+    return [];
+  }
+
+  @override
+  Future<List<Recipe>?> searchRecipes({String? text, String? type}) async {
+    final apiKey = dotenv.env['SPOONACULAR_KEY'];
+    Map<String, dynamic>? queryParams = {
+      'apiKey': apiKey!,
+      "query": text ?? 'meat',
+      "type": type ?? 'main course',
+      'instructionsRequired': 'true',
+      'addRecipeInformation': 'true',
+      'fillIngredients': 'true',
+    };
+
+    try {
+      var url =
+          Uri.https(RecipeUrls.baseUrl, RecipeUrls.complexSearch, queryParams);
+      print(url);
+      var response = await http.get(url);
+      print(response.statusCode);
+      print(response.body);
+      if (response.statusCode == 200) {
+        final data = await json.decode(response.body);
+        final resp = RecipeSearchResponse.fromJson(data);
+        return resp.results;
+      }
+    } catch (e) {
+      debugPrint(e.toString());
     }
     return [];
   }
