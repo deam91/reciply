@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_app/core/constants.dart';
 import 'package:recipe_app/core/hero_tag.dart';
@@ -6,6 +7,7 @@ import 'package:recipe_app/ui/widgets/recipe_details/calories.dart';
 import 'package:recipe_app/ui/widgets/recipe_details/directions/directions_list.dart';
 import 'package:recipe_app/core/widgets/hero_widget.dart';
 import 'package:recipe_app/ui/widgets/recipe_details/ingredient/ingredients_list.dart';
+import 'package:recipe_app/ui/widgets/recipe_details/servings.dart';
 import 'package:recipe_app/ui/widgets/recipe_details/stars.dart';
 
 class RecipeDetailsPage extends StatefulWidget {
@@ -13,11 +15,11 @@ class RecipeDetailsPage extends StatefulWidget {
     Key? key,
     required this.recipe,
     required this.color,
-    required this.animation,
+    this.fromSearch = false,
   }) : super(key: key);
   final Recipe recipe;
   final Color color;
-  final Animation<double> animation;
+  final bool fromSearch;
 
   @override
   State<RecipeDetailsPage> createState() => _RecipeDetailsPageState();
@@ -68,7 +70,8 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                       left: 0,
                       right: 0,
                       child: HeroWidget(
-                        tag: HeroTag.section(widget.recipe),
+                        tag: HeroTag.section(widget.recipe,
+                            fromSearch: widget.fromSearch),
                         child: Container(
                           decoration: BoxDecoration(
                             color: widget.color,
@@ -125,7 +128,8 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             HeroWidget(
-                              tag: HeroTag.title(widget.recipe),
+                              tag: HeroTag.title(widget.recipe,
+                                  fromSearch: widget.fromSearch),
                               child: Text(
                                 widget.recipe.title ?? '',
                                 maxLines: 2,
@@ -143,7 +147,8 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 HeroWidget(
-                                  tag: HeroTag.divider(widget.recipe),
+                                  tag: HeroTag.divider(widget.recipe,
+                                      fromSearch: widget.fromSearch),
                                   child: Divider(color: Colors.orange[200]),
                                 ),
                                 Row(
@@ -165,24 +170,11 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                                             ),
                                             HeroWidget(
                                               tag: HeroTag.minutes(
-                                                  widget.recipe),
-                                              child: FittedBox(
-                                                child: Row(
-                                                  children: [
-                                                    const Icon(
-                                                      Icons.timelapse,
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 3,
-                                                    ),
-                                                    Text(
-                                                      '${widget.recipe.preparationMinutes} min',
-                                                      style: const TextStyle(
-                                                        fontSize: 18,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
+                                                  widget.recipe,
+                                                  fromSearch:
+                                                      widget.fromSearch),
+                                              child: RecipeTime(
+                                                recipe: widget.recipe,
                                               ),
                                             ),
                                             const SizedBox(
@@ -190,31 +182,17 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                                             ),
                                             HeroWidget(
                                               tag: HeroTag.servings(
-                                                  widget.recipe),
-                                              child: FittedBox(
-                                                child: Row(
-                                                  children: [
-                                                    const Icon(
-                                                      Icons.person,
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 3,
-                                                    ),
-                                                    Text(
-                                                      '${widget.recipe.servings} servings',
-                                                      style: const TextStyle(
-                                                        fontSize: 18,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
+                                                  widget.recipe,
+                                                  fromSearch:
+                                                      widget.fromSearch),
+                                              child: RecipeServings(
+                                                recipe: widget.recipe,
                                               ),
                                             ),
                                             const SizedBox(
                                               height: 15,
                                             ),
                                             Calories(
-                                              animation: widget.animation,
                                               recipe: widget.recipe,
                                             ),
                                             const SizedBox(
@@ -222,7 +200,9 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                                             ),
                                             HeroWidget(
                                               tag: HeroTag.reviews(
-                                                  widget.recipe),
+                                                  widget.recipe,
+                                                  fromSearch:
+                                                      widget.fromSearch),
                                               child: Stars(
                                                 likes: widget.recipe
                                                         .aggregateLikes ??
@@ -250,8 +230,10 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                       width: constraints.maxWidth / 2,
                       height: constraints.maxHeight * .45,
                       child: HeroWidget(
-                        tag: HeroTag.image(widget.recipe),
+                        tag: HeroTag.image(widget.recipe,
+                            fromSearch: widget.fromSearch),
                         child: Container(
+                          height: constraints.maxHeight * .45,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30.0),
                             boxShadow: const [
@@ -265,9 +247,17 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(30.0),
-                            child: Image.network(
-                              widget.recipe.image ?? '',
+                            child: CachedNetworkImage(
                               fit: BoxFit.cover,
+                              imageUrl: widget.recipe.image ?? '',
+                              progressIndicatorBuilder:
+                                  (context, url, downloadProgress) =>
+                                      const Center(
+                                child:
+                                    CircularProgressIndicator(strokeWidth: 1),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
                             ),
                           ),
                         ),
@@ -331,6 +321,37 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
               ),
             ),
           )
+        ],
+      ),
+    );
+  }
+}
+
+class RecipeTime extends StatelessWidget {
+  const RecipeTime({
+    Key? key,
+    required this.recipe,
+  }) : super(key: key);
+
+  final Recipe recipe;
+
+  @override
+  Widget build(BuildContext context) {
+    return FittedBox(
+      child: Row(
+        children: [
+          const Icon(
+            Icons.timelapse,
+          ),
+          const SizedBox(
+            width: 3,
+          ),
+          Text(
+            '${recipe.readyInMinutes} min',
+            style: const TextStyle(
+              fontSize: 18,
+            ),
+          ),
         ],
       ),
     );
