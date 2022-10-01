@@ -9,7 +9,7 @@ class RecipesDBService extends APIService {
   }
 
   _connect() async {
-    isar = await Isar.open([RecipeEntitySchema]);
+    isar = await Isar.open([RecipeSchema, RecipeBookmarkSchema]);
   }
 
   @override
@@ -17,12 +17,25 @@ class RecipesDBService extends APIService {
     if (!isar.isOpen) {
       _connect();
     }
-    return await isar.recipeEntitys.where().offset(0).limit(10).findAll();
+    return await isar.recipes.where().offset(0).limit(10).findAll();
   }
 
   _saveRecipe(Recipe e) async {
     await isar.writeTxn(
-      () => isar.recipeEntitys.put(e),
+      () => isar.recipes.put(e),
+    );
+  }
+
+  Future<int> _saveRecipeBookmark(Recipe e) async {
+    final data = RecipeBookmark.fromJson(e.toJson());
+    return await isar.writeTxn(
+      () => isar.recipeBookmarks.put(data),
+    );
+  }
+
+  _removeRecipeBookmark(Recipe e) async {
+    return await isar.writeTxn(
+      () => isar.recipeBookmarks.delete(e.id ?? 0),
     );
   }
 
@@ -30,5 +43,13 @@ class RecipesDBService extends APIService {
     for (var recipe in recipes) {
       await _saveRecipe(recipe);
     }
+  }
+
+  Future<void> saveBookmark(Recipe recipe) async {
+    await _saveRecipeBookmark(recipe);
+  }
+
+  Future<bool> removeBookmark(Recipe recipe) async {
+    return await _removeRecipeBookmark(recipe);
   }
 }
