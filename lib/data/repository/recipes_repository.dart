@@ -54,7 +54,7 @@ class RecipesRepository {
 
   Future<List<Recipe>?> searchRecipe({String? text, String? type}) async {
     final recipes = await apiService.searchRecipes(text: text, type: type);
-    if (recipes != null && recipes.isNotEmpty) {
+    if (recipes != null) {
       return recipes;
     }
 

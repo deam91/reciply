@@ -62,6 +62,6 @@ class RecipesAPIService extends APIService {
     } catch (e) {
       debugPrint(e.toString());
     }
-    return [];
+    return null;
   }
 }
