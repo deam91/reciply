@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_app/data/repository/recipes_repository.dart';
-import 'package:recipe_app/ui/pages/home_page.dart';
+import 'package:recipe_app/recipes/models/repositories/recipes_repository.dart';
+import 'package:recipe_app/common/views/pages/home/home_page.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'core/constants.dart';
+import 'common/constants.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
