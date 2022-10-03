@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:recipe_app/common/models/data/api_service.dart';
+import 'package:recipe_app/recipes/models/data_sources/api_service.dart';
 import 'package:recipe_app/common/endpoints.dart';
 import 'package:recipe_app/recipes/models/data/recipe.dart';
 import 'package:recipe_app/recipes/models/data/recipe_search_response.dart';

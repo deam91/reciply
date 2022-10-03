@@ -1,5 +1,5 @@
 import 'package:isar/isar.dart';
-import 'package:recipe_app/common/models/data/api_service.dart';
+import 'package:recipe_app/recipes/models/data_sources/api_service.dart';
 import 'package:recipe_app/recipes/models/data/recipe.dart';
 
 class RecipesDBService extends APIService {

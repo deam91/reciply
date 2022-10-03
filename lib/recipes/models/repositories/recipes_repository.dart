@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_app/common/models/data_sources/database/recipes_db_service.dart';
-import 'package:recipe_app/common/models/data_sources/mock/recipes_mock_service.dart';
+import 'package:recipe_app/recipes/models/data_sources/database/recipes_db_service.dart';
+import 'package:recipe_app/recipes/models/data_sources/mock/recipes_mock_service.dart';
 import 'package:recipe_app/recipes/models/data/recipe.dart';
 import 'package:recipe_app/recipes/models/data_sources/recipes_api_service.dart';
 
