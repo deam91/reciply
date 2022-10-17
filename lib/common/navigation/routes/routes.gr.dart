@@ -17,7 +17,7 @@ import 'package:flutter/material.dart' as _i7;
 import '../../../dashboard/views/pages/dashboard_page.dart' as _i2;
 import '../../../favorites/favorites_page.dart' as _i3;
 import '../../../notifications/notifications_page.dart' as _i4;
-import '../../../profile/profile_page.dart' as _i5;
+import '../../../profile/views/pages/profile_page.dart' as _i5;
 import '../../views/pages/startup_page.dart' as _i1;
 
 class AppRouter extends _i6.RootStackRouter {
