@@ -1,8 +1,21 @@
-# recipe_app
+# Reciply
 
 Recipes app concept developed during Flutter London DevCamp 2022
 
-> This project uses Spoonacular API to request recipes data. Use your own API key by adding an `env.development` file under `assets/env/` and setting `SPOONACULAR_KEY` environment variable inside it.
+> All features are done using Firebase (backend) and Riverpod (state management)
+
+Features included:
+
+- 🛠 Redesign
+- ✅ Recipes search
+- ✅ Push notifications
+- ✅ Google authentication
+- 🛠 Email/Password authentication
+- 🛠 Bookmark your favorite recipes
+- 🛠 CRUD your own recipes
+- 🛠 Share and rate recipes
+- 🛠 Follow other users
+- 🛠 Comments for recipes
 
 ## Getting started with Flutter
 
