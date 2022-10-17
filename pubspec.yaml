@@ -34,23 +34,43 @@ dependencies:
 
   json_annotation: ^4.7.0
   equatable: ^2.0.5
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
   flutter_dotenv: ^5.0.2
   isar: ^3.0.1
   isar_flutter_libs: ^3.0.1
   lottie: ^1.4.3
   cached_network_image: ^3.2.2
+  google_fonts: ^3.0.1
+  auto_route: ^5.0.1
+  flutter_riverpod: ^2.0.2
+  live_activities: ^1.0.0
+  flutter_local_notifications: ^12.0.2
+  flutter_rating_bar: ^4.0.1
+
+  cupertino_icons: ^1.0.2
+
+  # Google dependencies
+  google_sign_in: ^5.4.2
+
+  # Firebase dependencies
+  firebase_core: ^1.24.0
+  cloud_firestore: ^3.5.0
+  firebase_storage: ^10.3.10
+  firebase_messaging: ^13.0.4
+  firebase_auth: ^3.11.1
+#  firebase_app_check: ^0.0.9
+  firebase_crashlytics: ^2.8.12
+#  firebase_analytics: ^9.3.8
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  auto_route_generator: ^5.0.2
   build_runner:
   json_serializable: ^6.4.0
   http: ^0.13.5
   isar_generator: ^3.0.1
+  flutter_launcher_icons: ^0.10.0
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -62,6 +82,17 @@ dev_dependencies:
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/logo.png"
+  remove_alpha_ios: true
+  web:
+    generate: true
+    image_path: "assets/logo.png"
+    background_color: "#000"
+    theme_color: "#000"
+
 # The following section is specific to Flutter packages.
 flutter:
   # The following line ensures that the Material Icons font is
@@ -71,6 +102,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/
     - assets/recipes.json
     - assets/searching.gif
     - assets/search_not_found.json

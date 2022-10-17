@@ -38,6 +38,32 @@ final whiteBottomGradient = LinearGradient(
   ],
 );
 
+final onboardingGradient = LinearGradient(
+  begin: Alignment.bottomCenter,
+  end: Alignment.topCenter,
+  stops: const [
+    0.0,
+    1.0,
+  ],
+  colors: [
+    Colors.black.withOpacity(.9),
+    Colors.black.withOpacity(.5),
+  ],
+);
+
+final imageGradient = LinearGradient(
+  begin: Alignment.bottomCenter,
+  end: Alignment.topCenter,
+  stops: const [
+    0.0,
+    1.0,
+  ],
+  colors: [
+    Colors.black.withOpacity(.8),
+    Colors.transparent,
+  ],
+);
+
 final whiteTopGradient = LinearGradient(
   begin: Alignment.bottomCenter,
   end: Alignment.center,
@@ -69,3 +95,18 @@ const bottomNavBarItems = <BottomNavigationBarItem>[
     label: 'Account',
   ),
 ];
+
+getInputDecoration({String placeholder = ''}) {
+  return InputDecoration(
+    hintText: placeholder,
+    hintStyle: const TextStyle(
+      color: Color(0xffD9D9D9),
+      fontSize: 12,
+      fontWeight: FontWeight.w400,
+    ),
+    contentPadding: const EdgeInsets.all(15),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10),
+    ),
+  );
+}
