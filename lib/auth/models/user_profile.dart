@@ -6,19 +6,21 @@ part 'user_profile.g.dart';
 class UserProfile {
   String name;
   String email;
+  String aboutMe;
+  String work;
   DateTime lastLoggedIn;
   DateTime registrationDate;
   String photoUrl;
-  bool introSeen;
   List<String> recipes;
 
   UserProfile({
     required this.name,
     required this.email,
+    required this.aboutMe,
+    required this.work,
     required this.lastLoggedIn,
     required this.registrationDate,
     required this.photoUrl,
-    required this.introSeen,
     required this.recipes,
   });
 
