@@ -1,6 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:recipe_app/common/navigation/routes/routes.gr.dart';
+import 'package:recipe_app/common/views/widgets/bottom_navbar.dart';
+import 'package:recipe_app/common/views/widgets/notched_rectangle.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,46 +17,32 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return AutoTabsScaffold(
       resizeToAvoidBottomInset: false,
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {},
-      //   backgroundColor: const Color(0xff129575),
-      //   child: Icon(Icons.add),
-      //   shape: CircleBorder(),
-      // ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      floatingActionButton: FloatingActionButton(
+        shape: const CircleBorder(),
+        mini: true,
+        backgroundColor: const Color(0xff129575),
+        onPressed: () {},
+        child: const Icon(Icons.add),
+      ),
       bottomNavigationBuilder: (_, tabsRouter) {
-        return BottomNavigationBar(
-          iconSize: 22,
-          selectedIconTheme:
-              const IconThemeData(color: Color(0xff129575), size: 22),
-          unselectedIconTheme:
-              const IconThemeData(color: Colors.black26, size: 22),
-          type: BottomNavigationBarType.fixed,
-          landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
-          mouseCursor: SystemMouseCursors.click,
-          unselectedItemColor: Colors.black26,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          currentIndex: tabsRouter.activeIndex,
-          onTap: tabsRouter.setActiveIndex,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined),
-              label: 'Dashboard',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.favorite_border_rounded),
-              label: 'Favorites',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.notifications_none_outlined),
-              label: 'Notifications',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person_outline_rounded),
-              label: 'Profile',
-            ),
-          ],
+        return BottomAppBar(
+          color: Colors.white,
+          shape: const WaterfallNotchedRectangle(),
+          notchMargin: 4,
+          elevation: 12,
+          child: BottomNavBarWidget(
+            backgroundColor: Colors.transparent,
+            currentIndex: tabsRouter.activeIndex,
+            onTap: tabsRouter.setActiveIndex,
+            icons: const [
+              'assets/bottom_bar/home.svg',
+              'assets/bottom_bar/favorite.svg',
+              'assets/bottom_bar/notification.svg',
+              'assets/bottom_bar/profile.svg',
+            ],
+            iconSize: 22,
+          ),
         );
       },
       routes: const [
