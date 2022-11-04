@@ -66,4 +66,8 @@ class RecipesNotifier {
     final filter = SearchFilter(time: TimeEnum.newest);
     return recipeService.searchRecipes(filters: filter);
   }
+
+  Future<List<Recipe>?> userRecipes({String? userId = ''}) async {
+    return recipeService.userRecipes(userId: userId);
+  }
 }
