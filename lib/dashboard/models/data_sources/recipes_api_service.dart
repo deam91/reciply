@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:recipe_app/common/models/data/api_service.dart';
 import 'package:recipe_app/dashboard/models/constants.dart';
 import 'package:recipe_app/dashboard/models/data/recipe.dart';
@@ -11,27 +12,18 @@ class RecipeService extends APIService {
 
   @override
   Future<List<Recipe>?> getRecipes({TagEnum? tag}) async {
-    // final apiKey = dotenv.env['SPOONACULAR_KEY'];
-    // if (queryParams != null) {
-    //   queryParams['apiKey'] = apiKey!;
-    // } else {
-    //   queryParams = {'apiKey': apiKey!};
-    // }
     try {
-      print('getting data...');
       var query = _firestore.collection('recipes').limit(10);
       if (tag != TagEnum.all) {
         query = query.where('tags', arrayContains: tag?.value);
       }
       final snapshot = await query.get();
-      print('Size ${snapshot.size}');
       final list = snapshot.docs.map((e) {
-        print('created at: ${e.data()['createdAt']}');
         return Recipe.fromJson(e.data(), e.id);
       });
       return list.toList();
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
     }
     return [];
   }
@@ -43,7 +35,6 @@ class RecipeService extends APIService {
       var query = _firestore.collection('recipes').limit(10);
 
       if (text != '') {
-        print('where text: $text');
         query = query
             .where("title", isGreaterThanOrEqualTo: text)
             .where("title", isLessThanOrEqualTo: "$text\uf7ff")
@@ -53,7 +44,6 @@ class RecipeService extends APIService {
       if (filters != null) {
         final star = filters.star;
         if (star != null && text == '') {
-          print('where star: ${star.value}');
           query = query
               .where('stars', isLessThanOrEqualTo: star.maxValue)
               .where('stars', isGreaterThanOrEqualTo: star.maxValue - 1)
@@ -61,12 +51,10 @@ class RecipeService extends APIService {
         }
         final tag = filters.tag;
         if (tag != null && tag != TagEnum.all) {
-          print('where tag: ${tag.value}');
           query = query.where('tags', arrayContains: tag.value);
         }
         final time = filters.time;
         if (time != null) {
-          print('where time: ${time.value}');
           switch (time) {
             case (TimeEnum.newest):
               query = query.orderBy('createdAt', descending: true);
@@ -84,15 +72,34 @@ class RecipeService extends APIService {
         }
       }
 
-      print('Getting results...');
       final result = await query.get();
-      print('Result count: ${result.size}');
       final list = result.docs.map((e) {
         return Recipe.fromJson(e.data(), e.id);
       });
       return list.toList();
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
+    }
+    return null;
+  }
+
+  Future<List<Recipe>?> userRecipes({String? userId = ''}) async {
+    try {
+      var query = _firestore.collection('recipes').limit(10);
+
+      if (userId != '') {
+        query = query
+            .where("ownerId", isEqualTo: userId)
+            .orderBy('createdAt', descending: true);
+      }
+
+      final result = await query.get();
+      final list = result.docs.map((e) {
+        return Recipe.fromJson(e.data(), e.id);
+      });
+      return list.toList();
+    } catch (e) {
+      debugPrint(e.toString());
     }
     return null;
   }
