@@ -4,9 +4,14 @@ import 'package:recipe_app/dashboard/models/data/recipe.dart';
 import 'package:recipe_app/dashboard/views/widgets/recipes/search/recipe_search_item.dart';
 
 class RecipeResultList extends StatefulWidget {
-  const RecipeResultList({super.key, required this.recipeSearchItems});
+  const RecipeResultList({
+    super.key,
+    required this.recipeSearchItems,
+    this.showHeader = true,
+  });
 
   final List<Recipe> recipeSearchItems;
+  final bool showHeader;
 
   @override
   State<RecipeResultList> createState() => _RecipeResultListState();
@@ -41,23 +46,24 @@ class _RecipeResultListState extends State<RecipeResultList> {
         const SizedBox(
           height: 20,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text('Search result'),
-            Text(
-              '${widget.recipeSearchItems.length} results',
-              style: const TextStyle(
-                fontSize: 14,
-                color: Colors.black38,
+        if (widget.showHeader)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('Search result'),
+              Text(
+                '${widget.recipeSearchItems.length} results',
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: Colors.black38,
+                ),
               ),
-            ),
-          ],
-        ),
+            ],
+          ),
         Expanded(
           child: AnimatedList(
             key: _key,
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(14),
             itemBuilder: (context, index, animation) {
               final color = index % 2 == 0 ? recipeColors[0] : recipeColors[1];
               return RecipeSearchItem(
