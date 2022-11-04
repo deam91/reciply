@@ -36,10 +36,12 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage>
     _itemsCount = widget.recipe.ingredients?.length ?? 0;
     tabController.addListener(() {
       setState(() {
-        if (tabController.index == 0)
+        if (tabController.index == 0) {
           _itemsCount = widget.recipe.ingredients?.length ?? 0;
-        if (tabController.index == 1)
+        }
+        if (tabController.index == 1) {
           _itemsCount = widget.recipe.instructions?.length ?? 0;
+        }
       });
     });
   }
@@ -161,18 +163,14 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(
-                          child: HeroWidget(
-                            tag: HeroTag.title(widget.recipe,
-                                fromSearch: widget.fromSearch),
-                            child: Text(
-                              widget.recipe.title ?? '',
-                              maxLines: 3,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w800,
-                                color: Colors.black87,
-                                fontSize: 20,
-                                overflow: TextOverflow.ellipsis,
-                              ),
+                          child: Text(
+                            widget.recipe.title ?? '',
+                            maxLines: 3,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w800,
+                              color: Colors.black87,
+                              fontSize: 20,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                         ),
@@ -214,24 +212,7 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage>
                     const SizedBox(
                       height: 10,
                     ),
-                    TabBar(
-                      splashBorderRadius: BorderRadius.circular(25),
-                      indicatorColor: const Color(0xff129575),
-                      labelColor: const Color(0xff129575),
-                      indicatorSize: TabBarIndicatorSize.label,
-                      unselectedLabelColor: Colors.black45,
-                      tabs: const <Tab>[
-                        Tab(
-                          text: 'Ingredients',
-                          height: 40,
-                        ),
-                        Tab(
-                          text: 'Directions',
-                          height: 40,
-                        ),
-                      ],
-                      controller: tabController,
-                    ),
+                    TabBarWidget(tabController: tabController),
                     const SizedBox(
                       height: 20,
                     ),
@@ -288,6 +269,48 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage>
           ),
         ),
       ),
+    );
+  }
+}
+
+class TabBarWidget extends StatelessWidget {
+  const TabBarWidget({
+    Key? key,
+    required this.tabController,
+  }) : super(key: key);
+
+  final TabController tabController;
+
+  @override
+  Widget build(BuildContext context) {
+    return TabBar(
+      indicatorWeight: 0,
+      indicatorPadding:
+          const EdgeInsets.symmetric(horizontal: -12, vertical: 0),
+      indicator: BoxDecoration(
+        color: const Color(0xff129575),
+        borderRadius: BorderRadius.circular(14),
+      ),
+      physics: const NeverScrollableScrollPhysics(),
+      indicatorColor: const Color(0xff129575),
+      labelColor: Colors.white,
+      indicatorSize: TabBarIndicatorSize.label,
+      unselectedLabelColor: Colors.black45,
+      isScrollable: true,
+      overlayColor:
+          MaterialStateProperty.resolveWith((states) => Colors.transparent),
+      automaticIndicatorColorAdjustment: true,
+      tabs: const <Tab>[
+        Tab(
+          text: 'Ingredients',
+          height: 40,
+        ),
+        Tab(
+          text: 'Directions',
+          height: 40,
+        ),
+      ],
+      controller: tabController,
     );
   }
 }
