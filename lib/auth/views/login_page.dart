@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_app/auth/controllers/auth_provider.dart';
 import 'package:recipe_app/common/constants.dart';
 import 'package:recipe_app/common/navigation/routes/routes.gr.dart';
+import 'package:recipe_app/common/views/widgets/loading.dart';
 
 class LoginPage extends ConsumerWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -49,7 +50,7 @@ class LoginPage extends ConsumerWidget {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                     TextFormField(
@@ -96,7 +97,7 @@ class LoginPage extends ConsumerWidget {
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                        children: const [
                           Text(
                             'Sign In',
                             style: TextStyle(
@@ -105,7 +106,7 @@ class LoginPage extends ConsumerWidget {
                               color: Colors.white,
                             ),
                           ),
-                          const SizedBox(
+                          SizedBox(
                             width: 30,
                           ),
                           Icon(
@@ -162,10 +163,26 @@ class LoginPage extends ConsumerWidget {
                         ),
                         padding: const EdgeInsets.all(10),
                         child: Center(
-                          child: Image.asset(
-                            'assets/google.png',
-                            width: 28,
-                            height: 28,
+                          child: Consumer(
+                            builder: (context, ref, child) {
+                              final status = ref.watch(authControllerProvider
+                                  .select((value) => value.status));
+                              Widget widget;
+                              switch (status) {
+                                case Status.authenticatingWithGoogle:
+                                  widget = const LoadingWidget();
+                                  break;
+                                default:
+                                  widget = child ?? const LoadingWidget();
+                                  break;
+                              }
+                              return widget;
+                            },
+                            child: Image.asset(
+                              'assets/google.png',
+                              width: 28,
+                              height: 28,
+                            ),
                           ),
                         ),
                       ),
