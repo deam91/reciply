@@ -60,6 +60,7 @@ dependencies:
   #  firebase_app_check: ^0.0.9
   firebase_crashlytics: ^2.8.12
   flutter_svg: ^1.1.5
+  cloud_functions: ^3.3.9
 #  firebase_analytics: ^9.3.8
 
 dev_dependencies:
