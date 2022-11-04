@@ -58,9 +58,9 @@ class RecipeSearchItem extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).push(
                   PageRouteBuilder(
-                    transitionDuration: const Duration(milliseconds: 500),
+                    transitionDuration: const Duration(milliseconds: 700),
                     reverseTransitionDuration:
-                        const Duration(milliseconds: 500),
+                        const Duration(milliseconds: 700),
                     transitionsBuilder:
                         (context, animation, secondaryAnimation, child) {
                       final widgetAnimation = CurvedAnimation(
@@ -85,97 +85,99 @@ class RecipeSearchItem extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 0.0, vertical: 10.0),
                 child: HeroWidget(
                   tag: HeroTag.image(recipe, fromSearch: true),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20.0),
-                      boxShadow: const [
-                        BoxShadow(
-                          blurRadius: 10,
-                          color: Colors.black38,
-                          offset: Offset.zero,
-                          spreadRadius: 3,
-                        )
-                      ],
-                    ),
-                    child: Stack(
-                      children: [
-                        AspectRatio(
-                          aspectRatio: 2 / 1,
-                          child: Container(
-                            foregroundDecoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20.0),
-                              gradient: imageGradient,
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20.0),
-                              child: CachedNetworkImage(
-                                fit: BoxFit.cover,
-                                imageUrl: recipe.image ?? '',
-                                progressIndicatorBuilder:
-                                    (context, url, downloadProgress) =>
-                                        const Center(
-                                  child: CircularProgressIndicator(),
+                  child: Material(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20.0),
+                        boxShadow: const [
+                          BoxShadow(
+                            blurRadius: 10,
+                            color: Colors.black38,
+                            offset: Offset.zero,
+                            spreadRadius: 3,
+                          )
+                        ],
+                      ),
+                      child: Stack(
+                        children: [
+                          AspectRatio(
+                            aspectRatio: 2 / 1,
+                            child: Container(
+                              foregroundDecoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20.0),
+                                gradient: imageGradient,
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(20.0),
+                                child: CachedNetworkImage(
+                                  fit: BoxFit.cover,
+                                  imageUrl: recipe.image ?? '',
+                                  progressIndicatorBuilder:
+                                      (context, url, downloadProgress) =>
+                                          const Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error),
                                 ),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
                               ),
                             ),
                           ),
-                        ),
-                        Positioned(
-                          bottom: 5,
-                          right: 0,
-                          left: 0,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 15.0, vertical: 5.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  title,
-                                  maxLines: 2,
-                                  style: const TextStyle(
-                                    overflow: TextOverflow.ellipsis,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 18,
-                                    color: Colors.white,
+                          Positioned(
+                            bottom: 5,
+                            right: 0,
+                            left: 0,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15.0, vertical: 5.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    title,
+                                    maxLines: 2,
+                                    style: const TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(
-                                  height: 5.0,
-                                ),
-                                Text(
-                                  'By $owner',
-                                  style: const TextStyle(
-                                    overflow: TextOverflow.ellipsis,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12,
-                                    color: Colors.white54,
+                                  const SizedBox(
+                                    height: 5.0,
                                   ),
-                                ),
-                              ],
+                                  Text(
+                                    'By $owner',
+                                    style: const TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 12,
+                                      color: Colors.white54,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        Positioned(
-                          right: 10,
-                          top: 10,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: const Color(0xffFFE1B3).withOpacity(.8),
-                            ),
-                            height: 28,
-                            child: Stars(
-                              likes: recipe.stars ?? 0,
-                              size: 28,
+                          Positioned(
+                            right: 10,
+                            top: 10,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: const Color(0xffFFE1B3).withOpacity(.8),
+                              ),
+                              height: 28,
+                              child: Stars(
+                                likes: recipe.stars ?? 0,
+                                size: 28,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
