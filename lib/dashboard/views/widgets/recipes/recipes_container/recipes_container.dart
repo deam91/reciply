@@ -16,8 +16,6 @@ class RecipesContainer extends ConsumerStatefulWidget {
 }
 
 class _RecipesContainerState extends ConsumerState<RecipesContainer> {
-  final PageController pageController =
-      PageController(initialPage: 0, viewportFraction: 0.65);
   TagEnum selectedTag = TagEnum.all;
 
   @override
@@ -27,7 +25,6 @@ class _RecipesContainerState extends ConsumerState<RecipesContainer> {
 
   _selectTag(TagEnum tag) {
     setState(() {
-      print('selected tag: ${tag.value}');
       selectedTag = tag;
     });
   }
@@ -53,7 +50,6 @@ class _RecipesContainerState extends ConsumerState<RecipesContainer> {
                 return const SearchNotFoundLottie();
               }
               return RecipesList(
-                pageController: pageController,
                 recipes: data ?? [],
               );
             },

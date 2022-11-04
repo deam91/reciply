@@ -24,7 +24,9 @@ class ProfilePage extends StatelessWidget {
       ),
       body: Column(
         children: const [
-          UserBrand(),
+          Expanded(
+            child: UserBrand(),
+          ),
         ],
       ),
     );

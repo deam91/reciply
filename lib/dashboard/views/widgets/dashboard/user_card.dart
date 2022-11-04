@@ -8,7 +8,6 @@ class UserCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TODO: Read user data and show
     final user =
         ref.watch(authControllerProvider.select((value) => value.fbUser));
     final name = user?.displayName ?? '';
@@ -26,10 +25,10 @@ class UserCard extends ConsumerWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
-              Text(
+              const Text(
                 'What are you cooking today?',
                 style: TextStyle(
                   fontSize: 14,
