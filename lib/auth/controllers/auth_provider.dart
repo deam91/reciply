@@ -8,7 +8,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:recipe_app/auth/models/user_profile.dart';
 
-enum Status { uninitialized, authenticated, authenticating, unauthenticated }
+enum Status {
+  uninitialized,
+  authenticated,
+  authenticating,
+  authenticatingWithGoogle,
+  unauthenticated
+}
 
 final authControllerProvider = ChangeNotifierProvider<AuthProvider>((ref) {
   return AuthProvider();
@@ -95,28 +101,27 @@ class AuthProvider with ChangeNotifier {
 
   Future<UserCredential?> signInWithGoogle() async {
     try {
-      _status = Status.authenticating;
+      _status = Status.authenticatingWithGoogle;
       notifyListeners();
-      print('Authenticating...');
+      debugPrint('Authenticating...');
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-      print(googleUser.toString());
       final GoogleSignInAuthentication? googleAuth =
           await googleUser?.authentication;
-      print(googleAuth.toString());
       final OAuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
       );
+      debugPrint('Done.');
       _error = '';
       return await _auth.signInWithCredential(credential);
     } on FirebaseAuthException catch (e, _) {
       _error = e.message ?? '';
-      print(e.message.toString());
+      debugPrint(e.message.toString());
       _status = Status.unauthenticated;
       notifyListeners();
       return null;
     } on Exception catch (err, _) {
-      print(err.toString());
+      debugPrint(err.toString());
     }
     return null;
   }
@@ -125,8 +130,7 @@ class AuthProvider with ChangeNotifier {
     // Create a new provider
     GoogleAuthProvider googleProvider = GoogleAuthProvider();
 
-    googleProvider
-        .addScope('https://www.googleapis.com/auth/contacts.readonly');
+    googleProvider.addScope('email');
     googleProvider.setCustomParameters({'login_hint': 'user@example.com'});
 
     // Once signed in, return the UserCredential
@@ -136,12 +140,11 @@ class AuthProvider with ChangeNotifier {
     // return await FirebaseAuth.instance.signInWithRedirect(googleProvider);
   }
 
-  Future signOut() async {
+  Future<void> signOut() async {
     _auth.signOut();
     _googleSignIn.signOut();
     _status = Status.unauthenticated;
     notifyListeners();
-    return Future.delayed(Duration.zero);
   }
 
   void updateProfile(UserProfile userProfile) async {
@@ -181,13 +184,15 @@ class AuthProvider with ChangeNotifier {
           "lastLoggedIn": FieldValue.serverTimestamp(),
         });
       } else {
-        await _db.collection('users').doc(_user?.uid).set({
-          "email": _user?.email ?? '',
-          "name": _user?.displayName ?? '',
-          "photoUrl": _user?.photoURL ?? '',
-          "registrationDate": FieldValue.serverTimestamp(),
-          "lastLoggedIn": FieldValue.serverTimestamp(),
-        });
+        final userProfile = UserProfile(
+          name: _user?.displayName ?? '',
+          email: _user?.email ?? '',
+          aboutMe: '',
+          work: '',
+          photoUrl: _user?.photoURL ?? '',
+          recipes: [],
+        );
+        await _db.collection('users').doc(_user?.uid).set(userProfile.toJson());
       }
       log('created/saved user...');
       _status = Status.authenticated;
