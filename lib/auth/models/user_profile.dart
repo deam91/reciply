@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user_profile.g.dart';
@@ -8,8 +9,8 @@ class UserProfile {
   String email;
   String aboutMe;
   String work;
-  DateTime lastLoggedIn;
-  DateTime registrationDate;
+  Timestamp? lastLoggedIn;
+  Timestamp? registrationDate;
   String photoUrl;
   List<String> recipes;
 
@@ -18,8 +19,8 @@ class UserProfile {
     required this.email,
     required this.aboutMe,
     required this.work,
-    required this.lastLoggedIn,
-    required this.registrationDate,
+    this.lastLoggedIn,
+    this.registrationDate,
     required this.photoUrl,
     required this.recipes,
   });
