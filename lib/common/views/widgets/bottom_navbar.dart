@@ -56,7 +56,7 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
           );
         }),
         const SizedBox(
-          width: 65,
+          width: 55,
         ),
       ],
     );

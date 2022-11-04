@@ -78,17 +78,14 @@ class _RecipeSearchResultsPageState
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Expanded(
-                    child: HeroWidget(
-                      tag: HeroTag.mainSearchField(),
-                      child: SearchCard(
-                        onShowModalBottomSheet: () async {
-                          await _showFiltersModalBottomSheet();
-                        },
-                        controller: widget.controller,
-                        onFieldSubmitted: (_) {
-                          _enter(widget.controller.text);
-                        },
-                      ),
+                    child: SearchCard(
+                      onShowModalBottomSheet: () async {
+                        await _showFiltersModalBottomSheet();
+                      },
+                      controller: widget.controller,
+                      onFieldSubmitted: (_) {
+                        _enter(widget.controller.text);
+                      },
                     ),
                   ),
                 ],

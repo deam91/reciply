@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:recipe_app/common/hero_tag.dart';
-import 'package:recipe_app/common/views/widgets/hero_widget.dart';
 import 'package:recipe_app/dashboard/controllers/recipes_providers.dart';
 import 'package:recipe_app/dashboard/views/pages/recipes_search_results_page.dart';
 import 'package:recipe_app/dashboard/views/widgets/dashboard/filters_modal.dart';
@@ -69,19 +67,15 @@ class _TopSectionState extends ConsumerState<TopSection> {
         const SizedBox(
           height: 40,
         ),
-        HeroWidget(
-          tag: HeroTag.mainSearchField(),
-          child: SearchCard(
-            onShowModalBottomSheet: () async {
-              final shouldNavigate =
-                  await _showFiltersModalBottomSheet(context);
-              if (mounted && shouldNavigate) {
-                _goToSearchPage(context);
-              }
-            },
-            controller: controller,
-            onFieldSubmitted: _goToSearchPage,
-          ),
+        SearchCard(
+          onShowModalBottomSheet: () async {
+            final shouldNavigate = await _showFiltersModalBottomSheet(context);
+            if (mounted && shouldNavigate) {
+              _goToSearchPage(context);
+            }
+          },
+          controller: controller,
+          onFieldSubmitted: _goToSearchPage,
         ),
       ],
     );
