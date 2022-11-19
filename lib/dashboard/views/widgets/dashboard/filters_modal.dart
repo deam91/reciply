@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:recipe_app/dashboard/controllers/recipes_providers.dart';
 import 'package:recipe_app/dashboard/models/constants.dart';
+import 'package:recipe_app/search/controllers/search.dart';
 
 class FilterModal extends ConsumerStatefulWidget {
   const FilterModal({super.key});
