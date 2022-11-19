@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:recipe_app/common/models/constants.dart';
 
 part 'recipe.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(anyMap: true)
 class Recipe {
   Recipe();
   String? recipeId;
+  String? ownerId;
   int? likes;
   double? stars;
   String? title;
@@ -15,7 +17,10 @@ class Recipe {
   double? calories;
   String? summary;
   RecipeOwner? owner;
+
+  @JsonKey(fromJson: timestampFromJson, toJson: timestampToJson)
   Timestamp? createdAt;
+
   int? readyInMinutes;
   int? preparationMinutes;
   List<Ingredient>? ingredients;
@@ -23,7 +28,7 @@ class Recipe {
 
   /// Connect the generated [_$RecipeEntityFromJson] function to the `fromJson`
   /// factory.
-  factory Recipe.fromJson(Map<String, dynamic> json, String recipeId) =>
+  factory Recipe.fromJson(Map<String, dynamic> json, String? recipeId) =>
       _$RecipeFromJson(json, recipeId);
 
   /// Connect the generated [_$RecipeEntityToJson] function to the `toJson` method.
@@ -62,7 +67,7 @@ class Ingredient {
   Map<String, dynamic> toJson() => _$IngredientToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(anyMap: true)
 class Instruction {
   Instruction();
   String? step;

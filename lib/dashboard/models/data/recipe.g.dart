@@ -6,8 +6,9 @@ part of 'recipe.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Recipe _$RecipeFromJson(Map<String, dynamic> json, String recipeId) => Recipe()
+Recipe _$RecipeFromJson(Map json, String? recipeId) => Recipe()
   ..recipeId = recipeId
+  ..ownerId = json['ownerId'] as String?
   ..likes = json['likes'] as int?
   ..stars = (json['stars'] as num?)?.toDouble()
   ..title = json['title'] as String?
@@ -17,19 +18,20 @@ Recipe _$RecipeFromJson(Map<String, dynamic> json, String recipeId) => Recipe()
   ..summary = json['summary'] as String?
   ..owner = json['owner'] == null
       ? null
-      : RecipeOwner.fromJson(json['owner'] as Map<String, dynamic>)
-  ..createdAt = json['createdAt'] as Timestamp?
+      : RecipeOwner.fromJson(Map<String, dynamic>.from(json['owner'] as Map))
+  ..createdAt = timestampFromJson(json['createdAt'])
   ..readyInMinutes = json['readyInMinutes'] as int?
   ..preparationMinutes = json['preparationMinutes'] as int?
   ..ingredients = (json['ingredients'] as List<dynamic>?)
-      ?.map((e) => Ingredient.fromJson(e as Map<String, dynamic>))
+      ?.map((e) => Ingredient.fromJson(Map<String, dynamic>.from(e as Map)))
       .toList()
   ..instructions = (json['instructions'] as List<dynamic>?)
-      ?.map((e) => Instruction.fromJson(e as Map<String, dynamic>))
+      ?.map((e) => Instruction.fromJson(Map<String, dynamic>.from(e as Map)))
       .toList();
 
 Map<String, dynamic> _$RecipeToJson(Recipe instance) => <String, dynamic>{
       'recipeId': instance.recipeId,
+      'ownerId': instance.ownerId,
       'likes': instance.likes,
       'stars': instance.stars,
       'title': instance.title,
@@ -38,7 +40,7 @@ Map<String, dynamic> _$RecipeToJson(Recipe instance) => <String, dynamic>{
       'calories': instance.calories,
       'summary': instance.summary,
       'owner': instance.owner,
-      'createdAt': instance.createdAt,
+      'createdAt': timestampToJson(instance.createdAt),
       'readyInMinutes': instance.readyInMinutes,
       'preparationMinutes': instance.preparationMinutes,
       'ingredients': instance.ingredients,
@@ -69,12 +71,12 @@ Map<String, dynamic> _$IngredientToJson(Ingredient instance) =>
       'unit': instance.unit,
     };
 
-Instruction _$InstructionFromJson(Map<String, dynamic> json) => Instruction()
+Instruction _$InstructionFromJson(Map json) => Instruction()
   ..step = json['step'] as String?
   ..number = json['number'] as int?
   ..length = json['length'] == null
       ? null
-      : Length.fromJson(json['length'] as Map<String, dynamic>);
+      : Length.fromJson(Map<String, dynamic>.from(json['length'] as Map));
 
 Map<String, dynamic> _$InstructionToJson(Instruction instance) =>
     <String, dynamic>{
