@@ -1,33 +1,44 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:recipe_app/common/constants.dart';
-import 'package:recipe_app/common/hero_tag.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recipe_app/auth/controllers/auth_provider.dart';
+import 'package:recipe_app/common/views/widgets/constants.dart';
 import 'package:recipe_app/common/views/widgets/hero_widget.dart';
 import 'package:recipe_app/dashboard/models/data/recipe.dart';
 import 'package:recipe_app/dashboard/views/widgets/recipe_details/directions/directions_list.dart';
 import 'package:recipe_app/dashboard/views/widgets/recipe_details/ingredient/ingredients_list.dart';
 import 'package:recipe_app/dashboard/views/widgets/recipe_details/stars.dart';
 import 'package:recipe_app/dashboard/views/widgets/recipes/new/recipe_owner.dart';
+import 'package:recipe_app/favorites/controllers/favorites_provider.dart';
+import 'package:recipe_app/profile/controllers/user_profile_provider.dart';
 
-class RecipeDetailsPage extends StatefulWidget {
+class RecipeDetailsPage extends ConsumerStatefulWidget {
   const RecipeDetailsPage({
     Key? key,
     required this.recipe,
     required this.color,
     this.fromSearch = false,
+    this.fromFavorites = false,
   }) : super(key: key);
   final Recipe recipe;
   final Color color;
   final bool fromSearch;
+  final bool fromFavorites;
 
   @override
-  State<RecipeDetailsPage> createState() => _RecipeDetailsPageState();
+  ConsumerState<RecipeDetailsPage> createState() => _RecipeDetailsPageState();
 }
 
-class _RecipeDetailsPageState extends State<RecipeDetailsPage>
+class _RecipeDetailsPageState extends ConsumerState<RecipeDetailsPage>
     with SingleTickerProviderStateMixin {
   late final TabController tabController;
   int _itemsCount = 0;
+
+  _bookmark() async {
+    await ref
+        .read(bookmarkControllerProvider.notifier)
+        .saveBookmark(widget.recipe);
+  }
 
   @override
   initState() {
@@ -48,7 +59,7 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage>
 
   @override
   Widget build(BuildContext context) {
-    print('BUILD RecipeDetailsPage');
+    debugPrint('BUILD RecipeDetailsPage');
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -78,8 +89,11 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage>
                   AspectRatio(
                     aspectRatio: 2 / 1,
                     child: HeroWidget(
-                      tag: HeroTag.image(widget.recipe,
-                          fromSearch: widget.fromSearch),
+                      tag: HeroTag.image(
+                        widget.recipe,
+                        fromSearch: widget.fromSearch,
+                        fromFavorites: widget.fromFavorites,
+                      ),
                       child: Container(
                         foregroundDecoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30.0),
@@ -114,20 +128,44 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage>
                         RecipeTime(
                           recipe: widget.recipe,
                           color: Colors.white70,
-                          iconSize: 20,
-                          textSize: 16,
+                          iconSize: 16,
+                          textSize: 14,
                         ),
-                        IconButton(
-                          style: IconButton.styleFrom(
-                              backgroundColor: Colors.white),
-                          color: Colors.black45,
-                          padding: const EdgeInsets.all(0),
-                          iconSize: 20,
-                          constraints: BoxConstraints.tight(const Size(30, 30)),
-                          icon: const Icon(
-                            Icons.bookmark_border_rounded,
-                          ),
-                          onPressed: () {},
+                        Consumer(
+                          builder: (context, ref, child) {
+                            ref.watch(bookmarkControllerProvider);
+                            final selectedItems = ref
+                                .read(bookmarkControllerProvider.notifier)
+                                .bookmarkIds;
+                            final bookmarked =
+                                selectedItems.contains(widget.recipe.recipeId);
+                            return AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 200),
+                              child: IconButton(
+                                key: ValueKey('bookmarked_$bookmarked'),
+                                style: IconButton.styleFrom(
+                                    backgroundColor: Colors.black38),
+                                color:
+                                    bookmarked ? Colors.orange : Colors.black45,
+                                padding: const EdgeInsets.all(0),
+                                iconSize: 18,
+                                constraints:
+                                    BoxConstraints.tight(const Size(30, 30)),
+                                icon: AnimatedSwitcher(
+                                  duration: const Duration(milliseconds: 1200),
+                                  child: bookmarked
+                                      ? const Icon(
+                                          Icons.bookmark_rounded,
+                                        )
+                                      : const Icon(
+                                          Icons.bookmark_border_rounded,
+                                          color: Colors.white,
+                                        ),
+                                ),
+                                onPressed: _bookmark,
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),
@@ -135,17 +173,20 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage>
                   Positioned(
                     right: 10,
                     top: 10,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 5),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: const Color(0xffFFE1B3).withOpacity(.8),
-                      ),
-                      height: 28,
-                      child: Stars(
-                        likes: widget.recipe.stars ?? 0,
-                        size: 28,
+                    child: Material(
+                      type: MaterialType.transparency,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 5),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: const Color(0xffFFE1B3).withOpacity(.8),
+                        ),
+                        height: 28,
+                        child: Stars(
+                          likes: widget.recipe.stars ?? 0,
+                          size: 28,
+                        ),
                       ),
                     ),
                   ),
@@ -174,11 +215,18 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage>
                             ),
                           ),
                         ),
-                        Text(
-                          '(${widget.recipe.likes.toString()} likes)',
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: Colors.black38,
+                        TextButton.icon(
+                          onPressed: () {},
+                          icon: const Icon(
+                            Icons.thumb_up_sharp,
+                            size: 18.0,
+                          ),
+                          label: Text(
+                            widget.recipe.likes.toString(),
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.black38,
+                            ),
                           ),
                         ),
                       ],
@@ -187,25 +235,43 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage>
                     Row(
                       children: [
                         Expanded(
-                          child: RecipeOwnerWidget(
-                            recipe: widget.recipe,
-                            textColor: Colors.black87,
-                          ),
-                        ),
-                        OutlinedButton(
-                          onPressed: () {},
-                          style: OutlinedButton.styleFrom(
-                            backgroundColor: const Color(0xff129575),
-                            foregroundColor: Colors.white24,
-                            elevation: 6,
-                          ),
-                          child: const Text(
-                            'Follow',
-                            style: TextStyle(
-                              color: Colors.white,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: RecipeOwnerWidget(
+                              recipe: widget.recipe,
+                              textColor: Colors.black87,
                             ),
                           ),
                         ),
+                        Consumer(
+                          builder: (context, ref, child) {
+                            final userId = ref
+                                .read(authControllerProvider.notifier)
+                                .fbUser
+                                ?.uid;
+                            if (widget.recipe.ownerId == userId) {
+                              return const SizedBox.shrink();
+                            }
+                            return OutlinedButton(
+                              onPressed: () {
+                                ref
+                                    .read(userProfileProvider.notifier)
+                                    .followUser(widget.recipe.ownerId);
+                              },
+                              style: OutlinedButton.styleFrom(
+                                backgroundColor: const Color(0xff129575),
+                                foregroundColor: Colors.white24,
+                                elevation: 6,
+                              ),
+                              child: const Text(
+                                'Follow',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            );
+                          },
+                        )
                       ],
                     ),
                     // Ingredients & Directions tabs
