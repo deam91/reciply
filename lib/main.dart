@@ -14,7 +14,7 @@ import 'package:recipe_app/common/navigation/observers/observer.dart';
 import 'package:recipe_app/common/navigation/routes/routes.gr.dart';
 import 'package:recipe_app/firebase_options.dart';
 
-import 'common/constants.dart';
+import 'common/views/widgets/constants.dart';
 
 @pragma('vm:entry-point')
 Future<void> _handleBackgroundMessage(RemoteMessage message) async {
@@ -69,28 +69,19 @@ Future main() async {
       WidgetsFlutterBinding.ensureInitialized();
       await dotenv.load(fileName: "assets/env/.env.development");
       await Firebase.initializeApp(
+        name: 'Reciply',
         options: DefaultFirebaseOptions.currentPlatform,
       );
       // Pass all errors to Crashlytics
       FlutterError.onError =
           FirebaseCrashlytics.instance.recordFlutterFatalError;
-      // FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-
-      // FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
-      //   // TODO: If necessary send token to application server.
-
-      //   // Note: This callback is fired at each app startup and whenever a new
-      //   // token is generated.
-      // }).onError((err) {
-      //   // Error getting token.
-      // });
-
-      final container = ProviderContainer();
-      container.read(cacheProvider);
-      container.read(authControllerProvider);
-      container.read(notificationProvider).init();
 
       FirebaseMessaging.onBackgroundMessage(_handleBackgroundMessage);
+
+      final container = ProviderContainer();
+      await container.read(cacheProvider).init();
+      container.read(notificationProvider).init();
+      container.read(authControllerProvider);
 
       runApp(
         UncontrolledProviderScope(
