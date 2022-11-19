@@ -1,33 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_app/dashboard/models/constants.dart';
 import 'package:recipe_app/dashboard/models/data/recipe.dart';
 import 'package:recipe_app/dashboard/models/data_sources/recipes_api_service.dart';
-
-class SearchFilter {
-  SearchFilter({
-    this.time,
-    this.tag,
-    this.star,
-  });
-
-  final TimeEnum? time;
-  final TagEnum? tag;
-  final StarsEnum? star;
-
-  @override
-  String toString() {
-    return '${time?.value} ${tag?.value} ${star?.value}';
-  }
-}
-
-final searchFilters = StateProvider<SearchFilter>((ref) => SearchFilter());
-
-final searchProvider =
-    FutureProvider.autoDispose.family<List<Recipe>?, String>((ref, text) async {
-  final filters = ref.watch(searchFilters);
-  print('filter is: ${filters.toString()}');
-  return ref.read(recipeServiceProvider).search(filters: filters, text: text);
-});
+import 'package:recipe_app/search/controllers/search.dart';
 
 final getRecipesProvider =
     FutureProvider.autoDispose.family<List<Recipe>?, TagEnum>((ref, tag) async {
@@ -58,7 +34,7 @@ class RecipesNotifier {
   }
 
   Future<List<Recipe>?> getRecipes({TagEnum? tag}) async {
-    print('Getting data for tag: ${tag?.value}');
+    debugPrint('Getting data for tag: ${tag?.value}');
     return recipeService.getRecipes(tag: tag);
   }
 
