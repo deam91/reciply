@@ -6,37 +6,62 @@ import 'package:recipe_app/profile/models/user_profile_service.dart';
 
 import '../../auth/models/user_profile.dart';
 
-final userProfileProvider = StateProvider((ref) {
-  final userProfileService = UserProfileService();
-  return UserProfileNotifier(ref: ref, userProfileService: userProfileService);
-});
+final userProfileProvider =
+    AsyncNotifierProvider<UserProfileNotifier, UserProfile?>(
+        UserProfileNotifier.new);
 
-class UserProfileNotifier {
-  UserProfileNotifier({required this.ref, required this.userProfileService});
+class UserProfileNotifier extends AsyncNotifier<UserProfile?> {
+  late final UserProfileService userProfileService;
 
-  final UserProfileService userProfileService;
-  final Ref ref;
-  late final UserProfile? _userProfile;
+  followUser(String? followedUserUId) {
+    final user = ref.read(authControllerProvider.notifier).fbUser;
+    userProfileService.followUser(user?.uid, followedUserUId);
+  }
 
-  UserProfile? get userProfile => _userProfile;
-
-  Future<UserProfile?> getUserProfile() async {
+  void getUserProfile() {
     if (kDebugMode) {
-      print('Getting user profile...');
+      print('Register user profile stream...');
     }
-    final user = ref.read(authControllerProvider).fbUser;
-    final userProfile = await userProfileService.getUserProfile(user?.uid);
-    _userProfile = userProfile;
-    return userProfile;
+    final user = ref.read(authControllerProvider.notifier).fbUser;
+    final stream = userProfileService.userProfileStream(user?.uid);
+    stream.listen((event) async {
+      state = const AsyncLoading();
+      final data = event.data() ?? {};
+      final userProfile = UserProfile.fromJson(data);
+      state = AsyncData(userProfile);
+    });
+  }
+
+  Future<int> followers(String? userUID) async {
+    return userProfileService.followers(userUID);
+  }
+
+  Future<int> recipesCount(String? userUID) async {
+    return userProfileService.recipesCount(userUID);
+  }
+
+  @override
+  build() {
+    userProfileService = UserProfileService();
+    getUserProfile();
+    return null;
   }
 }
 
-final userProfile = FutureProvider((ref) {
-  return ref.read(userProfileProvider).getUserProfile();
+final userRecipes = FutureProvider((ref) {
+  final user = ref
+      .watch(authControllerProvider.notifier.select((value) => value.fbUser));
+  return ref.read(recipeServiceProvider).userRecipes(userId: user?.uid);
 });
 
-final userRecipes = FutureProvider((ref) {
-  final user =
-      ref.watch(authControllerProvider.select((value) => value.fbUser));
-  return ref.read(recipeServiceProvider).userRecipes(userId: user?.uid);
+final userFollowers = FutureProvider((ref) {
+  final user = ref
+      .watch(authControllerProvider.notifier.select((value) => value.fbUser));
+  return ref.read(userProfileProvider.notifier).followers(user?.uid);
+});
+
+final userRecipesCount = FutureProvider((ref) {
+  final user = ref
+      .watch(authControllerProvider.notifier.select((value) => value.fbUser));
+  return ref.read(userProfileProvider.notifier).recipesCount(user?.uid);
 });
