@@ -57,7 +57,9 @@ class _RecipesContainerState extends ConsumerState<RecipesContainer> {
               return const LoadingWidget();
             },
             loading: () {
-              return const LoadingWidget();
+              return const Center(
+                child: LoadingWidget(),
+              );
             },
           ),
         ),
