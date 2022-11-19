@@ -16,9 +16,17 @@ class RecipeOwnerWidget extends StatelessWidget {
       children: [
         SizedBox(
           height: 30,
-          child: CircleAvatar(
-            backgroundImage: CachedNetworkImageProvider(
-              recipe.owner?.image ?? '',
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: CachedNetworkImage(
+              imageUrl: recipe.owner?.image ?? '',
+              fit: BoxFit.cover,
+              errorWidget: (context, url, error) {
+                return DecoratedBox(
+                  decoration: const BoxDecoration(color: Colors.black),
+                  child: Image.asset('assets/images/logo_white.png'),
+                );
+              },
             ),
           ),
         ),
