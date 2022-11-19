@@ -112,8 +112,14 @@ class _RecipeDetailsPageState extends ConsumerState<RecipeDetailsPage>
                                     const Center(
                               child: CircularProgressIndicator(strokeWidth: 1),
                             ),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
+                            errorWidget: (context, url, error) {
+                              return DecoratedBox(
+                                decoration:
+                                    const BoxDecoration(color: Colors.black),
+                                child:
+                                    Image.asset('assets/images/logo_white.png'),
+                              );
+                            },
                           ),
                         ),
                       ),
