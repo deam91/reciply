@@ -7,102 +7,138 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:recipe_app/auth/models/user_profile.dart';
+import 'package:recipe_app/common/controllers/common_providers.dart';
+import 'package:recipe_app/favorites/controllers/favorites_provider.dart';
 
 enum Status {
+  loading,
   uninitialized,
   authenticated,
   authenticating,
   authenticatingWithGoogle,
-  unauthenticated
+  unauthenticated,
+  authError,
 }
 
-final authControllerProvider = ChangeNotifierProvider<AuthProvider>((ref) {
-  return AuthProvider();
-});
+final authControllerProvider =
+    NotifierProvider<AuthProvider, Status>(AuthProvider.new);
 
-class AuthProvider with ChangeNotifier {
-  late final FirebaseAuth _auth;
+class AuthProvider extends Notifier<Status> {
   late final FirebaseFirestore _db;
   late final GoogleSignIn _googleSignIn;
-  late String _error;
-  late final bool _loading;
+  String _error = '';
+  bool _loading = false;
   User? _user;
-  Status _status = Status.uninitialized;
 
-  AuthProvider() {
+  @override
+  build() {
     _init();
+    return Status.unauthenticated;
   }
 
   _init() async {
-    _auth = FirebaseAuth.instance;
-    _db = FirebaseFirestore.instance;
     if (kIsWeb) {
-      await _db
+      await FirebaseFirestore.instance
           .enablePersistence(const PersistenceSettings(synchronizeTabs: true));
     } else {
-      _db.settings = const Settings(persistenceEnabled: true);
+      FirebaseFirestore.instance.settings =
+          const Settings(persistenceEnabled: true);
     }
     _googleSignIn = GoogleSignIn(scopes: ['email']);
-    _error = '';
-    _loading = true;
-    _auth.authStateChanges().listen(_onAuthStateChanged);
-    _auth.userChanges().listen(_onUserChanged);
+    FirebaseAuth.instance.authStateChanges().listen(_onAuthStateChanged);
+    FirebaseAuth.instance.userChanges().listen(_onUserChanged);
   }
 
   String get error => _error;
-  Status get status => _status;
+  Status get status => state;
   User? get fbUser => _user;
   bool get isLoading => _loading;
 
   Future<void> signIn(String email, String password) async {
     try {
-      _status = Status.authenticating;
-      notifyListeners();
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      _loading = true;
+      state = Status.authenticating;
+      final userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+      _checkUserProfile(userCredential);
       _error = '';
-      _status = Status.authenticated;
-      notifyListeners();
+      _loading = false;
+      state = Status.authenticated;
     } on FirebaseAuthException catch (e, _) {
       _error = e.message ?? '';
-      _status = Status.unauthenticated;
-      notifyListeners();
+      _loading = false;
+      state = Status.authError;
     }
   }
 
-  Future<void> signup(String email, String password) async {
+  Future<void> signUp(String email, String password, String name) async {
     try {
       _error = '';
-      _status = Status.authenticating;
-      notifyListeners();
-      await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
-      await signIn(email, password);
-      _status = Status.authenticated;
-      notifyListeners();
-    } on FirebaseAuthException catch (e, _) {
-      _error = e.message ?? '';
-      if (e.code == 'weak-password') {
-        log('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        log('The account already exists for that email.');
-      } else if (e.code == 'operation-not-allowed') {
-        log('The user/password authenticating is not allowed.');
-      } else if (e.code == 'invalid-email') {
-        log('The email is not valid.');
+      state = Status.authenticating;
+      final userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      final exist = _db.collection('users').doc(userCredential.user?.uid);
+      if (!(await exist.get()).exists) {
+        final userProfile = UserProfile(
+          name: name,
+          email: email,
+          aboutMe: '',
+          work: '',
+          photoUrl: '',
+          recipes: [],
+          following: 0,
+        );
+        await _db
+            .collection('users')
+            .doc(userCredential.user?.uid)
+            .set(userProfile.toJson());
       }
-      _status = Status.unauthenticated;
-      notifyListeners();
+      state = Status.authenticated;
+    } on FirebaseAuthException catch (e, _) {
+      if (e.code == 'weak-password') {
+        _error = 'The password provided is too weak.';
+      } else if (e.code == 'email-already-in-use') {
+        _error = 'The account already exists for that email.';
+      } else if (e.code == 'operation-not-allowed') {
+        _error = 'The user/password authenticating is not allowed.';
+      } else if (e.code == 'invalid-email') {
+        _error = 'The email is not valid.';
+      } else {
+        _error = e.message ?? '';
+      }
+      state = Status.authError;
     } catch (e) {
       log(e.toString());
-      _status = Status.unauthenticated;
-      notifyListeners();
+      state = Status.unauthenticated;
+    }
+  }
+
+  _checkUserProfile(UserCredential userCredential) async {
+    final exist = _db.collection('users').doc(userCredential.user?.uid);
+    debugPrint('checking profile...');
+    if (!(await exist.get()).exists) {
+      final userProfile = UserProfile(
+        name: userCredential.user?.displayName ?? '',
+        email: userCredential.user?.email ?? '',
+        aboutMe: '',
+        work: '',
+        photoUrl: userCredential.user?.photoURL ?? '',
+        recipes: [],
+        following: 0,
+      );
+      await _db
+          .collection('users')
+          .doc(userCredential.user?.uid)
+          .set(userProfile.toJson());
     }
   }
 
   Future<UserCredential?> signInWithGoogle() async {
     try {
-      _status = Status.authenticatingWithGoogle;
-      notifyListeners();
+      state = Status.authenticatingWithGoogle;
       debugPrint('Authenticating...');
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       final GoogleSignInAuthentication? googleAuth =
@@ -111,16 +147,24 @@ class AuthProvider with ChangeNotifier {
         accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
       );
-      debugPrint('Done.');
       _error = '';
-      return await _auth.signInWithCredential(credential);
+      debugPrint('signInWithCredential...');
+      final userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+      _checkUserProfile(userCredential);
     } on FirebaseAuthException catch (e, _) {
       _error = e.message ?? '';
+      debugPrint('FirebaseAuthException');
       debugPrint(e.message.toString());
-      _status = Status.unauthenticated;
-      notifyListeners();
+      _loading = false;
+      state = Status.authError;
       return null;
     } on Exception catch (err, _) {
+      _error = err.toString();
+      debugPrint('err.toString()');
+      debugPrint(err.toString());
+      _loading = false;
+      state = Status.authError;
       debugPrint(err.toString());
     }
     return null;
@@ -141,10 +185,9 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<void> signOut() async {
-    _auth.signOut();
+    FirebaseAuth.instance.signOut();
     _googleSignIn.signOut();
-    _status = Status.unauthenticated;
-    notifyListeners();
+    state = Status.unauthenticated;
   }
 
   void updateProfile(UserProfile userProfile) async {
@@ -173,8 +216,7 @@ class AuthProvider with ChangeNotifier {
   Future<void> _onAuthStateChanged(User? firebaseUser) async {
     if (firebaseUser == null) {
       _user = null;
-      _status = Status.unauthenticated;
-      notifyListeners();
+      state = Status.unauthenticated;
     } else {
       log('firebase user...');
       _user = firebaseUser;
@@ -183,27 +225,26 @@ class AuthProvider with ChangeNotifier {
         await exist.update({
           "lastLoggedIn": FieldValue.serverTimestamp(),
         });
-      } else {
-        final userProfile = UserProfile(
-          name: _user?.displayName ?? '',
-          email: _user?.email ?? '',
-          aboutMe: '',
-          work: '',
-          photoUrl: _user?.photoURL ?? '',
-          recipes: [],
-        );
-        await _db.collection('users').doc(_user?.uid).set(userProfile.toJson());
       }
       log('created/saved user...');
-      _status = Status.authenticated;
-      notifyListeners();
+      final token = await ref.read(notificationProvider).getToken();
+      if (token != null) {
+        _db.collection('users').doc(_user?.uid).set(
+          {
+            'notificationTokens': {token: true}
+          },
+          SetOptions(merge: true),
+        );
+      }
+      ref.read(bookmarkControllerProvider);
+      state = Status.authenticated;
     }
   }
 
   Future<void> _onUserChanged(User? firebaseUser) async {
     if (firebaseUser == null) {
       _user = null;
-      _status = Status.unauthenticated;
+      state = Status.unauthenticated;
     } else {
       if (_user != firebaseUser) {
         _user = firebaseUser;
@@ -218,8 +259,7 @@ class AuthProvider with ChangeNotifier {
           });
         }
       }
-      _status = Status.authenticated;
+      state = Status.authenticated;
     }
-    notifyListeners();
   }
 }
