@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:recipe_app/common/navigation/routes/routes.gr.dart';
 import 'package:recipe_app/common/views/widgets/bottom_navbar.dart';
 import 'package:recipe_app/common/views/widgets/notched_rectangle.dart';
@@ -19,10 +18,13 @@ class _HomePageState extends State<HomePage> {
       resizeToAvoidBottomInset: false,
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
+        heroTag: 'add_recipe',
         shape: const CircleBorder(),
         mini: true,
         backgroundColor: const Color(0xff129575),
-        onPressed: () {},
+        onPressed: () {
+          context.router.push(const AddRecipeRoute());
+        },
         child: const Icon(Icons.add),
       ),
       bottomNavigationBuilder: (_, tabsRouter) {
@@ -38,7 +40,7 @@ class _HomePageState extends State<HomePage> {
             icons: const [
               'assets/bottom_bar/home.svg',
               'assets/bottom_bar/favorite.svg',
-              'assets/bottom_bar/notification.svg',
+              'assets/bottom_bar/search_icon.svg',
               'assets/bottom_bar/profile.svg',
             ],
             iconSize: 22,
@@ -48,7 +50,7 @@ class _HomePageState extends State<HomePage> {
       routes: const [
         DashboardRoute(),
         FavoritesRoute(),
-        NotificationsRoute(),
+        SearchRoute(),
         ProfileRoute(),
       ],
     );
