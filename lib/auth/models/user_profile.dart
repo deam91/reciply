@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:recipe_app/common/models/constants.dart';
 
 part 'user_profile.g.dart';
 
@@ -9,7 +10,10 @@ class UserProfile {
   String email;
   String aboutMe;
   String work;
+  int? following;
+  @JsonKey(fromJson: timestampFromJson, toJson: timestampToJson)
   Timestamp? lastLoggedIn;
+  @JsonKey(fromJson: timestampFromJson, toJson: timestampToJson)
   Timestamp? registrationDate;
   String photoUrl;
   List<String> recipes;
@@ -19,6 +23,7 @@ class UserProfile {
     required this.email,
     required this.aboutMe,
     required this.work,
+    this.following,
     this.lastLoggedIn,
     this.registrationDate,
     required this.photoUrl,
