@@ -5,15 +5,49 @@ import 'package:recipe_app/auth/models/user_profile.dart';
 class UserProfileService {
   UserProfileService();
 
-  Future<UserProfile?> getUserProfile(String? userUId) async {
+  Stream<DocumentSnapshot<Map<String, dynamic>>> userProfileStream(
+      String? userUId) {
     try {
-      final users = FirebaseFirestore.instance.collection('users').doc(userUId);
-      final user = await users.get();
-      final data = user.data() ?? {};
-      return UserProfile.fromJson(data);
+      return FirebaseFirestore.instance
+          .collection('users')
+          .doc(userUId)
+          .snapshots();
+    } on Exception catch (err) {
+      debugPrint(err.toString());
+    }
+    return const Stream.empty();
+  }
+
+  followUser(String? userUId, String? followedUId) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('followers')
+          .doc(followedUId)
+          .set(
+        {'$userUId': true},
+        SetOptions(merge: true),
+      );
     } on Exception catch (err) {
       debugPrint(err.toString());
     }
     return null;
+  }
+
+  Future<int> followers(String? userUID) async {
+    return (await FirebaseFirestore.instance
+            .collection('followers')
+            .where('$userUID', isEqualTo: true)
+            .count()
+            .get())
+        .count;
+  }
+
+  Future<int> recipesCount(String? userUID) async {
+    return (await FirebaseFirestore.instance
+            .collection('recipes')
+            .where('ownerId', isEqualTo: '$userUID')
+            .count()
+            .get())
+        .count;
   }
 }
