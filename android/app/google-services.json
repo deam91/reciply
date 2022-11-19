@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "285761296189",
+    "firebase_url": "https://recipes-e32be-default-rtdb.firebaseio.com",
+    "project_id": "recipes-e32be",
+    "storage_bucket": "recipes-e32be.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:285761296189:android:18f9aeaa2c2ea24ce25754",
+        "android_client_info": {
+          "package_name": "com.deamdeveloper.recipeApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "285761296189-q8lu571b3u3ceeqctu0fp3khvrpnq06n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5uO4usbpLS7mun7MY9Xd4zqpV4M_j6_c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "285761296189-q8lu571b3u3ceeqctu0fp3khvrpnq06n.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "285761296189-8b9g8sa1pep6e2ech160sr7c79pst99r.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.deam.recipeApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
