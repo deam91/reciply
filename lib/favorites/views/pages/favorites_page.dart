@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:recipe_app/common/views/widgets/loading.dart';
-import 'package:recipe_app/search/views/widgets/recipe_search_list.dart';
 import 'package:recipe_app/search/views/widgets/search_card.dart';
-import 'package:recipe_app/favorites/controllers/favorites_provider.dart';
 import 'package:recipe_app/favorites/views/widgets/favorites_list.dart';
 
 class FavoritesPage extends StatefulWidget {
@@ -39,6 +35,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
       ),
       appBar: AppBar(
         backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
         title: const Text('Saved recipes'),
       ),
     );
