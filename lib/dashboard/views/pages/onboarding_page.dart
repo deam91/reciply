@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_app/common/controllers/common_providers.dart';
 
-import '../../../common/constants.dart';
+import '../../../common/views/widgets/constants.dart';
 import '../../../common/navigation/routes/routes.gr.dart';
 
 class OnboardingPage extends ConsumerStatefulWidget {
