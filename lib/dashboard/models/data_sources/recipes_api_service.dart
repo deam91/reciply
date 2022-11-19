@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:recipe_app/common/models/data/api_service.dart';
+import 'package:recipe_app/common/models/data_sources/api_service.dart';
 import 'package:recipe_app/dashboard/models/constants.dart';
 import 'package:recipe_app/dashboard/models/data/recipe.dart';
-
-import '../../controllers/recipes_providers.dart';
+import 'package:recipe_app/search/controllers/search.dart';
 
 class RecipeService extends APIService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -15,7 +14,10 @@ class RecipeService extends APIService {
     try {
       var query = _firestore.collection('recipes').limit(10);
       if (tag != TagEnum.all) {
-        query = query.where('tags', arrayContains: tag?.value);
+        query = query
+            .where('tags', arrayContains: tag?.value)
+            .orderBy("createdAt", descending: true)
+            .limit(10);
       }
       final snapshot = await query.get();
       final list = snapshot.docs.map((e) {
