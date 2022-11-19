@@ -117,8 +117,14 @@ class NewRecipeItem extends StatelessWidget {
                                         const Center(
                                   child: CircularProgressIndicator(),
                                 ),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
+                                errorWidget: (context, url, error) {
+                                  return DecoratedBox(
+                                    decoration: const BoxDecoration(
+                                        color: Colors.black),
+                                    child: Image.asset(
+                                        'assets/images/logo_white.png'),
+                                  );
+                                },
                               ),
                             ),
                           ),
