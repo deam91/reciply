@@ -118,8 +118,8 @@ class HeroTag {
       ? 'search_divider${recipe.recipeId}'
       : 'divider${recipe.recipeId}';
   static minutes(Recipe recipe, {bool fromSearch = false}) => fromSearch
-      ? 'search_minutes${recipe.preparationMinutes}${recipe.recipeId}'
-      : 'minutes${recipe.preparationMinutes}${recipe.recipeId}';
+      ? 'search_minutes${recipe.readyInMinutes}${recipe.recipeId}'
+      : 'minutes${recipe.readyInMinutes}${recipe.recipeId}';
   static servings(Recipe recipe, {bool fromSearch = false}) => fromSearch
       ? 'search_servings${recipe.servings}${recipe.recipeId}'
       : 'servings${recipe.servings}${recipe.recipeId}';
