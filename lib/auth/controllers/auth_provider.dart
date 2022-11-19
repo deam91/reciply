@@ -24,7 +24,6 @@ final authControllerProvider =
     NotifierProvider<AuthProvider, Status>(AuthProvider.new);
 
 class AuthProvider extends Notifier<Status> {
-  late final FirebaseFirestore _db;
   late final GoogleSignIn _googleSignIn;
   String _error = '';
   bool _loading = false;
@@ -80,7 +79,9 @@ class AuthProvider extends Notifier<Status> {
         email: email,
         password: password,
       );
-      final exist = _db.collection('users').doc(userCredential.user?.uid);
+      final exist = FirebaseFirestore.instance
+          .collection('users')
+          .doc(userCredential.user?.uid);
       if (!(await exist.get()).exists) {
         final userProfile = UserProfile(
           name: name,
@@ -91,7 +92,7 @@ class AuthProvider extends Notifier<Status> {
           recipes: [],
           following: 0,
         );
-        await _db
+        await FirebaseFirestore.instance
             .collection('users')
             .doc(userCredential.user?.uid)
             .set(userProfile.toJson());
@@ -117,7 +118,9 @@ class AuthProvider extends Notifier<Status> {
   }
 
   _checkUserProfile(UserCredential userCredential) async {
-    final exist = _db.collection('users').doc(userCredential.user?.uid);
+    final exist = FirebaseFirestore.instance
+        .collection('users')
+        .doc(userCredential.user?.uid);
     debugPrint('checking profile...');
     if (!(await exist.get()).exists) {
       final userProfile = UserProfile(
@@ -129,7 +132,7 @@ class AuthProvider extends Notifier<Status> {
         recipes: [],
         following: 0,
       );
-      await _db
+      await FirebaseFirestore.instance
           .collection('users')
           .doc(userCredential.user?.uid)
           .set(userProfile.toJson());
@@ -220,7 +223,8 @@ class AuthProvider extends Notifier<Status> {
     } else {
       log('firebase user...');
       _user = firebaseUser;
-      final exist = _db.collection('users').doc(_user?.uid);
+      final exist =
+          FirebaseFirestore.instance.collection('users').doc(_user?.uid);
       if ((await exist.get()).exists) {
         await exist.update({
           "lastLoggedIn": FieldValue.serverTimestamp(),
@@ -229,7 +233,7 @@ class AuthProvider extends Notifier<Status> {
       log('created/saved user...');
       final token = await ref.read(notificationProvider).getToken();
       if (token != null) {
-        _db.collection('users').doc(_user?.uid).set(
+        FirebaseFirestore.instance.collection('users').doc(_user?.uid).set(
           {
             'notificationTokens': {token: true}
           },
@@ -248,7 +252,8 @@ class AuthProvider extends Notifier<Status> {
     } else {
       if (_user != firebaseUser) {
         _user = firebaseUser;
-        final exist = _db.collection('users').doc(_user?.uid);
+        final exist =
+            FirebaseFirestore.instance.collection('users').doc(_user?.uid);
         if ((await exist.get()).exists) {
           await exist.update({
             "email": _user?.email ?? '',
