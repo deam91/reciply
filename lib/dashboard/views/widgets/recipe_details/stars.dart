@@ -25,9 +25,12 @@ class Stars extends StatelessWidget {
               width: 5,
             ),
             FittedBox(
-              child: Text(
-                '$likes',
-                // style: TextStyle(fontSize: size),
+              child: Material(
+                type: MaterialType.transparency,
+                child: Text(
+                  '$likes',
+                  // style: TextStyle(fontSize: size),
+                ),
               ),
             )
           ],
