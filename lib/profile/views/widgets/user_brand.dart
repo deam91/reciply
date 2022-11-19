@@ -2,10 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_app/auth/controllers/auth_provider.dart';
+import 'package:recipe_app/auth/models/user_profile.dart';
 import 'package:recipe_app/common/views/widgets/loading.dart';
 import 'package:recipe_app/common/views/widgets/search_not_found.dart';
-import 'package:recipe_app/dashboard/views/widgets/recipes/search/recipe_search_list.dart';
+import 'package:recipe_app/search/views/widgets/recipe_search_list.dart';
 import 'package:recipe_app/profile/controllers/user_profile_provider.dart';
+import 'package:recipe_app/profile/views/widgets/user_stats.dart';
 
 class UserBrand extends ConsumerStatefulWidget {
   const UserBrand({Key? key}) : super(key: key);
@@ -26,121 +28,69 @@ class _UserBrandState extends ConsumerState<UserBrand>
 
   @override
   Widget build(BuildContext context) {
-    final fbUser =
-        ref.watch(authControllerProvider.select((value) => value.fbUser));
-    final profile = ref.watch(userProfile);
+    final fbUser = ref
+        .watch(authControllerProvider.notifier.select((value) => value.fbUser));
+    final profile = ref.watch(userProfileProvider);
     final recipes = ref.watch(userRecipes);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                height: 100,
-                width: 100,
-                child: CircleAvatar(
-                  foregroundImage: CachedNetworkImageProvider(
-                    fbUser?.photoURL ?? '',
-                  ),
-                ),
-              ),
-              Column(
-                children: const [
-                  Text(
-                    'Recipes',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.black38,
-                    ),
-                  ),
-                  Text(
-                    '10',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
-              Column(
-                children: const [
-                  Text(
-                    'Followers',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.black38,
-                    ),
-                  ),
-                  Text(
-                    '10M',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
-              Column(
-                children: const [
-                  Text(
-                    'Following',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.black38,
-                    ),
-                  ),
-                  Text(
-                    '3432',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          Text(
-            fbUser?.displayName ?? '',
-            style: const TextStyle(
-              fontWeight: FontWeight.w600,
-            ),
-          ),
           profile.when(
             data: (data) {
               return Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    data?.work ?? '',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14,
-                      color: Colors.black38,
-                    ),
+                  UserStats(
+                    imageUrl: fbUser?.photoURL,
+                    following: data?.following ?? 0,
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 15,
                   ),
                   Text(
-                    data?.aboutMe ?? '',
+                    fbUser?.displayName ?? '',
                     style: const TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14,
-                      color: Colors.black87,
-                      overflow: TextOverflow.ellipsis,
+                      fontWeight: FontWeight.w600,
                     ),
-                    maxLines: 2,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        data?.work ?? '',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14,
+                          color: Colors.black38,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        data?.aboutMe ?? '',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14,
+                          color: Colors.black87,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        maxLines: 2,
+                      ),
+                    ],
                   ),
                 ],
               );
             },
             error: (error, stack) => const LoadingWidget(),
-            loading: () => const LoadingWidget(),
+            loading: () => const Center(
+              child: LoadingWidget(),
+            ),
           ),
           const SizedBox(
             height: 20,
