@@ -120,6 +120,18 @@ class RecipeSearchItem extends StatelessWidget {
                                       Image.network(
                                         recipe.image ?? '',
                                         key: _backgroundImageKey,
+                                        loadingBuilder:
+                                            (context, child, loadingProgress) {
+                                          if (loadingProgress
+                                                  ?.cumulativeBytesLoaded ==
+                                              loadingProgress
+                                                  ?.expectedTotalBytes) {
+                                            return child;
+                                          }
+                                          return const Center(
+                                            child: CircularProgressIndicator(),
+                                          );
+                                        },
                                         fit: BoxFit.cover,
                                       ),
                                     ],
