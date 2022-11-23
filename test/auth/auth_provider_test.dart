@@ -95,7 +95,7 @@ void main() {
 
     // verify
     verify(
-      // the build method returns a value immediately, so we expect AsyncData
+      // the build method returns a value immediately, so we expect Status
       () => listener(null, Status.unauthenticated),
     );
     // verify that the listener is no longer called
