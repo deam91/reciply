@@ -6,16 +6,21 @@ import 'package:recipe_app/dashboard/views/pages/recipe_details_page.dart';
 import 'package:recipe_app/dashboard/views/widgets/recipes/new/recipe_owner.dart';
 
 class NewRecipeItem extends StatelessWidget {
-  const NewRecipeItem({Key? key, required this.recipe, required this.color})
-      : super(key: key);
+  const NewRecipeItem({
+    Key? key,
+    required this.recipe,
+    required this.color,
+    this.disableTouch = false,
+  }) : super(key: key);
   final Recipe recipe;
   final Color color;
+  final bool disableTouch;
 
   @override
   Widget build(BuildContext context) {
     final title = recipe.title?.trim() ?? '';
     const double verticalPadding = 10.0;
-    const double horizontalPadding = 5.0;
+    const double horizontalPadding = 15.0;
 
     return Container(
       margin: const EdgeInsets.symmetric(
@@ -28,7 +33,7 @@ class NewRecipeItem extends StatelessWidget {
               color: color,
               boxShadow: const [
                 BoxShadow(
-                  blurRadius: 10,
+                  blurRadius: 6,
                   color: Colors.black26,
                   offset: Offset.zero,
                   spreadRadius: 1,
@@ -100,7 +105,7 @@ class NewRecipeItem extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10.0),
                               boxShadow: const [
                                 BoxShadow(
-                                  blurRadius: 10,
+                                  blurRadius: 2,
                                   color: Colors.black38,
                                   offset: Offset.zero,
                                   spreadRadius: 1,
@@ -109,23 +114,25 @@ class NewRecipeItem extends StatelessWidget {
                             ),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10.0),
-                              child: CachedNetworkImage(
-                                fit: BoxFit.cover,
-                                imageUrl: recipe.image ?? '',
-                                progressIndicatorBuilder:
-                                    (context, url, downloadProgress) =>
-                                        const Center(
-                                  child: CircularProgressIndicator(),
-                                ),
-                                errorWidget: (context, url, error) {
-                                  return DecoratedBox(
-                                    decoration: const BoxDecoration(
-                                        color: Colors.black),
-                                    child: Image.asset(
-                                        'assets/images/logo_white.png'),
-                                  );
-                                },
-                              ),
+                              child: recipe.image != null && recipe.image != ''
+                                  ? CachedNetworkImage(
+                                      fit: BoxFit.cover,
+                                      imageUrl: recipe.image ?? '',
+                                      progressIndicatorBuilder:
+                                          (context, url, downloadProgress) =>
+                                              const Center(
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                      errorWidget: (context, url, error) {
+                                        return DecoratedBox(
+                                          decoration: const BoxDecoration(
+                                              color: Colors.black),
+                                          child: Image.asset(
+                                              'assets/images/logo_white.png'),
+                                        );
+                                      },
+                                    )
+                                  : Image.asset('assets/logo.png'),
                             ),
                           ),
                         ),
