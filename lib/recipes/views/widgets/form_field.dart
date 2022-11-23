@@ -12,6 +12,7 @@ class RecipeFormField extends StatelessWidget {
     this.maxLines = 1,
     this.keyboardType = TextInputType.text,
     this.keyboardAction = TextInputAction.next,
+    this.validator,
   });
   final Key inputKey;
   final TextEditingController controller;
@@ -21,6 +22,7 @@ class RecipeFormField extends StatelessWidget {
   final int? maxLength;
   final TextInputType keyboardType;
   final TextInputAction keyboardAction;
+  final String? Function(String? value)? validator;
 
   _getInputDecoration(String name) {
     return getInputDecoration(placeholder: name).copyWith(
@@ -67,6 +69,7 @@ class RecipeFormField extends StatelessWidget {
           keyboardType: keyboardType,
           maxLines: maxLines,
           maxLength: maxLength,
+          validator: validator,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           decoration: _getInputDecoration(placeholder),
         ),
