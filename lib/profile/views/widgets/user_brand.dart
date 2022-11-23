@@ -1,8 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_app/auth/controllers/auth_provider.dart';
-import 'package:recipe_app/auth/models/user_profile.dart';
 import 'package:recipe_app/common/views/widgets/loading.dart';
 import 'package:recipe_app/common/views/widgets/search_not_found.dart';
 import 'package:recipe_app/search/views/widgets/recipe_search_list.dart';
@@ -46,14 +44,14 @@ class _UserBrandState extends ConsumerState<UserBrand>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   UserStats(
-                    imageUrl: fbUser?.photoURL,
+                    imageUrl: data?.photoUrl,
                     following: data?.following ?? 0,
                   ),
                   const SizedBox(
                     height: 15,
                   ),
                   Text(
-                    fbUser?.displayName ?? '',
+                    data?.name ?? '',
                     style: const TextStyle(
                       fontWeight: FontWeight.w600,
                     ),
@@ -122,6 +120,7 @@ class _UserBrandState extends ConsumerState<UserBrand>
                     return RecipeResultList(
                       showHeader: false,
                       recipeSearchItems: data,
+                      fromProfile: true,
                     );
                   },
                   error: (error, stack) {
