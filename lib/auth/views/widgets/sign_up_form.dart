@@ -2,8 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_app/auth/controllers/auth_provider.dart';
+import 'package:recipe_app/auth/models/user_profile.dart';
 import 'package:recipe_app/common/models/utils.dart';
 import 'package:recipe_app/common/views/widgets/constants.dart';
+import 'package:recipe_app/common/views/widgets/loading.dart';
 
 class SignUpForm extends ConsumerStatefulWidget {
   const SignUpForm({super.key});
@@ -17,6 +19,8 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _occupationController = TextEditingController();
+  final TextEditingController _aboutMeController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
   bool obscurePassword = true;
@@ -51,6 +55,32 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
       return text;
     }
     return null;
+  }
+
+  _signUp() async {
+    if (!signUpFormKey.currentState!.validate()) {
+      return;
+    }
+    signUpFormKey.currentState!.save();
+    final name = _nameController.text;
+    final email = _emailController.text;
+    final password = _passwordController.text;
+    final occupation = _occupationController.text;
+    final aboutMe = _aboutMeController.text;
+    final userProfile = UserProfile(
+      name: name,
+      email: email,
+      aboutMe: aboutMe,
+      work: occupation,
+      photoUrl: '',
+      recipes: [],
+      following: 0,
+    );
+    final resp = await ref
+        .read(authControllerProvider.notifier)
+        .signUp(userProfile, password);
+    print("signUpForm -> $name");
+    if (resp) context.router.pop();
   }
 
   @override
@@ -121,6 +151,7 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
             validator: passwordValidator,
             obscureText: obscurePassword,
             controller: _passwordController,
+            textInputAction: TextInputAction.next,
             keyboardType: TextInputType.text,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             obscuringCharacter: '●',
@@ -156,6 +187,7 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
             validator: confirmPasswordValidator,
             obscureText: obscurePassword,
             controller: _confirmPasswordController,
+            textInputAction: TextInputAction.next,
             keyboardType: TextInputType.text,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             obscuringCharacter: '●',
@@ -173,28 +205,68 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
             ),
           ),
           const SizedBox(
+            height: 16,
+          ),
+          const Text(
+            'Occupation',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          TextFormField(
+            controller: _occupationController,
+            key: const Key('signup_occupation_form_field'),
+            textInputAction: TextInputAction.next,
+            keyboardType: TextInputType.text,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            decoration: getInputDecoration(placeholder: 'Occupation'),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          const Text(
+            'About Me',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          TextFormField(
+            controller: _aboutMeController,
+            key: const Key('signup_aboutMe_form_field'),
+            textInputAction: TextInputAction.done,
+            keyboardType: TextInputType.text,
+            maxLength: 250,
+            maxLines: 4,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            decoration: getInputDecoration(placeholder: 'About Me'),
+          ),
+          const SizedBox(
             height: 30,
           ),
           ElevatedButton(
-            onPressed: () {
-              if (!signUpFormKey.currentState!.validate()) {
-                return;
-              }
-              signUpFormKey.currentState!.save();
-              final name = _nameController.text;
-              final email = _emailController.text;
-              final password = _passwordController.text;
-              ref
-                  .read(authControllerProvider.notifier)
-                  .signUp(email, password, name);
-              context.router.pop();
-            },
+            onPressed: _signUp,
             child: Consumer(
               builder: (context, ref, child) {
-                // final loading = ref.watch(authControllerProvider);
-                // if (loading == Status.authenticating) {
-                //   return const LoadingWidget();
-                // }
+                final loading = ref.watch(authControllerProvider);
+                if (loading == Status.registering) {
+                  return Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      LoadingWidget(),
+                    ],
+                  );
+                }
                 return Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,
