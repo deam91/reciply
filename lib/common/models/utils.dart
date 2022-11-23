@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 
 class Validator {
+  static String? isNotEmpty(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'This field cannot be empty';
+    }
+    return null;
+  }
+
   static String? isValidEmail(String? value) {
     if (value == null || value.isEmpty) {
       return 'Email address is required';
@@ -66,4 +73,10 @@ showSnackBarMessage(BuildContext context, String message,
     ),
   );
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+}
+
+extension CapitalString on String {
+  capitalize() {
+    return this[0].toUpperCase() + substring(1);
+  }
 }
