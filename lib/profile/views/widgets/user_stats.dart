@@ -30,16 +30,18 @@ class UserStats extends ConsumerWidget {
           width: 100,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(50),
-            child: CachedNetworkImage(
-              imageUrl: imageUrl ?? '',
-              fit: BoxFit.cover,
-              errorWidget: (context, url, error) {
-                return DecoratedBox(
-                  decoration: const BoxDecoration(color: Colors.black),
-                  child: Image.asset('assets/images/logo_white.png'),
-                );
-              },
-            ),
+            child: imageUrl != null && imageUrl != ''
+                ? CachedNetworkImage(
+                    imageUrl: imageUrl ?? '',
+                    fit: BoxFit.cover,
+                    errorWidget: (context, url, error) {
+                      return DecoratedBox(
+                        decoration: const BoxDecoration(color: Colors.black),
+                        child: Image.asset('assets/images/logo_white.png'),
+                      );
+                    },
+                  )
+                : Image.asset('assets/logo.png'),
           ),
         ),
         Column(

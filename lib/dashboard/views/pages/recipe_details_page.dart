@@ -19,11 +19,15 @@ class RecipeDetailsPage extends ConsumerStatefulWidget {
     required this.color,
     this.fromSearch = false,
     this.fromFavorites = false,
+    this.fromProfile = false,
+    this.fromDashboard = false,
   }) : super(key: key);
   final Recipe recipe;
   final Color color;
   final bool fromSearch;
   final bool fromFavorites;
+  final bool fromProfile;
+  final bool fromDashboard;
 
   @override
   ConsumerState<RecipeDetailsPage> createState() => _RecipeDetailsPageState();
@@ -38,6 +42,12 @@ class _RecipeDetailsPageState extends ConsumerState<RecipeDetailsPage>
     await ref
         .read(bookmarkControllerProvider.notifier)
         .saveBookmark(widget.recipe);
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -77,14 +87,15 @@ class _RecipeDetailsPageState extends ConsumerState<RecipeDetailsPage>
       ),
       extendBody: false,
       backgroundColor: Colors.white,
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Image
-              Stack(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Image
+            ClipRRect(
+              borderRadius: BorderRadius.circular(30.0),
+              child: Stack(
                 children: [
                   AspectRatio(
                     aspectRatio: 2 / 1,
@@ -93,34 +104,40 @@ class _RecipeDetailsPageState extends ConsumerState<RecipeDetailsPage>
                         widget.recipe,
                         fromSearch: widget.fromSearch,
                         fromFavorites: widget.fromFavorites,
+                        fromProfile: widget.fromProfile,
+                        fromDashboard: widget.fromDashboard,
                       ),
-                      child: Container(
-                        foregroundDecoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30.0),
-                          gradient: imageGradient,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(30.0),
-                          child: CachedNetworkImage(
-                            fit: BoxFit.cover,
-                            imageUrl: widget.recipe.image ?? '',
-                            progressIndicatorBuilder:
-                                (context, url, downloadProgress) =>
-                                    const Center(
-                              child: CircularProgressIndicator(strokeWidth: 1),
-                            ),
-                            errorWidget: (context, url, error) {
-                              return DecoratedBox(
-                                decoration:
-                                    const BoxDecoration(color: Colors.black),
-                                child:
-                                    Image.asset('assets/images/logo_white.png'),
-                              );
-                            },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(30.0),
+                        child: Container(
+                          foregroundDecoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30.0),
+                            gradient: imageGradient,
                           ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          child: widget.recipe.image != null &&
+                                  widget.recipe.image != ''
+                              ? CachedNetworkImage(
+                                  fit: BoxFit.cover,
+                                  imageUrl: widget.recipe.image ?? '',
+                                  progressIndicatorBuilder:
+                                      (context, url, downloadProgress) =>
+                                          const Center(
+                                    child: CircularProgressIndicator(
+                                        strokeWidth: 1),
+                                  ),
+                                  errorWidget: (context, url, error) {
+                                    return DecoratedBox(
+                                      decoration: const BoxDecoration(
+                                          color: Colors.black),
+                                      child: Image.asset(
+                                          'assets/images/logo_white.png'),
+                                    );
+                                  },
+                                )
+                              : Image.asset('assets/logo.png'),
                         ),
                       ),
                     ),
@@ -179,166 +196,169 @@ class _RecipeDetailsPageState extends ConsumerState<RecipeDetailsPage>
                   Positioned(
                     right: 10,
                     top: 10,
-                    child: Material(
-                      type: MaterialType.transparency,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 5),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: const Color(0xffFFE1B3).withOpacity(.8),
-                        ),
-                        height: 28,
-                        child: Stars(
-                          likes: widget.recipe.stars ?? 0,
-                          size: 28,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(30.0),
+                      child: Material(
+                        type: MaterialType.transparency,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 5),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: const Color(0xffFFE1B3).withOpacity(.8),
+                          ),
+                          height: 28,
+                          child: Stars(
+                            likes: widget.recipe.stars ?? 0,
+                            size: 28,
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Column(
-                  children: [
-                    // Title & reviews
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            widget.recipe.title ?? '',
-                            maxLines: 3,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w800,
-                              color: Colors.black87,
-                              fontSize: 20,
-                              overflow: TextOverflow.ellipsis,
-                            ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                children: [
+                  // Title & reviews
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          widget.recipe.title ?? '',
+                          maxLines: 3,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w800,
+                            color: Colors.black87,
+                            fontSize: 20,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        TextButton.icon(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.thumb_up_sharp,
-                            size: 18.0,
-                          ),
-                          label: Text(
-                            widget.recipe.likes.toString(),
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: Colors.black38,
-                            ),
-                          ),
+                      ),
+                      TextButton.icon(
+                        onPressed: () {},
+                        icon: const Icon(
+                          Icons.thumb_up_sharp,
+                          size: 18.0,
                         ),
-                      ],
-                    ),
-                    // Owner & Follow button
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: RecipeOwnerWidget(
-                              recipe: widget.recipe,
-                              textColor: Colors.black87,
-                            ),
-                          ),
-                        ),
-                        Consumer(
-                          builder: (context, ref, child) {
-                            final userId = ref
-                                .read(authControllerProvider.notifier)
-                                .fbUser
-                                ?.uid;
-                            if (widget.recipe.ownerId == userId) {
-                              return const SizedBox.shrink();
-                            }
-                            return OutlinedButton(
-                              onPressed: () {
-                                ref
-                                    .read(userProfileProvider.notifier)
-                                    .followUser(widget.recipe.ownerId);
-                              },
-                              style: OutlinedButton.styleFrom(
-                                backgroundColor: const Color(0xff129575),
-                                foregroundColor: Colors.white24,
-                                elevation: 6,
-                              ),
-                              child: const Text(
-                                'Follow',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            );
-                          },
-                        )
-                      ],
-                    ),
-                    // Ingredients & Directions tabs
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    TabBarWidget(tabController: tabController),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.people_outline_rounded,
-                              color: Colors.black26,
-                              size: 18,
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              '${widget.recipe.servings} serves',
-                              style: const TextStyle(
-                                fontSize: 14,
-                                color: Colors.black38,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          '$_itemsCount items',
+                        label: Text(
+                          widget.recipe.likes.toString(),
                           style: const TextStyle(
                             fontSize: 14,
                             color: Colors.black38,
                           ),
                         ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    SizedBox(
-                      height: 300,
-                      child: TabBarView(
-                        controller: tabController,
+                      ),
+                    ],
+                  ),
+                  // Owner & Follow button
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: RecipeOwnerWidget(
+                            recipe: widget.recipe,
+                            textColor: Colors.black87,
+                          ),
+                        ),
+                      ),
+                      Consumer(
+                        builder: (context, ref, child) {
+                          final userId = ref
+                              .read(authControllerProvider.notifier)
+                              .fbUser
+                              ?.uid;
+                          if (widget.recipe.ownerId == userId) {
+                            return const SizedBox.shrink();
+                          }
+                          return OutlinedButton(
+                            onPressed: () {
+                              ref
+                                  .read(userProfileProvider.notifier)
+                                  .followUser(widget.recipe.ownerId);
+                            },
+                            style: OutlinedButton.styleFrom(
+                              backgroundColor: const Color(0xff129575),
+                              foregroundColor: Colors.white24,
+                              elevation: 6,
+                            ),
+                            child: const Text(
+                              'Follow',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          );
+                        },
+                      )
+                    ],
+                  ),
+                  // Ingredients & Directions tabs
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TabBarWidget(tabController: tabController),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
                         children: [
-                          IngredientsList(
-                              ingredients: widget.recipe.ingredients ?? []),
-                          DirectionsList(
-                              instructions: widget.recipe.instructions ?? []),
+                          const Icon(
+                            Icons.people_outline_rounded,
+                            color: Colors.black26,
+                            size: 18,
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            '${widget.recipe.servings} serves',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.black38,
+                            ),
+                          ),
                         ],
                       ),
+                      Text(
+                        '$_itemsCount items',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.black38,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    height: 300,
+                    child: TabBarView(
+                      controller: tabController,
+                      children: [
+                        IngredientsList(
+                            ingredients: widget.recipe.ingredients ?? []),
+                        DirectionsList(
+                            instructions: widget.recipe.instructions ?? []),
+                      ],
                     ),
-                  ],
-                ),
-              )
-            ],
-          ),
+                  ),
+                ],
+              ),
+            )
+          ],
         ),
       ),
     );
