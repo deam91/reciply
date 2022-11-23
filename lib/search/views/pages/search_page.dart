@@ -92,6 +92,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
 
                     return RecipeResultList(
                       recipeSearchItems: data,
+                      fromSearch: true,
                     );
                   },
                   error: (error, stack) => const SearchNotFoundLottie(),

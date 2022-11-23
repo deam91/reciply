@@ -8,10 +8,14 @@ class RecipeResultList extends StatefulWidget {
     super.key,
     required this.recipeSearchItems,
     this.showHeader = true,
+    this.fromProfile = false,
+    this.fromSearch = false,
   });
 
   final List<Recipe> recipeSearchItems;
   final bool showHeader;
+  final bool fromProfile;
+  final bool fromSearch;
 
   @override
   State<RecipeResultList> createState() => _RecipeResultListState();
@@ -70,7 +74,8 @@ class _RecipeResultListState extends State<RecipeResultList> {
                 animation: animation,
                 recipe: widget.recipeSearchItems[index],
                 color: color,
-                fromSearch: true,
+                fromSearch: widget.fromSearch,
+                fromProfile: widget.fromProfile,
               );
             },
             initialItemCount: _listItems.length,

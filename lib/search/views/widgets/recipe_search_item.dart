@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_app/common/views/widgets/constants.dart';
 import 'package:recipe_app/common/views/widgets/hero_widget.dart';
@@ -15,6 +14,7 @@ class RecipeSearchItem extends StatelessWidget {
     required this.color,
     this.fromSearch = false,
     this.fromFavorites = false,
+    this.fromProfile = false,
   })  : slideAnimation =
             Tween<Offset>(begin: const Offset(1.0, 0.0), end: Offset.zero)
                 .animate(
@@ -35,6 +35,7 @@ class RecipeSearchItem extends StatelessWidget {
   final Color color;
   final bool fromSearch;
   final bool fromFavorites;
+  final bool fromProfile;
 
   final Animation<Offset> slideAnimation;
   final Animation<double> fadeInAnimation;
@@ -58,6 +59,7 @@ class RecipeSearchItem extends StatelessWidget {
           return RecipeDetailsPage(
             fromSearch: fromSearch,
             fromFavorites: fromFavorites,
+            fromProfile: fromProfile,
             recipe: recipe,
             color: color,
           );
@@ -87,15 +89,16 @@ class RecipeSearchItem extends StatelessWidget {
                     tag: HeroTag.image(recipe,
                         fromSearch: fromSearch, fromFavorites: fromFavorites),
                     child: Material(
+                      borderRadius: BorderRadius.circular(20.0),
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20.0),
                           boxShadow: const [
                             BoxShadow(
-                              blurRadius: 10,
+                              blurRadius: 6,
                               color: Colors.black38,
                               offset: Offset.zero,
-                              spreadRadius: 3,
+                              spreadRadius: 2,
                             )
                           ],
                         ),

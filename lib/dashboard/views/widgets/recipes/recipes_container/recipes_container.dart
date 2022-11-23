@@ -51,6 +51,7 @@ class _RecipesContainerState extends ConsumerState<RecipesContainer> {
               }
               return RecipesList(
                 recipes: data ?? [],
+                fromDashboard: true,
               );
             },
             error: (err, stack) {

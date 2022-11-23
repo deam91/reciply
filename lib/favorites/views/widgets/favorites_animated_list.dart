@@ -5,7 +5,7 @@ import 'package:recipe_app/dashboard/models/data/recipe.dart';
 import '../../../search/views/widgets/recipe_search_item.dart';
 
 class FavoritesAnimatedList extends StatefulWidget {
-  FavoritesAnimatedList({super.key, required this.favorites});
+  const FavoritesAnimatedList({super.key, required this.favorites});
   final List<Recipe> favorites;
 
   @override
