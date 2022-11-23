@@ -103,12 +103,24 @@ class HeroTag {
       ? 'search_section${recipe.recipeId}'
       : 'section${recipe.recipeId}';
   static image(Recipe recipe,
-      {bool fromSearch = false, bool fromFavorites = false}) {
-    if (fromSearch) return 'search_image${recipe.image}${recipe.recipeId}';
-    if (fromFavorites) {
-      return 'favorites_image${recipe.image}${recipe.recipeId}';
+      {bool fromSearch = false,
+      bool fromFavorites = false,
+      bool fromDashboard = false,
+      bool fromProfile = false}) {
+    if (fromProfile) {
+      return 'profile_image${recipe.recipeId}${recipe.ownerId}';
     }
-    return 'image${recipe.image}${recipe.recipeId}';
+    if (fromDashboard) {
+      return 'dashboard_image${recipe.recipeId}${recipe.ownerId}';
+    }
+    if (fromSearch) {
+      return 'search_image${recipe.recipeId}${recipe.ownerId}';
+    }
+    if (fromFavorites) {
+      return 'favorites_image${recipe.recipeId}${recipe.ownerId}';
+    }
+
+    return 'image${recipe.recipeId}${recipe.ownerId}';
   }
 
   static title(Recipe recipe, {bool fromSearch = false}) => fromSearch
