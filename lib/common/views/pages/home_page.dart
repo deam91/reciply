@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:recipe_app/common/models/utils.dart';
 import 'package:recipe_app/common/navigation/routes/routes.gr.dart';
 import 'package:recipe_app/common/views/widgets/bottom_navbar.dart';
 import 'package:recipe_app/common/views/widgets/notched_rectangle.dart';
@@ -22,8 +23,11 @@ class _HomePageState extends State<HomePage> {
         shape: const CircleBorder(),
         mini: true,
         backgroundColor: const Color(0xff129575),
-        onPressed: () {
-          context.router.push(const AddRecipeRoute());
+        onPressed: () async {
+          final result = await context.router.push(const AddRecipeRoute());
+          if (result == 'saved' && mounted) {
+            showSnackBarMessage(context, 'Recipe saved!');
+          }
         },
         child: const Icon(Icons.add),
       ),
