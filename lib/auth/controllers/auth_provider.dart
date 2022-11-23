@@ -15,6 +15,7 @@ enum Status {
   uninitialized,
   authenticated,
   authenticating,
+  registering,
   authenticatingWithGoogle,
   unauthenticated,
   authError,
@@ -70,34 +71,24 @@ class AuthProvider extends Notifier<Status> {
     }
   }
 
-  Future<void> signUp(String email, String password, String name) async {
+  Future<bool> signUp(UserProfile profile, String password) async {
     try {
       _error = '';
-      state = Status.authenticating;
+      state = Status.registering;
       final userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email,
+        email: profile.email,
         password: password,
       );
       final exist = FirebaseFirestore.instance
           .collection('users')
           .doc(userCredential.user?.uid);
-      if (!(await exist.get()).exists) {
-        final userProfile = UserProfile(
-          name: name,
-          email: email,
-          aboutMe: '',
-          work: '',
-          photoUrl: '',
-          recipes: [],
-          following: 0,
-        );
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(userCredential.user?.uid)
-            .set(userProfile.toJson());
-      }
-      state = Status.authenticated;
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userCredential.user?.uid)
+          .set(profile.toJson());
+      state = Status.unauthenticated;
+      return true;
     } on FirebaseAuthException catch (e, _) {
       if (e.code == 'weak-password') {
         _error = 'The password provided is too weak.';
@@ -111,9 +102,11 @@ class AuthProvider extends Notifier<Status> {
         _error = e.message ?? '';
       }
       state = Status.authError;
+      return false;
     } catch (e) {
       log(e.toString());
       state = Status.unauthenticated;
+      return false;
     }
   }
 
