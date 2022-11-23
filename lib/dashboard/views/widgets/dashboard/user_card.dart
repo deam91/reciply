@@ -42,18 +42,20 @@ class UserCard extends ConsumerWidget {
         // CachedNetworkImage
         ClipRRect(
           borderRadius: BorderRadius.circular(12),
-          child: CachedNetworkImage(
-            imageUrl: user?.photoURL ?? '',
-            width: 55,
-            height: 55,
-            fit: BoxFit.cover,
-            errorWidget: (context, url, error) {
-              return DecoratedBox(
-                decoration: const BoxDecoration(color: Colors.black),
-                child: Image.asset('assets/images/logo_white.png'),
-              );
-            },
-          ),
+          child: user?.photoURL != null && user?.photoURL != ''
+              ? CachedNetworkImage(
+                  imageUrl: user?.photoURL ?? '',
+                  width: 55,
+                  height: 55,
+                  fit: BoxFit.cover,
+                  errorWidget: (context, url, error) {
+                    return DecoratedBox(
+                      decoration: const BoxDecoration(color: Colors.black),
+                      child: Image.asset('assets/images/logo_white.png'),
+                    );
+                  },
+                )
+              : Image.asset('assets/logo.png'),
         )
       ],
     );
