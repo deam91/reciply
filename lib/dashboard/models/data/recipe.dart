@@ -4,7 +4,7 @@ import 'package:recipe_app/common/models/constants.dart';
 
 part 'recipe.g.dart';
 
-@JsonSerializable(anyMap: true)
+@JsonSerializable(anyMap: true, explicitToJson: true)
 class Recipe {
   Recipe();
   String? recipeId;
@@ -14,6 +14,7 @@ class Recipe {
   String? title;
   String? image;
   int? servings;
+  List<String>? tags;
   double? calories;
   String? summary;
   RecipeOwner? owner;
@@ -67,7 +68,7 @@ class Ingredient {
   Map<String, dynamic> toJson() => _$IngredientToJson(this);
 }
 
-@JsonSerializable(anyMap: true)
+@JsonSerializable(anyMap: true, explicitToJson: true)
 class Instruction {
   Instruction();
   String? step;

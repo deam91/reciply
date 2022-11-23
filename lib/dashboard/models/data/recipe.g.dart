@@ -14,6 +14,7 @@ Recipe _$RecipeFromJson(Map json, String? recipeId) => Recipe()
   ..title = json['title'] as String?
   ..image = json['image'] as String?
   ..servings = json['servings'] as int?
+  ..tags = (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList()
   ..calories = (json['calories'] as num?)?.toDouble()
   ..summary = json['summary'] as String?
   ..owner = json['owner'] == null
@@ -37,14 +38,15 @@ Map<String, dynamic> _$RecipeToJson(Recipe instance) => <String, dynamic>{
       'title': instance.title,
       'image': instance.image,
       'servings': instance.servings,
+      'tags': instance.tags,
       'calories': instance.calories,
       'summary': instance.summary,
-      'owner': instance.owner,
+      'owner': instance.owner?.toJson(),
       'createdAt': timestampToJson(instance.createdAt),
       'readyInMinutes': instance.readyInMinutes,
       'preparationMinutes': instance.preparationMinutes,
-      'ingredients': instance.ingredients,
-      'instructions': instance.instructions,
+      'ingredients': instance.ingredients?.map((e) => e.toJson()).toList(),
+      'instructions': instance.instructions?.map((e) => e.toJson()).toList(),
     };
 
 RecipeOwner _$RecipeOwnerFromJson(Map<String, dynamic> json) => RecipeOwner()
@@ -82,7 +84,7 @@ Map<String, dynamic> _$InstructionToJson(Instruction instance) =>
     <String, dynamic>{
       'step': instance.step,
       'number': instance.number,
-      'length': instance.length,
+      'length': instance.length?.toJson(),
     };
 
 Length _$LengthFromJson(Map<String, dynamic> json) => Length()
