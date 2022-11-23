@@ -32,6 +32,7 @@ class _StartupPageState extends ConsumerState<StartupPage> {
       case Status.loading:
       case Status.uninitialized:
       case Status.authenticating:
+      case Status.registering:
       case Status.authenticatingWithGoogle:
       case Status.unauthenticated:
       case Status.authError:
