@@ -94,4 +94,4 @@ flutter:
     - assets/recipes.json
     - assets/searching.gif
     - assets/search_not_found.json
-    - assets/env/.env.development
+#    - assets/env/.env.development

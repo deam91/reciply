@@ -57,7 +57,7 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
     return null;
   }
 
-  _signUp() async {
+  Future<void> _signUp() async {
     if (!signUpFormKey.currentState!.validate()) {
       return;
     }

@@ -1,18 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 const firebaseImagesPath = 'images/';
 
-Timestamp? timestampFromJson(dynamic timestampJson) {
-  if (timestampJson is Timestamp) return timestampJson;
-  if (timestampJson is Map) {
-    final map = Map<String, dynamic>.from(timestampJson);
-    final seconds = map["_seconds"];
-    final nanoseconds = map["_nanoseconds"];
-    return Timestamp(seconds, nanoseconds);
-  }
-  return null;
-}
+const timestampConverter = TimestampConverter();
 
-String timestampToJson(Timestamp? timestamp) {
-  return timestamp?.toDate().toString() ?? '';
+class TimestampConverter extends JsonConverter<Timestamp?, dynamic> {
+  const TimestampConverter();
+
+  @override
+  Timestamp? fromJson(dynamic json) {
+    if (json is Timestamp) return json;
+    if (json is Map) {
+      final map = Map<String, dynamic>.from(json);
+      final seconds = map["_seconds"];
+      final nanoseconds = map["_nanoseconds"];
+      return Timestamp(seconds, nanoseconds);
+    }
+    return null;
+  }
+
+  @override
+  dynamic toJson(Timestamp? object) {
+    return object?.toDate().toString() ?? '';
+  }
 }

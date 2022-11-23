@@ -12,8 +12,8 @@ UserProfile _$UserProfileFromJson(Map<String, dynamic> json) => UserProfile(
       aboutMe: json['aboutMe'] as String,
       work: json['work'] as String,
       following: json['following'] as int?,
-      lastLoggedIn: timestampFromJson(json['lastLoggedIn']),
-      registrationDate: timestampFromJson(json['registrationDate']),
+      lastLoggedIn: timestampConverter.fromJson(json['lastLoggedIn']),
+      registrationDate: timestampConverter.fromJson(json['registrationDate']),
       photoUrl: json['photoUrl'] as String,
       recipes:
           (json['recipes'] as List<dynamic>).map((e) => e as String).toList(),
@@ -26,8 +26,8 @@ Map<String, dynamic> _$UserProfileToJson(UserProfile instance) =>
       'aboutMe': instance.aboutMe,
       'work': instance.work,
       'following': instance.following,
-      'lastLoggedIn': timestampToJson(instance.lastLoggedIn),
-      'registrationDate': timestampToJson(instance.registrationDate),
+      'lastLoggedIn': timestampConverter.toJson(instance.lastLoggedIn),
+      'registrationDate': timestampConverter.toJson(instance.registrationDate),
       'photoUrl': instance.photoUrl,
       'recipes': instance.recipes,
     };

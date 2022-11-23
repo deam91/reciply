@@ -27,16 +27,14 @@ class RecipeWidget extends ConsumerStatefulWidget {
   ConsumerState<RecipeWidget> createState() => _RecipeWidgetState();
 }
 
-class _RecipeWidgetState extends ConsumerState<RecipeWidget> {
+class _RecipeWidgetState extends ConsumerState<RecipeWidget> with AutomaticKeepAliveClientMixin {
   bool touched = false;
   List<String> bookmarks = [];
 
   @override
-  void initState() {
-    super.initState();
-  }
+  bool get wantKeepAlive => true;
 
-  _navigateToDetailsPage() {
+  void _navigateToDetailsPage() {
     Navigator.of(context).push(
       PageRouteBuilder(
         transitionDuration: const Duration(milliseconds: 700),

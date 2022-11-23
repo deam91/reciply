@@ -1,34 +1,43 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NotificationService {
+  NotificationService();
+
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
-  final AndroidNotificationChannel channel = const AndroidNotificationChannel(
+  final channel = const AndroidNotificationChannel(
     'high_importance_channel', // id
     'High Importance Notifications', // title
-    description:
-        'This channel is used for important notifications.', // description
+    description: 'This channel is used for important notifications.', // description
     importance: Importance.max,
   );
+
   String _fcmToken = '';
+  late StreamSubscription<RemoteMessage> _onMessageSub;
+  late StreamSubscription<String> _onTokenChangedSub;
 
-  NotificationService();
-
-  init() {
+  Future<void> init() async {
     debugPrint('Initializing notification service...');
-    _requestPermissions();
-    initPlatformConfigurations();
-    _subscribeToPublicChannel();
+    await _requestPermissions();
+    await initPlatformConfigurations();
+    await _subscribeToPublicChannel();
     _startListeningTokenChanges();
-    getToken();
+    await getToken();
     _startListeningMessages();
   }
 
-  _requestPermissions() async {
+  void dispose() {
+    _onMessageSub.cancel();
+    _onTokenChangedSub.cancel();
+  }
+
+  Future<void> _requestPermissions() async {
     debugPrint('Requesting permissions...');
     NotificationSettings settings = await _firebaseMessaging.requestPermission(
       alert: true,
@@ -42,19 +51,17 @@ class NotificationService {
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       debugPrint('User granted permission');
-    } else if (settings.authorizationStatus ==
-        AuthorizationStatus.provisional) {
+    } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
       debugPrint('User granted provisional permission');
     } else {
       debugPrint('User declined or has not accepted permission');
     }
   }
 
-  initPlatformConfigurations() async {
+  Future<void> initPlatformConfigurations() async {
     debugPrint('Initializing platform configurations...');
     // iOS configuration
-    await FirebaseMessaging.instance
-        .setForegroundNotificationPresentationOptions(
+    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
       alert: true, // Required to display a heads up notification
       badge: true,
       sound: true,
@@ -62,12 +69,11 @@ class NotificationService {
 
     // Android configuration
     await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
+        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
   }
 
-  showNotification(RemoteMessage message) {
+  void showNotification(RemoteMessage message) {
     debugPrint('Received message ${message.notification?.title}');
     RemoteNotification? notification = message.notification;
     AndroidNotification? android = message.notification?.android;
@@ -92,22 +98,26 @@ class NotificationService {
     }
   }
 
-  _startListeningMessages() {
+  void _startListeningMessages() {
     debugPrint('Start listening messages...');
-    FirebaseMessaging.onMessage.listen(showNotification);
+    _onMessageSub = FirebaseMessaging.onMessage.listen(showNotification);
   }
 
-  _startListeningTokenChanges() {
+  void _startListeningTokenChanges() {
     debugPrint('Start listening token changes...');
-    _firebaseMessaging.onTokenRefresh.listen((fcmToken) {
-      // TODO: If necessary send token to application server.
-      // Note: This callback is fired at each app startup and whenever a new
-      // token is generated.
-      debugPrint('FCM TOKEN CHANGED: $_fcmToken');
-      _fcmToken = fcmToken;
-    }).onError((err) {
-      // Error getting token.
-    });
+    _onTokenChangedSub = _firebaseMessaging.onTokenRefresh.listen(
+      (String fcmToken) {
+        // TODO: If necessary send token to application server.
+        // Note: This callback is fired at each app startup and whenever a new
+        // token is generated.
+        debugPrint('FCM TOKEN CHANGED: $_fcmToken');
+        _fcmToken = fcmToken;
+      },
+      onError: (err) {
+        // Error getting token.
+        debugPrint('Error getting push token');
+      },
+    );
   }
 
   Future<String?> getToken() async {
@@ -119,8 +129,7 @@ class NotificationService {
               "BCnKxRQOF-X3kv--BAzV4usbLDuJFF7FydGvVuWHPZq0YJktjeACAH6p_yu9fJ5rhO0q3sRHog4zxke45a_iSJw");
 
       GoogleAuthProvider googleProvider = GoogleAuthProvider();
-      googleProvider
-          .addScope('https://www.googleapis.com/auth/contacts.readonly');
+      googleProvider.addScope('https://www.googleapis.com/auth/contacts.readonly');
       googleProvider.setCustomParameters({'login_hint': 'user@example.com'});
     }
     _fcmToken = fcmToken ?? '';
@@ -128,7 +137,7 @@ class NotificationService {
     return fcmToken;
   }
 
-  _subscribeToPublicChannel() async {
+  Future<void> _subscribeToPublicChannel() async {
     debugPrint('Subscribing to topics...');
     await _firebaseMessaging.subscribeToTopic('default');
     debugPrint('Subscribed to "public" topic...');

@@ -95,6 +95,7 @@ InputDecoration getInputDecoration({String placeholder = ''}) {
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(10),
     ),
+    errorMaxLines: 0,
   );
 }
 

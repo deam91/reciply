@@ -11,9 +11,9 @@ class UserProfile {
   String aboutMe;
   String work;
   int? following;
-  @JsonKey(fromJson: timestampFromJson, toJson: timestampToJson)
+  @timestampConverter
   Timestamp? lastLoggedIn;
-  @JsonKey(fromJson: timestampFromJson, toJson: timestampToJson)
+  @timestampConverter
   Timestamp? registrationDate;
   String photoUrl;
   List<String> recipes;

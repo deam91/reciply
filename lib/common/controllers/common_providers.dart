@@ -56,7 +56,7 @@ class RecipeSearchNotifier extends Notifier<List<Recipe>?> {
   }
 
   @override
-  build() {
+  List<Recipe>? build() {
     recipeService = RecipeService(firestore: FirebaseFirestore.instance);
     return [];
   }

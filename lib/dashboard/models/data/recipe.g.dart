@@ -6,8 +6,8 @@ part of 'recipe.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Recipe _$RecipeFromJson(Map json, String? recipeId) => Recipe()
-  ..recipeId = recipeId
+Recipe _$RecipeFromJson(Map json) => Recipe()
+  ..recipeId = json['recipeId'] as String?
   ..ownerId = json['ownerId'] as String?
   ..likes = json['likes'] as int?
   ..stars = (json['stars'] as num?)?.toDouble()
@@ -20,7 +20,7 @@ Recipe _$RecipeFromJson(Map json, String? recipeId) => Recipe()
   ..owner = json['owner'] == null
       ? null
       : RecipeOwner.fromJson(Map<String, dynamic>.from(json['owner'] as Map))
-  ..createdAt = timestampFromJson(json['createdAt'])
+  ..createdAt = timestampConverter.fromJson(json['createdAt'])
   ..readyInMinutes = json['readyInMinutes'] as int?
   ..preparationMinutes = json['preparationMinutes'] as int?
   ..ingredients = (json['ingredients'] as List<dynamic>?)
@@ -42,7 +42,7 @@ Map<String, dynamic> _$RecipeToJson(Recipe instance) => <String, dynamic>{
       'calories': instance.calories,
       'summary': instance.summary,
       'owner': instance.owner?.toJson(),
-      'createdAt': timestampToJson(instance.createdAt),
+      'createdAt': timestampConverter.toJson(instance.createdAt),
       'readyInMinutes': instance.readyInMinutes,
       'preparationMinutes': instance.preparationMinutes,
       'ingredients': instance.ingredients?.map((e) => e.toJson()).toList(),
