@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_app/dashboard/models/data/recipe.dart';
+import 'package:recipe_app/recipes/controllers/recipes_providers.dart';
 import 'package:recipe_app/recipes/views/widgets/add_form.dart';
 import 'package:recipe_app/recipes/views/widgets/media_content.dart';
 
-class AddRecipePage extends StatefulWidget {
+class AddRecipePage extends ConsumerStatefulWidget {
   const AddRecipePage({super.key});
 
   @override
-  State<AddRecipePage> createState() => _AddRecipePageState();
+  ConsumerState<AddRecipePage> createState() => _AddRecipePageState();
 }
 
-class _AddRecipePageState extends State<AddRecipePage>
+class _AddRecipePageState extends ConsumerState<AddRecipePage>
     with SingleTickerProviderStateMixin {
   late final AnimationController animationController;
   late final Animation<double> scaleMediaSectionAnimation;
+  late final Animation<double> scaleFormSectionAnimation;
+  late final Animation<double> opacityFormSectionAnimation;
+  bool ignorePointer = false;
 
   String imageUrl = '';
 
@@ -24,11 +29,16 @@ class _AddRecipePageState extends State<AddRecipePage>
   }
 
   _onFormSaved(Recipe recipe) {
-    // TODO: Check image not empty. Otherwise shake image container showing an error
+    if (imageUrl == '') {
+      return; // TODO: Shake image container showing an error
+    }
     recipe.image = imageUrl;
-    // TODO: Call provider to save recipe.
-    // Watch changes and show loading indicator while saving.
-    // Pop back when finished.
+    recipe.likes = 0;
+    recipe.ingredients = [];
+    recipe.instructions = [];
+    recipe.stars = 0;
+    // Call provider to save recipe.
+    ref.read(recipeManagementProvider.notifier).save(recipe);
   }
 
   @override
@@ -41,14 +51,32 @@ class _AddRecipePageState extends State<AddRecipePage>
     scaleMediaSectionAnimation = Tween(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: animationController,
-        curve: Curves.easeOutCubic,
+        curve: const Interval(0.0, 0.8, curve: Curves.easeOutCubic),
+      ),
+    );
+    opacityFormSectionAnimation = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: animationController,
+        curve: const Interval(0.3, 1.0, curve: Curves.easeOutCubic),
+      ),
+    );
+    scaleFormSectionAnimation = Tween(begin: 0.7, end: 1.0).animate(
+      CurvedAnimation(
+        parent: animationController,
+        curve: const Interval(0.3, 1.0, curve: Curves.easeOutCubic),
       ),
     );
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Future.delayed(const Duration(milliseconds: 600), () {
+      Future.delayed(const Duration(milliseconds: 300), () {
         animationController.forward();
       });
     });
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -94,7 +122,13 @@ class _AddRecipePageState extends State<AddRecipePage>
                             ),
                           ),
                           const SizedBox(height: 10),
-                          AddRecipeForm(onFormSaved: _onFormSaved),
+                          FadeTransition(
+                            opacity: opacityFormSectionAnimation,
+                            child: ScaleTransition(
+                              scale: scaleFormSectionAnimation,
+                              child: AddRecipeForm(onFormSaved: _onFormSaved),
+                            ),
+                          ),
                         ],
                       ),
                     ),
