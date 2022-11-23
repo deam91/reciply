@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:recipe_app/auth/models/user_profile.dart';
 
 class UserProfileService {
   UserProfileService();
