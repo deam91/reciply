@@ -18,32 +18,30 @@ class RecipeOwnerWidget extends StatelessWidget {
           height: 30,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15),
-            child: CachedNetworkImage(
-              imageUrl: recipe.owner?.image ?? '',
-              fit: BoxFit.cover,
-              errorWidget: (context, url, error) {
-                return DecoratedBox(
-                  decoration: const BoxDecoration(color: Colors.black),
-                  child: Image.asset('assets/images/logo_white.png'),
-                );
-              },
-            ),
+            child: recipe.owner?.image != null && recipe.owner?.image != ''
+                ? CachedNetworkImage(
+                    imageUrl: recipe.owner?.image ?? '',
+                    fit: BoxFit.cover,
+                    errorWidget: (context, url, error) {
+                      return DecoratedBox(
+                        decoration: const BoxDecoration(color: Colors.black),
+                        child: Image.asset('assets/images/logo_white.png'),
+                      );
+                    },
+                  )
+                : Image.asset('assets/logo.png'),
           ),
         ),
         const SizedBox(
           width: 10,
         ),
         Expanded(
-          child: FittedBox(
-            alignment: Alignment.centerLeft,
-            fit: BoxFit.scaleDown,
-            child: Text(
-              recipe.owner?.name ?? '',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: textColor ?? const Color(0xffA9A9A9),
-              ),
+          child: Text(
+            recipe.owner?.name ?? '',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: textColor ?? const Color(0xffA9A9A9),
             ),
           ),
         ),
