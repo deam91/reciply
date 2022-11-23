@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_app/common/views/widgets/constants.dart';
 import 'package:recipe_app/common/views/widgets/hero_widget.dart';
-import 'package:recipe_app/common/views/widgets/recipe_flow_delegate.dart';
 import 'package:recipe_app/dashboard/models/data/recipe.dart';
 import 'package:recipe_app/dashboard/views/pages/recipe_details_page.dart';
 import 'package:recipe_app/dashboard/views/widgets/recipes/recipes_container/stars.dart';
@@ -15,12 +14,14 @@ class RecipeWidget extends ConsumerStatefulWidget {
     required this.recipe,
     required this.color,
     required this.size,
-    this.isCurrentPage = false,
+    this.disableTouch = false,
+    this.fromDashboard = false,
   });
   final Recipe recipe;
   final Color color;
   final Size size;
-  final bool isCurrentPage;
+  final bool disableTouch;
+  final bool fromDashboard;
 
   @override
   ConsumerState<RecipeWidget> createState() => _RecipeWidgetState();
@@ -52,6 +53,7 @@ class _RecipeWidgetState extends ConsumerState<RecipeWidget> {
           return RecipeDetailsPage(
             recipe: widget.recipe,
             color: widget.color,
+            fromDashboard: widget.fromDashboard,
           );
         },
       ),
@@ -146,13 +148,16 @@ class _RecipeWidgetState extends ConsumerState<RecipeWidget> {
               ),
               // Image
               GestureDetector(
-                onTap: () {
-                  setState(() {
-                    touched = !touched;
-                  });
-                },
+                onTap: widget.disableTouch
+                    ? null
+                    : () {
+                        setState(() {
+                          touched = !touched;
+                        });
+                      },
                 child: HeroWidget(
-                  tag: HeroTag.image(widget.recipe),
+                  tag: HeroTag.image(widget.recipe,
+                      fromDashboard: widget.fromDashboard),
                   child: AnimatedContainer(
                     curve: Curves.easeInOut,
                     duration: const Duration(milliseconds: 400),
@@ -162,10 +167,10 @@ class _RecipeWidgetState extends ConsumerState<RecipeWidget> {
                       borderRadius: BorderRadius.circular(30.0),
                       boxShadow: const [
                         BoxShadow(
-                          blurRadius: 10,
+                          blurRadius: 6,
                           color: Colors.black38,
                           offset: Offset.zero,
-                          spreadRadius: 3,
+                          spreadRadius: 2,
                         )
                       ],
                     ),
@@ -174,23 +179,26 @@ class _RecipeWidgetState extends ConsumerState<RecipeWidget> {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(30.0),
-                          child: CachedNetworkImage(
-                            fit: BoxFit.cover,
-                            imageUrl: widget.recipe.image ?? '',
-                            progressIndicatorBuilder:
-                                (context, url, downloadProgress) =>
-                                    const Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                            errorWidget: (context, url, error) {
-                              return DecoratedBox(
-                                decoration:
-                                    const BoxDecoration(color: Colors.black),
-                                child:
-                                    Image.asset('assets/images/logo_white.png'),
-                              );
-                            },
-                          ),
+                          child: widget.recipe.image != null &&
+                                  widget.recipe.image != ''
+                              ? CachedNetworkImage(
+                                  fit: BoxFit.cover,
+                                  imageUrl: widget.recipe.image ?? '',
+                                  progressIndicatorBuilder:
+                                      (context, url, downloadProgress) =>
+                                          const Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                  errorWidget: (context, url, error) {
+                                    return DecoratedBox(
+                                      decoration: const BoxDecoration(
+                                          color: Colors.black),
+                                      child: Image.asset(
+                                          'assets/images/logo_white.png'),
+                                    );
+                                  },
+                                )
+                              : Image.asset('assets/logo.png'),
                         ),
                         Positioned(
                           top: 8,
@@ -205,7 +213,7 @@ class _RecipeWidgetState extends ConsumerState<RecipeWidget> {
                           right: 8,
                           child: AnimatedSwitcher(
                             duration: const Duration(milliseconds: 150),
-                            child: widget.isCurrentPage
+                            child: !touched
                                 ? SizedBox(
                                     height: 35,
                                     child: TextButton.icon(
