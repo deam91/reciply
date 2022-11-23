@@ -7,14 +7,14 @@ Recipes app concept developed during Flutter London DevCamp 2022
 Features included:
 
 - ✅ Redesign
-- 🛠 Build for iOS, Android and Web
 - ✅ Recipes search
-- ✅ Push notifications
 - ✅ Google authentication
 - ✅ Email/Password authentication
 - ✅ Bookmark your favorite recipes
-- 🛠 CRUD your own recipes
-- ✅ Follow other users
+- ✅ Build for iOS and Android
+- 🛠 Push notifications
+- 🛠 CRUD your own recipes [✅ Create]
+- 🛠 Follow other users
 
 Coming soon:
 
