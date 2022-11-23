@@ -83,28 +83,6 @@ class ProviderLogin extends ConsumerWidget {
                 ),
               ),
             ),
-            const SizedBox(
-              width: 25,
-            ),
-            SizedBox(
-              width: 48,
-              child: MaterialButton(
-                onPressed: () {},
-                elevation: 3,
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                padding: const EdgeInsets.all(10),
-                child: Center(
-                  child: Image.asset(
-                    'assets/facebook.png',
-                    width: 28,
-                    height: 28,
-                  ),
-                ),
-              ),
-            ),
           ],
         ),
         const SizedBox(
