@@ -91,7 +91,7 @@ class _MediaContentState extends ConsumerState<MediaContent> {
             duration: const Duration(milliseconds: 300),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: _platformFile != null
+              child: _platformFile != null && _platformFile?.path != null
                   ? Image.file(
                       File(_platformFile!.path!),
                       fit: BoxFit.cover,
