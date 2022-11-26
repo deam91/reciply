@@ -1,5 +1,7 @@
 # Reciply
 
+[![Codemagic build status](https://api.codemagic.io/apps/6381efe88d8ede31502c0f88/6381efe88d8ede31502c0f87/status_badge.svg)](https://codemagic.io/apps/6381efe88d8ede31502c0f88/6381efe88d8ede31502c0f87/latest_build)
+
 Recipes app concept developed during Flutter London DevCamp 2022
 
 > All features are done using Firebase (backend) and Riverpod (state management)
