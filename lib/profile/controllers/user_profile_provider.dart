@@ -16,7 +16,7 @@ class UserProfileNotifier extends AutoDisposeAsyncNotifier<UserProfile?> {
 
   UserProfile? get userProfile => _userProfile;
 
-  followUser(String? followedUserUId) {
+  void followUser(String? followedUserUId) {
     final user = ref.read(authControllerProvider.notifier).fbUser;
     userProfileService.followUser(user?.uid, followedUserUId);
   }
@@ -31,7 +31,7 @@ class UserProfileNotifier extends AutoDisposeAsyncNotifier<UserProfile?> {
       state = const AsyncLoading();
       final data = event.data() ?? {};
       final userProfile = UserProfile.fromJson(data);
-      print(userProfile.name);
+      debugPrint(userProfile.name);
       if (this.userProfile != null &&
           this.userProfile?.recipes != userProfile.recipes) {
         ref.refresh(userRecipes);
@@ -50,7 +50,7 @@ class UserProfileNotifier extends AutoDisposeAsyncNotifier<UserProfile?> {
   }
 
   @override
-  build() {
+  UserProfile? build() {
     userProfileService = UserProfileService();
     getUserProfile();
     return null;

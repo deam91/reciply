@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_app/common/controllers/common_providers.dart';
 import 'package:recipe_app/dashboard/models/constants.dart';
@@ -25,7 +26,7 @@ final searchFilters = StateProvider<SearchFilter>((ref) => SearchFilter());
 final searchProvider =
     FutureProvider.autoDispose.family<List<Recipe>?, String>((ref, text) async {
   final filters = ref.watch(searchFilters);
-  print('filter is: ${filters.toString()}');
+  debugPrint('filter is: ${filters.toString()}');
   return ref
       .read(recipeServiceProvider.notifier)
       .search(filters: filters, text: text);

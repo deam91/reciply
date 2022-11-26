@@ -14,9 +14,9 @@ class OnboardingPage extends ConsumerStatefulWidget {
 }
 
 class _OnboardingPageState extends ConsumerState<OnboardingPage> {
-  _setOnboarded() async {
+  void _setOnboarded() async {
     await ref.read(cacheProvider).setOnboarded(true);
-    context.router.popAndPush(const StartupRoute());
+    await context.router.popAndPush(const StartupRoute());
   }
 
   @override
@@ -47,34 +47,34 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                     child: Column(
                       children: [
                         Image.asset('assets/logo_white.png'),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
-                        Text(
+                        const Text(
                           'Reciply',
                           style: TextStyle(
                             color: Colors.white,
                           ),
                         ),
-                        Spacer(),
-                        Text(
+                        const Spacer(),
+                        const Text(
                           'Get Cooking',
                           style: TextStyle(
                             fontSize: 50.0,
                             color: Colors.white,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
-                        Text(
+                        const Text(
                           'Simple way to find a tasty recipe',
                           style: TextStyle(
                             fontSize: 16.0,
                             color: Colors.white,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 40,
                         ),
                         ElevatedButton(

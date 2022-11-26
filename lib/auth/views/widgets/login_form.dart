@@ -23,7 +23,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
     super.initState();
   }
 
-  _showErroMessage(String message) {
+  void _showErroMessage(String message) {
     showSnackBarMessage(context, message);
   }
 
@@ -53,12 +53,12 @@ class _LoginFormState extends ConsumerState<LoginForm> {
   Widget build(BuildContext context) {
     ref.listen(authControllerProvider, (previous, next) {
       if (next == Status.authError) {
-        print('error...');
+        debugPrint('error...');
         final error = ref.read(authControllerProvider.notifier).error;
         _showErroMessage(error);
       }
     });
-    print("BUILD LOGIN_FORM");
+    debugPrint("BUILD LOGIN_FORM");
     return Form(
       key: formKey,
       child: Column(

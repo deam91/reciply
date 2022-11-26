@@ -17,7 +17,6 @@ import 'common/views/widgets/constants.dart';
 
 import 'common/navigation/routes/routes.dart';
 
-
 @pragma('vm:entry-point')
 Future<void> _handleBackgroundMessage(RemoteMessage message) async {
   await Firebase.initializeApp(
@@ -25,10 +24,11 @@ Future<void> _handleBackgroundMessage(RemoteMessage message) async {
   );
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
-  final AndroidNotificationChannel channel = const AndroidNotificationChannel(
+  const AndroidNotificationChannel channel = AndroidNotificationChannel(
     'high_importance_channel', // id
     'High Importance Notifications', // title
-    description: 'This channel is used for important notifications.', // description
+    description:
+        'This channel is used for important notifications.', // description
     importance: Importance.max,
   );
 
@@ -41,13 +41,14 @@ Future<void> _handleBackgroundMessage(RemoteMessage message) async {
 
   // Android configuration
   await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
 
   RemoteNotification? notification = message.notification;
   AndroidNotification? android = message.notification?.android;
 
-  flutterLocalNotificationsPlugin.show(
+  await flutterLocalNotificationsPlugin.show(
     notification.hashCode,
     notification?.title ?? '',
     notification?.body ?? '',
@@ -67,13 +68,13 @@ void main() {
   unawaited(runZonedGuarded<Future<void>>(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
-      // await dotenv.load(fileName: "assets/env/.env.development");
       await Firebase.initializeApp(
         name: 'Reciply',
         options: DefaultFirebaseOptions.currentPlatform,
       );
       // Pass all errors to Crashlytics
-      FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+      FlutterError.onError =
+          FirebaseCrashlytics.instance.recordFlutterFatalError;
 
       FirebaseMessaging.onBackgroundMessage(_handleBackgroundMessage);
 
@@ -89,7 +90,8 @@ void main() {
         ),
       );
     },
-    (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack, fatal: true),
+    (error, stack) =>
+        FirebaseCrashlytics.instance.recordError(error, stack, fatal: true),
   ));
 }
 
@@ -123,7 +125,8 @@ class _ReciplyAppState extends State<ReciplyApp> {
     useMaterial3: true,
     primarySwatch: Colors.blue,
     textTheme: const TextTheme(
-      bodyText2: TextStyle(fontSize: 20.0, fontFamily: 'Hind', color: Colors.black),
+      bodyText2:
+          TextStyle(fontSize: 20.0, fontFamily: 'Hind', color: Colors.black),
       headline6: TextStyle(
         color: Colors.black,
       ),
@@ -136,7 +139,7 @@ class _ReciplyAppState extends State<ReciplyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Flutter Demo',
+      title: 'Reciply',
       theme: themeData,
       routerDelegate: AutoRouterDelegate(
         appRouter,

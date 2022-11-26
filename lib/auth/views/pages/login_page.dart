@@ -10,7 +10,7 @@ class LoginPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    print("BUILD LOGIN_PAGE");
+    debugPrint("BUILD LOGIN_PAGE");
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(

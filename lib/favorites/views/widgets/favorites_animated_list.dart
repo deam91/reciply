@@ -23,7 +23,7 @@ class _FavoritesAnimatedListState extends State<FavoritesAnimatedList> {
     _loadItems(favorites: widget.favorites);
   }
 
-  _loadItems({required List<Recipe> favorites, bool clean = false}) {
+  void _loadItems({required List<Recipe> favorites, bool clean = false}) {
     if (clean) {
       _listItems.clear();
       for (var i = 0; i <= _listItems.length - 1; i++) {
@@ -48,7 +48,12 @@ class _FavoritesAnimatedListState extends State<FavoritesAnimatedList> {
   Widget build(BuildContext context) {
     return AnimatedList(
       key: _key,
-      padding: const EdgeInsets.all(14),
+      padding: const EdgeInsets.only(
+        left: 14,
+        right: 14,
+        top: 14,
+        bottom: kToolbarHeight + 10,
+      ),
       itemBuilder: (context, index, animation) {
         final color = index % 2 == 0 ? recipeColors[0] : recipeColors[1];
         return RecipeSearchItem(

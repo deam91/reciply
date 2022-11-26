@@ -38,7 +38,7 @@ class _RecipeDetailsPageState extends ConsumerState<RecipeDetailsPage>
   late final TabController tabController;
   int _itemsCount = 0;
 
-  _bookmark() async {
+  void _bookmark() async {
     await ref
         .read(bookmarkControllerProvider.notifier)
         .saveBookmark(widget.recipe);
@@ -51,7 +51,7 @@ class _RecipeDetailsPageState extends ConsumerState<RecipeDetailsPage>
   }
 
   @override
-  initState() {
+  void initState() {
     super.initState();
     tabController = TabController(length: 2, vsync: this, initialIndex: 0);
     _itemsCount = widget.recipe.ingredients?.length ?? 0;

@@ -19,7 +19,7 @@ class LocalCacheService {
   }
 
   Future<bool> setOnboarded(bool isOnboarded) async {
-    preferencesBox!.put('isOnboarded', isOnboarded);
+    await preferencesBox!.put('isOnboarded', isOnboarded);
     return isOnboarded;
   }
 }

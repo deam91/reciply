@@ -23,7 +23,7 @@ class _RecipesContainerState extends ConsumerState<RecipesContainer> {
     super.initState();
   }
 
-  _selectTag(TagEnum tag) {
+  void _selectTag(TagEnum tag) {
     setState(() {
       selectedTag = tag;
     });

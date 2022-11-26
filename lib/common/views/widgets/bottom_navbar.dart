@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:recipe_app/common/views/widgets/constants.dart';
 
 class BottomNavBarWidget extends StatefulWidget {
   const BottomNavBarWidget({
@@ -25,6 +27,7 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
+      crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisSize: MainAxisSize.max,
       children: [
         ...List.generate(widget.icons.length, (index) {
@@ -34,30 +37,31 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
           final iconAsset = widget.icons[index];
           final icon = SvgPicture.asset(
             iconAsset,
-            height: 20,
+            height: 22,
             color: color,
           );
           final scale = widget.currentIndex == index ? 1.1 : 1.0;
 
-          return AnimatedScale(
-            scale: scale,
-            duration: const Duration(milliseconds: 200),
-            child: AnimatedSwitcher(
+          return Padding(
+            padding: EdgeInsets.only(
+                left: (index == widget.icons.length / 2) ? 40.0 : 0.0),
+            child: AnimatedScale(
+              scale: scale,
               duration: const Duration(milliseconds: 200),
-              child: MaterialButton(
-                key: Key('$index${color.toString()}'),
-                onPressed: () {
-                  widget.onTap(index);
-                },
-                shape: const CircleBorder(),
-                child: icon,
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 200),
+                child: MaterialButton(
+                  key: Key('$index${color.toString()}'),
+                  onPressed: () {
+                    widget.onTap(index);
+                  },
+                  shape: const CircleBorder(),
+                  child: icon,
+                ),
               ),
             ),
           );
         }),
-        const SizedBox(
-          width: 55,
-        ),
       ],
     );
   }

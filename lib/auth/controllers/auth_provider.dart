@@ -31,12 +31,12 @@ class AuthProvider extends Notifier<Status> {
   User? _user;
 
   @override
-  build() {
+  Status build() {
     _init();
     return Status.unauthenticated;
   }
 
-  _init() async {
+  void _init() async {
     if (kIsWeb) {
       await FirebaseFirestore.instance
           .enablePersistence(const PersistenceSettings(synchronizeTabs: true));
@@ -60,7 +60,7 @@ class AuthProvider extends Notifier<Status> {
       state = Status.authenticating;
       final userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      _checkUserProfile(userCredential);
+      await _checkUserProfile(userCredential);
       _error = '';
       _loading = false;
       state = Status.authenticated;
@@ -80,9 +80,6 @@ class AuthProvider extends Notifier<Status> {
         email: profile.email,
         password: password,
       );
-      final exist = FirebaseFirestore.instance
-          .collection('users')
-          .doc(userCredential.user?.uid);
       await FirebaseFirestore.instance
           .collection('users')
           .doc(userCredential.user?.uid)
@@ -110,7 +107,7 @@ class AuthProvider extends Notifier<Status> {
     }
   }
 
-  _checkUserProfile(UserCredential userCredential) async {
+  Future<void> _checkUserProfile(UserCredential userCredential) async {
     final exist = FirebaseFirestore.instance
         .collection('users')
         .doc(userCredential.user?.uid);
@@ -147,7 +144,7 @@ class AuthProvider extends Notifier<Status> {
       debugPrint('signInWithCredential...');
       final userCredential =
           await FirebaseAuth.instance.signInWithCredential(credential);
-      _checkUserProfile(userCredential);
+      await _checkUserProfile(userCredential);
     } on FirebaseAuthException catch (e, _) {
       _error = e.message ?? '';
       debugPrint('FirebaseAuthException');
@@ -181,18 +178,14 @@ class AuthProvider extends Notifier<Status> {
   }
 
   Future<void> signOut() async {
-    FirebaseAuth.instance.signOut();
-    _googleSignIn.signOut();
+    await FirebaseAuth.instance.signOut();
+    await _googleSignIn.signOut();
     state = Status.unauthenticated;
   }
 
   void updateProfile(UserProfile userProfile) async {
     if (_user != null && _user!.providerData.isNotEmpty) {
       final providerProfile = _user!.providerData.first;
-      // ID of the provider (google.com, apple.com, etc.)
-      final provider = providerProfile.providerId;
-      // UID specific to the provider
-      final uid = providerProfile.uid;
       // Name, email address, and profile photo URL
       final name = providerProfile.displayName;
       final emailAddress = providerProfile.email;
@@ -226,7 +219,10 @@ class AuthProvider extends Notifier<Status> {
       log('created/saved user...');
       final token = await ref.read(notificationProvider).getToken();
       if (token != null) {
-        FirebaseFirestore.instance.collection('users').doc(_user?.uid).set(
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(_user?.uid)
+            .set(
           {
             'notificationTokens': {token: true}
           },

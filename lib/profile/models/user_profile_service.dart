@@ -17,7 +17,7 @@ class UserProfileService {
     return const Stream.empty();
   }
 
-  followUser(String? userUId, String? followedUId) async {
+  Future<void> followUser(String? userUId, String? followedUId) async {
     try {
       await FirebaseFirestore.instance
           .collection('followers')
@@ -29,7 +29,7 @@ class UserProfileService {
     } on Exception catch (err) {
       debugPrint(err.toString());
     }
-    return null;
+    return;
   }
 
   Future<int> followers(String? userUID) async {

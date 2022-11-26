@@ -27,7 +27,8 @@ class RecipeWidget extends ConsumerStatefulWidget {
   ConsumerState<RecipeWidget> createState() => _RecipeWidgetState();
 }
 
-class _RecipeWidgetState extends ConsumerState<RecipeWidget> with AutomaticKeepAliveClientMixin {
+class _RecipeWidgetState extends ConsumerState<RecipeWidget>
+    with AutomaticKeepAliveClientMixin {
   bool touched = false;
   List<String> bookmarks = [];
 
@@ -58,7 +59,7 @@ class _RecipeWidgetState extends ConsumerState<RecipeWidget> with AutomaticKeepA
     );
   }
 
-  _bookmark() async {
+  void _bookmark() async {
     await ref
         .read(bookmarkControllerProvider.notifier)
         .saveBookmark(widget.recipe);

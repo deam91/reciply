@@ -42,7 +42,7 @@ class RecipeSearchItem extends StatelessWidget {
 
   final GlobalKey _backgroundImageKey = GlobalKey();
 
-  _onTap(BuildContext context) {
+  void _onTap(BuildContext context) {
     Navigator.of(context).push(
       PageRouteBuilder(
         transitionDuration: const Duration(milliseconds: 700),

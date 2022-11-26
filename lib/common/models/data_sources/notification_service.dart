@@ -14,7 +14,8 @@ class NotificationService {
   final channel = const AndroidNotificationChannel(
     'high_importance_channel', // id
     'High Importance Notifications', // title
-    description: 'This channel is used for important notifications.', // description
+    description:
+        'This channel is used for important notifications.', // description
     importance: Importance.max,
   );
 
@@ -51,7 +52,8 @@ class NotificationService {
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       debugPrint('User granted permission');
-    } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
+    } else if (settings.authorizationStatus ==
+        AuthorizationStatus.provisional) {
       debugPrint('User granted provisional permission');
     } else {
       debugPrint('User declined or has not accepted permission');
@@ -61,7 +63,8 @@ class NotificationService {
   Future<void> initPlatformConfigurations() async {
     debugPrint('Initializing platform configurations...');
     // iOS configuration
-    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
       alert: true, // Required to display a heads up notification
       badge: true,
       sound: true,
@@ -69,7 +72,8 @@ class NotificationService {
 
     // Android configuration
     await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
   }
 
@@ -107,7 +111,6 @@ class NotificationService {
     debugPrint('Start listening token changes...');
     _onTokenChangedSub = _firebaseMessaging.onTokenRefresh.listen(
       (String fcmToken) {
-        // TODO: If necessary send token to application server.
         // Note: This callback is fired at each app startup and whenever a new
         // token is generated.
         debugPrint('FCM TOKEN CHANGED: $_fcmToken');
@@ -129,7 +132,8 @@ class NotificationService {
               "BCnKxRQOF-X3kv--BAzV4usbLDuJFF7FydGvVuWHPZq0YJktjeACAH6p_yu9fJ5rhO0q3sRHog4zxke45a_iSJw");
 
       GoogleAuthProvider googleProvider = GoogleAuthProvider();
-      googleProvider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+      googleProvider
+          .addScope('https://www.googleapis.com/auth/contacts.readonly');
       googleProvider.setCustomParameters({'login_hint': 'user@example.com'});
     }
     _fcmToken = fcmToken ?? '';

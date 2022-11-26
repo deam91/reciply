@@ -34,167 +34,189 @@ class _FilterModalState extends ConsumerState<FilterModal> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(20),
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(40),
         ),
       ),
-      child: Column(
+      child: Stack(
+        fit: StackFit.loose,
         children: [
-          const Text('Filter search'),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const Text('Time'),
-              SizedBox(
-                height: 50,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: TimeEnum.values.length,
-                  itemBuilder: (_, index) {
-                    final isSelected = selectedTimeChoice == index;
-                    return InkWell(
-                      onTap: () {
-                        setState(() {
-                          selectedTimeChoice = index;
-                        });
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                        child: Chip(
-                          shape: const StadiumBorder(),
-                          backgroundColor: isSelected
-                              ? const Color(0xff129575)
-                              : Colors.white,
-                          elevation: 0,
-                          side: const BorderSide(color: Color(0xff129575)),
-                          label: Text(
-                            TimeEnum.values[index].value,
-                            style: TextStyle(
-                              color: isSelected
-                                  ? Colors.white
-                                  : const Color(0xff129575),
+          Positioned(
+            right: 10,
+            top: 10,
+            child: CloseButton(
+              onPressed: () {
+                context.router.pop();
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                const Text('Filter search'),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Text('Time'),
+                    SizedBox(
+                      height: 50,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: TimeEnum.values.length,
+                        itemBuilder: (_, index) {
+                          final isSelected = selectedTimeChoice == index;
+                          return InkWell(
+                            onTap: () {
+                              setState(() {
+                                selectedTimeChoice = index;
+                              });
+                            },
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5.0),
+                              child: Chip(
+                                shape: const StadiumBorder(),
+                                backgroundColor: isSelected
+                                    ? const Color(0xff129575)
+                                    : Colors.white,
+                                elevation: 0,
+                                side:
+                                    const BorderSide(color: Color(0xff129575)),
+                                label: Text(
+                                  TimeEnum.values[index].value,
+                                  style: TextStyle(
+                                    color: isSelected
+                                        ? Colors.white
+                                        : const Color(0xff129575),
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              const Text('Rate'),
-              SizedBox(
-                height: 50,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: StarsEnum.values.length,
-                  itemBuilder: (_, index) {
-                    final isSelected = selectedRateChoice == index;
-                    return InkWell(
-                      onTap: () {
-                        setState(() {
-                          selectedRateChoice = index;
-                        });
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                        child: Chip(
-                          shape: const StadiumBorder(),
-                          backgroundColor: isSelected
-                              ? const Color(0xff129575)
-                              : Colors.white,
-                          elevation: 0,
-                          side: const BorderSide(color: Color(0xff129575)),
-                          avatar: Icon(
-                            Icons.star_rounded,
-                            color: isSelected
-                                ? Colors.white
-                                : const Color(0xff129575),
-                          ),
-                          label: Text(
-                            StarsEnum.values[index].value,
-                            style: TextStyle(
-                              color: isSelected
-                                  ? Colors.white
-                                  : const Color(0xff129575),
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              const Text('Tags'),
-              Wrap(
-                children: List.generate(TagEnum.values.length, (index) {
-                  final isSelected = selectedTagChoice == index;
-                  return InkWell(
-                    onTap: () {
-                      setState(() {
-                        selectedTagChoice = index;
-                      });
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                      child: Chip(
-                        shape: const StadiumBorder(),
-                        backgroundColor:
-                            isSelected ? const Color(0xff129575) : Colors.white,
-                        elevation: 0,
-                        side: const BorderSide(color: Color(0xff129575)),
-                        label: Text(
-                          TagEnum.values[index].value,
-                          style: TextStyle(
-                            color: isSelected
-                                ? Colors.white
-                                : const Color(0xff129575),
-                          ),
-                        ),
+                          );
+                        },
                       ),
                     ),
-                  );
-                }),
-              ),
-              const SizedBox(
-                height: 40,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                child: MaterialButton(
-                  elevation: 0,
-                  // minWidth: double.infinity - 60,
-                  height: 50,
-                  color: const Color(0xff129575),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  padding: const EdgeInsets.all(5),
-                  onPressed: () {
-                    final searchFilter = SearchFilter(
-                        tag: selectedTagChoice > -1
-                            ? TagEnum.values[selectedTagChoice]
-                            : null,
-                        star: selectedRateChoice > -1
-                            ? StarsEnum.values[selectedRateChoice]
-                            : null,
-                        time: selectedTimeChoice > -1
-                            ? TimeEnum.values[selectedTimeChoice]
-                            : null);
-                    context.router.pop(searchFilter);
-                  },
-                  child: const Text(
-                    'Filter',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              )
-            ],
-          )
+                    const Text('Rate'),
+                    SizedBox(
+                      height: 50,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: StarsEnum.values.length,
+                        itemBuilder: (_, index) {
+                          final isSelected = selectedRateChoice == index;
+                          return InkWell(
+                            onTap: () {
+                              setState(() {
+                                selectedRateChoice = index;
+                              });
+                            },
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5.0),
+                              child: Chip(
+                                shape: const StadiumBorder(),
+                                backgroundColor: isSelected
+                                    ? const Color(0xff129575)
+                                    : Colors.white,
+                                elevation: 0,
+                                side:
+                                    const BorderSide(color: Color(0xff129575)),
+                                avatar: Icon(
+                                  Icons.star_rounded,
+                                  color: isSelected
+                                      ? Colors.white
+                                      : const Color(0xff129575),
+                                ),
+                                label: Text(
+                                  StarsEnum.values[index].value,
+                                  style: TextStyle(
+                                    color: isSelected
+                                        ? Colors.white
+                                        : const Color(0xff129575),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    const Text('Tags'),
+                    Wrap(
+                      children: List.generate(TagEnum.values.length, (index) {
+                        final isSelected = selectedTagChoice == index;
+                        return InkWell(
+                          onTap: () {
+                            setState(() {
+                              selectedTagChoice = index;
+                            });
+                          },
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 5.0),
+                            child: Chip(
+                              shape: const StadiumBorder(),
+                              backgroundColor: isSelected
+                                  ? const Color(0xff129575)
+                                  : Colors.white,
+                              elevation: 0,
+                              side: const BorderSide(color: Color(0xff129575)),
+                              label: Text(
+                                TagEnum.values[index].value,
+                                style: TextStyle(
+                                  color: isSelected
+                                      ? Colors.white
+                                      : const Color(0xff129575),
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }),
+                    ),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                      child: MaterialButton(
+                        elevation: 0,
+                        // minWidth: double.infinity - 60,
+                        height: 50,
+                        color: const Color(0xff129575),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: const EdgeInsets.all(5),
+                        onPressed: () {
+                          final searchFilter = SearchFilter(
+                              tag: selectedTagChoice > -1
+                                  ? TagEnum.values[selectedTagChoice]
+                                  : null,
+                              star: selectedRateChoice > -1
+                                  ? StarsEnum.values[selectedRateChoice]
+                                  : null,
+                              time: selectedTimeChoice > -1
+                                  ? TimeEnum.values[selectedTimeChoice]
+                                  : null);
+                          context.router.pop(searchFilter);
+                        },
+                        child: const Text(
+                          'Filter',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
         ],
       ),
     );

@@ -53,7 +53,7 @@ class Validator {
   }
 }
 
-showSnackBarMessage(BuildContext context, String message,
+void showSnackBarMessage(BuildContext context, String message,
     {String? description}) {
   var snackBar = SnackBar(
     duration: const Duration(seconds: 4),
@@ -76,7 +76,7 @@ showSnackBarMessage(BuildContext context, String message,
 }
 
 extension CapitalString on String {
-  capitalize() {
+  String capitalize() {
     return this[0].toUpperCase() + substring(1);
   }
 }

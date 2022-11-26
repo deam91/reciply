@@ -24,7 +24,7 @@ class RecipeFormField extends StatelessWidget {
   final TextInputAction keyboardAction;
   final String? Function(String? value)? validator;
 
-  _getInputDecoration(String name) {
+  InputDecoration _getInputDecoration(String name) {
     return getInputDecoration(placeholder: name).copyWith(
       counterStyle: const TextStyle(color: Colors.white),
       hoverColor: Colors.white,

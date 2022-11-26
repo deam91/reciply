@@ -36,7 +36,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
     });
   }
 
-  _showFiltersModalBottomSheet() async {
+  Future<void> _showFiltersModalBottomSheet() async {
     final filter = await showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
@@ -45,62 +45,61 @@ class _SearchPageState extends ConsumerState<SearchPage> {
       },
     );
     if (filter != null) {
-      print('filter object: ${filter.toString()}');
+      debugPrint('filter object: ${filter.toString()}');
       ref.read(searchFilters.notifier).state = filter as SearchFilter;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    print('BUILT WITH $_searchText');
+    debugPrint('BUILT WITH $_searchText');
     final recipesWatch = ref.watch(searchProvider(_searchText));
     return Scaffold(
+      extendBody: true,
       appBar: AppBar(
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         title: const Text('Search recipes'),
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Expanded(
-                    child: SearchCard(
-                      onShowModalBottomSheet: () async {
-                        await _showFiltersModalBottomSheet();
-                      },
-                      controller: controller,
-                      onFieldSubmitted: (_) {
-                        _enter(controller.text);
-                      },
-                    ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Expanded(
+                  child: SearchCard(
+                    onShowModalBottomSheet: () async {
+                      await _showFiltersModalBottomSheet();
+                    },
+                    controller: controller,
+                    onFieldSubmitted: (_) {
+                      _enter(controller.text);
+                    },
                   ),
-                ],
-              ),
-              Expanded(
-                child: recipesWatch.when(
-                  data: (List<Recipe>? data) {
-                    if (data == null || data.isEmpty) {
-                      return const SearchNotFoundLottie();
-                    }
-
-                    return RecipeResultList(
-                      recipeSearchItems: data,
-                      fromSearch: true,
-                    );
-                  },
-                  error: (error, stack) => const SearchNotFoundLottie(),
-                  loading: () => const LoadingWidget(),
                 ),
+              ],
+            ),
+            Expanded(
+              child: recipesWatch.when(
+                data: (List<Recipe>? data) {
+                  if (data == null || data.isEmpty) {
+                    return const SearchNotFoundLottie();
+                  }
+
+                  return RecipeResultList(
+                    recipeSearchItems: data,
+                    fromSearch: true,
+                  );
+                },
+                error: (error, stack) => const SearchNotFoundLottie(),
+                loading: () => const LoadingWidget(),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

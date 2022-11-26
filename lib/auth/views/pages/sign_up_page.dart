@@ -8,7 +8,7 @@ class SignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("BUILD LOGIN_PAGE");
+    debugPrint("BUILD LOGIN_PAGE");
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(

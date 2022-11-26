@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:recipe_app/auth/controllers/auth_provider.dart';
 import 'package:recipe_app/common/views/widgets/loading.dart';
 import 'package:recipe_app/common/views/widgets/search_not_found.dart';
 import 'package:recipe_app/search/views/widgets/recipe_search_list.dart';
@@ -26,8 +25,6 @@ class _UserBrandState extends ConsumerState<UserBrand>
 
   @override
   Widget build(BuildContext context) {
-    final fbUser = ref
-        .watch(authControllerProvider.notifier.select((value) => value.fbUser));
     final profile = ref.watch(userProfileProvider);
     final recipes = ref.watch(userRecipes);
 

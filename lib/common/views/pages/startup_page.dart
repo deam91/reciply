@@ -25,7 +25,7 @@ class _StartupPageState extends ConsumerState<StartupPage> {
   @override
   Widget build(BuildContext context) {
     final authStateChanges = ref.watch(authControllerProvider);
-    print("BUILD START_PAGE");
+    debugPrint("BUILD START_PAGE");
     switch (authStateChanges) {
       case Status.authenticated:
         return const HomePage();

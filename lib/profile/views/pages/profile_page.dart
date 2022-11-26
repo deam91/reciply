@@ -26,12 +26,15 @@ class ProfilePage extends ConsumerWidget {
           )
         ],
       ),
-      body: Column(
-        children: const [
-          Expanded(
-            child: UserBrand(),
-          ),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.only(bottom: 10.0),
+        child: Column(
+          children: const [
+            Expanded(
+              child: UserBrand(),
+            ),
+          ],
+        ),
       ),
     );
   }

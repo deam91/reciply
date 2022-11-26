@@ -13,11 +13,11 @@ final recipeManagementProvider =
 
 class RecipeManagement extends AutoDisposeAsyncNotifier<RecipeStatus> {
   @override
-  build() {
+  RecipeStatus build() {
     return RecipeStatus.initial;
   }
 
-  save(Recipe recipe) async {
+  void save(Recipe recipe) async {
     state = const AsyncLoading();
     try {
       final userProfile = ref.read(userProfileProvider.notifier).userProfile;

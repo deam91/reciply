@@ -53,18 +53,18 @@ class BookmarkService extends AsyncNotifier<List<Recipe>> {
         final data = bookmarkSnapshot.data() as Map<String, dynamic>;
         final bookmark = UserBookmarks.fromJson(data);
         if (bookmark.bookmarks == null) {
-          bookmarkCollection
+          await bookmarkCollection
               .doc(userId)
               .set(UserBookmarks([recipe.recipeId!]).toJson());
         } else if (!bookmark.bookmarks!.contains(recipe.recipeId!)) {
           bookmark.bookmarks?.add(recipe.recipeId!);
-          bookmarkDoc.set(bookmark.toJson());
+          await bookmarkDoc.set(bookmark.toJson());
         } else {
           bookmark.bookmarks?.remove(recipe.recipeId);
-          bookmarkCollection.doc(userId).update(bookmark.toJson());
+          await bookmarkCollection.doc(userId).update(bookmark.toJson());
         }
       } else {
-        bookmarkCollection
+        await bookmarkCollection
             .doc(userId)
             .set(UserBookmarks([recipe.recipeId!]).toJson());
       }
@@ -74,7 +74,7 @@ class BookmarkService extends AsyncNotifier<List<Recipe>> {
   }
 
   @override
-  build() {
+  List<Recipe> build() {
     registerBookmarksStream();
     return [];
   }

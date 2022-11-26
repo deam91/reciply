@@ -1,10 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_auth_mocks/firebase_auth_mocks.dart'
-    show MockUser, MockFirebaseAuth;
+import 'package:firebase_auth_mocks/firebase_auth_mocks.dart' show MockUser;
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:recipe_app/auth/controllers/auth_provider.dart';
 
@@ -16,8 +15,8 @@ class MockAuthProvider extends Mock implements AuthProvider {}
 // a generic Listener class, used to keep track of when a provider notifies its listeners
 class Listener<T> extends Mock {
   void call(T? previous, T next) {
-    print(previous);
-    print(next);
+    debugPrint(previous?.toString());
+    debugPrint(next.toString());
   }
 }
 
@@ -41,8 +40,8 @@ Stream<User> mockUserChanges() {
 }
 
 void main() {
-  final MockFirebaseAuth mockAuth = MockFirebaseAuth();
-  final MockUser _mockUser = MockUser();
+  // final MockFirebaseAuth mockAuth = MockFirebaseAuth();
+  // final MockUser _mockUser = MockUser();
 
   setUpAll(() async {});
 

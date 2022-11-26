@@ -16,8 +16,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return AutoTabsScaffold(
+      extendBody: true,
       resizeToAvoidBottomInset: false,
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.miniCenterDocked,
       floatingActionButton: FloatingActionButton(
         heroTag: 'add_recipe',
         shape: const CircleBorder(),
@@ -35,6 +37,7 @@ class _HomePageState extends State<HomePage> {
         return BottomAppBar(
           color: Colors.white,
           shape: const WaterfallNotchedRectangle(),
+          clipBehavior: Clip.none,
           notchMargin: 4,
           elevation: 12,
           child: BottomNavBarWidget(

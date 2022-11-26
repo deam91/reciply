@@ -79,8 +79,8 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
     final resp = await ref
         .read(authControllerProvider.notifier)
         .signUp(userProfile, password);
-    print("signUpForm -> $name");
-    if (resp) context.router.pop();
+    debugPrint("signUpForm -> $name");
+    if (resp) await context.router.pop();
   }
 
   @override

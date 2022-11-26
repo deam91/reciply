@@ -31,7 +31,7 @@ class _RecipeResultListState extends State<RecipeResultList> {
     _loadItems();
   }
 
-  _loadItems() {
+  void _loadItems() {
     var future = Future(() {});
     for (var i = 0; i < widget.recipeSearchItems.length; i++) {
       future = future.then((_) {
@@ -67,7 +67,12 @@ class _RecipeResultListState extends State<RecipeResultList> {
         Expanded(
           child: AnimatedList(
             key: _key,
-            padding: const EdgeInsets.all(14),
+            padding: const EdgeInsets.only(
+              left: 14,
+              right: 14,
+              top: 14,
+              bottom: kToolbarHeight + 20,
+            ),
             itemBuilder: (context, index, animation) {
               final color = index % 2 == 0 ? recipeColors[0] : recipeColors[1];
               return RecipeSearchItem(
