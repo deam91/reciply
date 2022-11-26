@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -20,7 +19,7 @@ class _MediaContentState extends ConsumerState<MediaContent> {
   PlatformFile? _platformFile;
   UploadTask? uploadTask;
 
-  _uploadFile() async {
+  void _uploadFile() async {
     final userId = ref.read(authControllerProvider.notifier).fbUser?.uid;
     if (_platformFile != null) {
       final path = '$firebaseImagesPath/$userId/${_platformFile!.name}';
@@ -34,14 +33,14 @@ class _MediaContentState extends ConsumerState<MediaContent> {
 
       final url = await snapshot.ref.getDownloadURL();
       widget.onImageUploaded(url);
-      print('Download Link: $url');
+      debugPrint('Download Link: $url');
       setState(() {
         uploadTask = null;
       });
     }
   }
 
-  _pickFile(FileType type) async {
+  void _pickFile(FileType type) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(type: type);
     if (result != null) {
       if (type == FileType.image) {
@@ -55,13 +54,13 @@ class _MediaContentState extends ConsumerState<MediaContent> {
     }
   }
 
-  _buildProgress() => StreamBuilder(
+  StreamBuilder<TaskSnapshot> _buildProgress() => StreamBuilder(
         stream: uploadTask?.snapshotEvents,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final data = snapshot.requireData;
             double progress = data.bytesTransferred / data.totalBytes;
-            print(progress * 100);
+            debugPrint((progress * 100).toString());
             return Center(
               child: CircularProgressIndicator(
                 value: progress,

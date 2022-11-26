@@ -5,12 +5,13 @@ import 'package:recipe_app/common/models/utils.dart';
 import 'package:recipe_app/dashboard/models/constants.dart';
 import 'package:recipe_app/dashboard/models/data/recipe.dart';
 import 'package:recipe_app/recipes/controllers/recipes_providers.dart';
+import 'package:recipe_app/recipes/models/constants.dart';
 import 'package:recipe_app/recipes/views/widgets/form_field.dart';
-import 'package:recipe_app/recipes/views/widgets/multi_select_tags.dart';
+import 'package:recipe_app/recipes/views/widgets/create_recipe/multi_select_tags.dart';
 
 class AddRecipeForm extends StatefulWidget {
   const AddRecipeForm({super.key, required this.onFormSaved});
-  final Function(Recipe recipe) onFormSaved;
+  final RecipeCallback onFormSaved;
 
   @override
   State<AddRecipeForm> createState() => _AddRecipeFormState();
@@ -36,6 +37,16 @@ class _AddRecipeFormState extends State<AddRecipeForm> {
         .toList();
   }
 
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _summaryController.dispose();
+    _servingsController.dispose();
+    _caloriesController.dispose();
+    _readyInMinutesController.dispose();
+    super.dispose();
+  }
+
   // Validations for all fields
   String? _textValidator(String? value) {
     final text = Validator.isNotEmpty(value);
@@ -45,7 +56,7 @@ class _AddRecipeFormState extends State<AddRecipeForm> {
     return null;
   }
 
-  _saveButton() => ElevatedButton.icon(
+  ElevatedButton _saveButton() => ElevatedButton.icon(
         onPressed: saveRecipe,
         icon: const Icon(Icons.save_alt_rounded),
         label: const Text('Save'),
@@ -60,7 +71,7 @@ class _AddRecipeFormState extends State<AddRecipeForm> {
         ),
       );
 
-  _loadingButton() => ElevatedButton(
+  ElevatedButton _loadingButton() => ElevatedButton(
         onPressed: () {},
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.white,
@@ -78,7 +89,7 @@ class _AddRecipeFormState extends State<AddRecipeForm> {
         ),
       );
 
-  saveRecipe() {
+  void saveRecipe() {
     debugPrint('saveRecipe()');
     // Validate form
     if (!formKey.currentState!.validate()) {

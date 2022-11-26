@@ -14,7 +14,7 @@ class MultiSelectTagsState extends State<MultiSelectTags> {
   bool isSelected = false;
   List<String> selectedTags = <String>[];
 
-  _buildChoiceList() {
+  List<Container> _buildChoiceList() {
     return widget.tagList.map((item) {
       final selected = selectedTags.contains(item);
       return Container(
