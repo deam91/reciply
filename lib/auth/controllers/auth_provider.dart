@@ -37,6 +37,7 @@ class AuthProvider extends Notifier<Status> {
   }
 
   void _init() async {
+    log('_init...');
     if (kIsWeb) {
       await FirebaseFirestore.instance
           .enablePersistence(const PersistenceSettings(synchronizeTabs: true));
@@ -108,6 +109,7 @@ class AuthProvider extends Notifier<Status> {
   }
 
   Future<void> _checkUserProfile(UserCredential userCredential) async {
+    log('_checkUserProfile...');
     final exist = FirebaseFirestore.instance
         .collection('users')
         .doc(userCredential.user?.uid);
@@ -203,6 +205,7 @@ class AuthProvider extends Notifier<Status> {
   }
 
   Future<void> _onAuthStateChanged(User? firebaseUser) async {
+    log('_onAuthStateChanged...');
     if (firebaseUser == null) {
       _user = null;
       state = Status.unauthenticated;
@@ -235,6 +238,7 @@ class AuthProvider extends Notifier<Status> {
   }
 
   Future<void> _onUserChanged(User? firebaseUser) async {
+    log('_onUserChanged...');
     if (firebaseUser == null) {
       _user = null;
       state = Status.unauthenticated;
