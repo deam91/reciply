@@ -23,7 +23,6 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         heroTag: 'add_recipe',
         shape: const CircleBorder(),
-        mini: true,
         backgroundColor: const Color(0xff129575),
         onPressed: () async {
           final result = await context.router.push(const AddRecipeRoute());
@@ -31,14 +30,17 @@ class _HomePageState extends State<HomePage> {
             showSnackBarMessage(context, 'Recipe saved!');
           }
         },
-        child: const Icon(Icons.add),
+        child: const Icon(
+          Icons.add,
+          size: 28,
+        ),
       ),
       bottomNavigationBuilder: (_, tabsRouter) {
         return BottomAppBar(
           color: Colors.white,
           shape: const WaterfallNotchedRectangle(),
           clipBehavior: Clip.none,
-          notchMargin: 4,
+          notchMargin: 6,
           elevation: 12,
           child: BottomNavBarWidget(
             backgroundColor: Colors.transparent,
