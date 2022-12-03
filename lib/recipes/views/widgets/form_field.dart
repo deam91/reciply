@@ -13,8 +13,10 @@ class RecipeFormField extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     this.keyboardAction = TextInputAction.next,
     this.validator,
+    this.enabled = true,
   });
   final Key inputKey;
+  final bool enabled;
   final TextEditingController controller;
   final String label;
   final String placeholder;
@@ -49,18 +51,21 @@ class RecipeFormField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
+        if (label != '')
+          Text(
+            label,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
           ),
-        ),
-        const SizedBox(
-          height: 8,
-        ),
+        if (label != '')
+          const SizedBox(
+            height: 8,
+          ),
         TextFormField(
+          enabled: enabled,
           cursorColor: Colors.white,
           style: TextStyle(color: Colors.white.withOpacity(.8)),
           controller: controller,
