@@ -7,8 +7,10 @@ import 'package:recipe_app/common/views/widgets/hero_widget.dart';
 import 'package:recipe_app/dashboard/models/data/recipe.dart';
 import 'package:recipe_app/dashboard/views/widgets/recipe_details/directions/directions_list.dart';
 import 'package:recipe_app/dashboard/views/widgets/recipe_details/ingredient/ingredients_list.dart';
-import 'package:recipe_app/dashboard/views/widgets/recipe_details/stars.dart';
+import 'package:recipe_app/dashboard/views/widgets/recipe_time.dart';
 import 'package:recipe_app/dashboard/views/widgets/recipes/new/recipe_owner.dart';
+import 'package:recipe_app/dashboard/views/widgets/recipes/recipes_container/stars.dart';
+import 'package:recipe_app/dashboard/views/widgets/tab_bar_widget.dart';
 import 'package:recipe_app/favorites/controllers/favorites_provider.dart';
 import 'package:recipe_app/profile/controllers/user_profile_provider.dart';
 
@@ -21,6 +23,7 @@ class RecipeDetailsPage extends ConsumerStatefulWidget {
     this.fromFavorites = false,
     this.fromProfile = false,
     this.fromDashboard = false,
+    this.fromNewRecipes = false,
   }) : super(key: key);
   final Recipe recipe;
   final Color color;
@@ -28,6 +31,7 @@ class RecipeDetailsPage extends ConsumerStatefulWidget {
   final bool fromFavorites;
   final bool fromProfile;
   final bool fromDashboard;
+  final bool fromNewRecipes;
 
   @override
   ConsumerState<RecipeDetailsPage> createState() => _RecipeDetailsPageState();
@@ -106,6 +110,7 @@ class _RecipeDetailsPageState extends ConsumerState<RecipeDetailsPage>
                         fromFavorites: widget.fromFavorites,
                         fromProfile: widget.fromProfile,
                         fromDashboard: widget.fromDashboard,
+                        fromNewRecipes: widget.fromNewRecipes,
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(30.0),
@@ -167,7 +172,8 @@ class _RecipeDetailsPageState extends ConsumerState<RecipeDetailsPage>
                               child: IconButton(
                                 key: ValueKey('bookmarked_$bookmarked'),
                                 style: IconButton.styleFrom(
-                                    backgroundColor: Colors.black38),
+                                    backgroundColor:
+                                        Colors.white.withOpacity(.4)),
                                 color:
                                     bookmarked ? Colors.orange : Colors.black45,
                                 padding: const EdgeInsets.all(0),
@@ -196,25 +202,7 @@ class _RecipeDetailsPageState extends ConsumerState<RecipeDetailsPage>
                   Positioned(
                     right: 10,
                     top: 10,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(30.0),
-                      child: Material(
-                        type: MaterialType.transparency,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 5),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: const Color(0xffFFE1B3).withOpacity(.8),
-                          ),
-                          height: 28,
-                          child: Stars(
-                            likes: widget.recipe.stars ?? 0,
-                            size: 28,
-                          ),
-                        ),
-                      ),
-                    ),
+                    child: StarsWidget(recipe: widget.recipe),
                   ),
                 ],
               ),
@@ -360,88 +348,6 @@ class _RecipeDetailsPageState extends ConsumerState<RecipeDetailsPage>
             )
           ],
         ),
-      ),
-    );
-  }
-}
-
-class TabBarWidget extends StatelessWidget {
-  const TabBarWidget({
-    Key? key,
-    required this.tabController,
-  }) : super(key: key);
-
-  final TabController tabController;
-
-  @override
-  Widget build(BuildContext context) {
-    return TabBar(
-      indicatorWeight: 0,
-      indicatorPadding:
-          const EdgeInsets.symmetric(horizontal: -12, vertical: 0),
-      indicator: BoxDecoration(
-        color: const Color(0xff129575),
-        borderRadius: BorderRadius.circular(14),
-      ),
-      physics: const NeverScrollableScrollPhysics(),
-      indicatorColor: const Color(0xff129575),
-      labelColor: Colors.white,
-      indicatorSize: TabBarIndicatorSize.label,
-      unselectedLabelColor: Colors.black45,
-      isScrollable: true,
-      overlayColor:
-          MaterialStateProperty.resolveWith((states) => Colors.transparent),
-      automaticIndicatorColorAdjustment: true,
-      tabs: const <Tab>[
-        Tab(
-          text: 'Ingredients',
-          height: 40,
-        ),
-        Tab(
-          text: 'Directions',
-          height: 40,
-        ),
-      ],
-      controller: tabController,
-    );
-  }
-}
-
-class RecipeTime extends StatelessWidget {
-  const RecipeTime({
-    Key? key,
-    required this.recipe,
-    this.iconSize,
-    this.textSize,
-    this.color,
-  }) : super(key: key);
-
-  final Recipe recipe;
-  final double? iconSize;
-  final double? textSize;
-  final Color? color;
-
-  @override
-  Widget build(BuildContext context) {
-    return FittedBox(
-      child: Row(
-        children: [
-          Icon(
-            Icons.timer_outlined,
-            size: iconSize,
-            color: color,
-          ),
-          const SizedBox(
-            width: 3,
-          ),
-          Text(
-            '${recipe.readyInMinutes} min',
-            style: TextStyle(
-              fontSize: textSize ?? 18,
-              color: color,
-            ),
-          ),
-        ],
       ),
     );
   }
