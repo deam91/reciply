@@ -8,6 +8,16 @@ class Validator {
     return null;
   }
 
+  static String? isNumber(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'This field cannot be empty';
+    }
+    if (!RegExp(r"^[0-9.]+$").hasMatch(value)) {
+      return 'Not a number';
+    }
+    return null;
+  }
+
   static String? isValidEmail(String? value) {
     if (value == null || value.isEmpty) {
       return 'Email address is required';
