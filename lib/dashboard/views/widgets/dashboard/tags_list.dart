@@ -17,8 +17,9 @@ class _TagsListState extends State<TagsList> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 55,
+      height: 30,
       child: ListView.builder(
+        padding: const EdgeInsets.only(left: 20.0, right: 20.0),
         controller: scrollController,
         shrinkWrap: true,
         itemCount: TagEnum.values.length,
@@ -42,9 +43,9 @@ class _TagsListState extends State<TagsList> {
                 color: index == selectedItem
                     ? const Color(0xff129575)
                     : Colors.transparent,
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(6),
               ),
-              margin: const EdgeInsets.all(5),
+              margin: const EdgeInsets.symmetric(horizontal: 5),
               duration: const Duration(milliseconds: 150),
               child: Center(
                 child: Text(

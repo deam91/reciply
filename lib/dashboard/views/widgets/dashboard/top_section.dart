@@ -22,6 +22,7 @@ class _TopSectionState extends ConsumerState<TopSection> {
         SizedBox(
           height: 20,
         ),
+        Divider(),
       ],
     );
   }

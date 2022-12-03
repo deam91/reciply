@@ -13,6 +13,17 @@ class UserCard extends ConsumerWidget {
     final name = user?.displayName ?? '';
     return Row(
       children: [
+        CircleAvatar(
+          radius: 30,
+          backgroundImage: CachedNetworkImageProvider(
+            user?.photoURL ?? '',
+            maxHeight: 55,
+            maxWidth: 55,
+          ),
+        ),
+        const SizedBox(
+          width: 15,
+        ),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,24 +50,6 @@ class UserCard extends ConsumerWidget {
             ],
           ),
         ),
-        // CachedNetworkImage
-        ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: user?.photoURL != null && user?.photoURL != ''
-              ? CachedNetworkImage(
-                  imageUrl: user?.photoURL ?? '',
-                  width: 55,
-                  height: 55,
-                  fit: BoxFit.cover,
-                  errorWidget: (context, url, error) {
-                    return DecoratedBox(
-                      decoration: const BoxDecoration(color: Colors.black),
-                      child: Image.asset('assets/images/logo_white.png'),
-                    );
-                  },
-                )
-              : Image.asset('assets/logo.png'),
-        )
       ],
     );
   }
