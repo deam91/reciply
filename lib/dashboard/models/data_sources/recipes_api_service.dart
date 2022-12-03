@@ -115,8 +115,8 @@ class RecipeService extends APIService {
     recipe.owner = RecipeOwner()
       ..name = owner?.name
       ..image = owner?.photoUrl;
-    return await FirebaseFirestore.instance
-        .collection('recipes')
-        .add(recipe.toJson());
+    final json = recipe.toJson();
+    json['createdAt'] = FieldValue.serverTimestamp();
+    return await FirebaseFirestore.instance.collection('recipes').add(json);
   }
 }
