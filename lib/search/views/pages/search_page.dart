@@ -62,7 +62,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
         title: const Text('Search recipes'),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+        padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
