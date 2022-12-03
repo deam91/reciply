@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_app/dashboard/models/data/recipe.dart';
+import 'package:recipe_app/recipes/controllers/add_recipe_provider.dart';
 import 'package:recipe_app/recipes/controllers/recipes_providers.dart';
-import 'package:recipe_app/recipes/views/widgets/create_recipe/recipe_form_step.dart';
+import 'package:recipe_app/recipes/views/widgets/create_recipe/steps/directions_form_step.dart';
+import 'package:recipe_app/recipes/views/widgets/create_recipe/steps/ingredients_form_step.dart';
+import 'package:recipe_app/recipes/views/widgets/create_recipe/steps/recipe_form_step.dart';
 
 class AddRecipePage extends ConsumerStatefulWidget {
   const AddRecipePage({super.key});
@@ -13,6 +16,8 @@ class AddRecipePage extends ConsumerStatefulWidget {
 
 class _AddRecipePageState extends ConsumerState<AddRecipePage> {
   late final PageController _pageController;
+  final duration = const Duration(milliseconds: 250);
+  Recipe? _recipe;
 
   @override
   void initState() {
@@ -30,17 +35,19 @@ class _AddRecipePageState extends ConsumerState<AddRecipePage> {
     super.dispose();
   }
 
-  void _onFormCompleted(Recipe recipe) {
-    // Go to ingredients page
+  void _goToPage({int? index}) {
+    // Go to index page
+    if (index != null) {
+      _pageController.animateToPage(
+        index,
+        duration: duration,
+        curve: Curves.easeInOutCirc,
+      );
+    }
   }
 
-  void _onIngredientsCompleted(Recipe recipe) {
-    // Go to directions page
-  }
-
-  void _onSaveRecipe(Recipe recipe) {
-    // Call provider to save recipe.
-    ref.read(recipeManagementProvider.notifier).save(recipe);
+  void _onSaveRecipe() {
+    ref.read(recipeManagementProvider.notifier).save();
   }
 
   @override
@@ -66,13 +73,24 @@ class _AddRecipePageState extends ConsumerState<AddRecipePage> {
           child: SafeArea(
             child: PageView.builder(
               controller: _pageController,
-              itemCount: 1,
+              itemCount: 3,
+              scrollDirection: Axis.horizontal,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
-                print('PageView.builder - $index');
-                return RecipeFormStep(
-                  onFormCompleted: _onFormCompleted,
-                );
+                if (index == 0) {
+                  return RecipeFormStep(
+                    onFormCompleted: _goToPage,
+                  );
+                } else if (index == 1) {
+                  return IngredientsFormStep(
+                    goToPage: _goToPage,
+                  );
+                } else {
+                  return DirectionsStep(
+                    onSaveRecipe: _onSaveRecipe,
+                    goBack: _goToPage,
+                  );
+                }
               },
             ),
           ),
