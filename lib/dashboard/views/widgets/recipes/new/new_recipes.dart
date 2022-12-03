@@ -16,7 +16,16 @@ class NewRecipesContainer extends StatelessWidget {
         const SizedBox(
           height: 15,
         ),
-        const Text('New Recipes'),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          child: Text(
+            'New Recipes',
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
         const SizedBox(
           height: 15,
         ),

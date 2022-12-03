@@ -6,12 +6,13 @@ class NewRecipesList extends StatelessWidget {
   NewRecipesList({super.key, required this.items});
   final List<Recipe> items;
 
-  final PageController pageController = PageController(viewportFraction: .85);
+  final PageController pageController = PageController(viewportFraction: .8);
 
   @override
   Widget build(BuildContext context) {
     return PageView.builder(
       controller: pageController,
+      padEnds: false,
       scrollDirection: Axis.horizontal,
       itemCount: items.length,
       itemBuilder: (_, index) {
