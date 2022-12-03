@@ -48,21 +48,24 @@ class _RecipeResultListState extends State<RecipeResultList> {
     return Column(
       children: [
         const SizedBox(
-          height: 20,
+          height: 5,
         ),
         if (widget.showHeader)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text('Search result'),
-              Text(
-                '${widget.recipeSearchItems.length} results',
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.black38,
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Search result'),
+                Text(
+                  '${widget.recipeSearchItems.length} results',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.black38,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         Expanded(
           child: AnimatedList(
