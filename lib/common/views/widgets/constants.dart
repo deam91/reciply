@@ -95,7 +95,7 @@ InputDecoration getInputDecoration({String placeholder = ''}) {
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(10),
     ),
-    errorMaxLines: 0,
+    errorMaxLines: 2,
   );
 }
 
@@ -107,7 +107,8 @@ class HeroTag {
       {bool fromSearch = false,
       bool fromFavorites = false,
       bool fromDashboard = false,
-      bool fromProfile = false}) {
+      bool fromProfile = false,
+      bool fromNewRecipes = false}) {
     if (fromProfile) {
       return 'profile_image${recipe.recipeId}${recipe.ownerId}';
     }
@@ -119,6 +120,9 @@ class HeroTag {
     }
     if (fromFavorites) {
       return 'favorites_image${recipe.recipeId}${recipe.ownerId}';
+    }
+    if (fromNewRecipes) {
+      return 'newRecipe_image${recipe.recipeId}${recipe.ownerId}';
     }
 
     return 'image${recipe.recipeId}${recipe.ownerId}';
