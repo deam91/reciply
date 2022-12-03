@@ -50,7 +50,8 @@ class RecipeOwner {
 
   /// Connect the generated [_$RecipeOwnerFromJson] function to the `fromJson`
   /// factory.
-  factory RecipeOwner.fromJson(Map<String, dynamic> json) => _$RecipeOwnerFromJson(json);
+  factory RecipeOwner.fromJson(Map<String, dynamic> json) =>
+      _$RecipeOwnerFromJson(json);
 
   /// Connect the generated [_$RecipeOwnerToJson] function to the `toJson` method.
   Map<String, dynamic> toJson() => _$RecipeOwnerToJson(this);
@@ -60,14 +61,15 @@ class RecipeOwner {
 class Ingredient {
   Ingredient();
 
-  int? id;
+  String? id;
   String? name;
   double? amount;
   String? unit;
 
   /// Connect the generated [_$IngredientFromJson] function to the `fromJson`
   /// factory.
-  factory Ingredient.fromJson(Map<String, dynamic> json) => _$IngredientFromJson(json);
+  factory Ingredient.fromJson(Map<String, dynamic> json) =>
+      _$IngredientFromJson(json);
 
   /// Connect the generated [_$IngredientToJson] function to the `toJson` method.
   Map<String, dynamic> toJson() => _$IngredientToJson(this);
@@ -83,7 +85,8 @@ class Instruction {
 
   /// Connect the generated [_$InstructionFromJson] function to the `fromJson`
   /// factory.
-  factory Instruction.fromJson(Map<String, dynamic> json) => _$InstructionFromJson(json);
+  factory Instruction.fromJson(Map<String, dynamic> json) =>
+      _$InstructionFromJson(json);
 
   /// Connect the generated [_$InstructionToJson] function to the `toJson` method.
   Map<String, dynamic> toJson() => _$InstructionToJson(this);

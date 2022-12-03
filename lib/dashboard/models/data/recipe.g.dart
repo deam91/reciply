@@ -60,7 +60,7 @@ Map<String, dynamic> _$RecipeOwnerToJson(RecipeOwner instance) =>
     };
 
 Ingredient _$IngredientFromJson(Map<String, dynamic> json) => Ingredient()
-  ..id = json['id'] as int?
+  ..id = json['id'] as String?
   ..name = json['name'] as String?
   ..amount = (json['amount'] as num?)?.toDouble()
   ..unit = json['unit'] as String?;
