@@ -40,15 +40,15 @@ class _StarsWidgetState extends State<StarsWidget>
       child: ScaleTransition(
         scale: _animation,
         child: Container(
-          padding: const EdgeInsets.all(5),
+          padding: const EdgeInsets.all(3),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            color: const Color(0xffFFE1B3).withOpacity(.7),
+            color: Colors.white.withOpacity(.7),
           ),
-          height: 28,
+          height: 24,
           child: Stars(
             likes: widget.recipe.stars ?? 0,
-            size: 28,
+            size: 26,
           ),
         ),
       ),

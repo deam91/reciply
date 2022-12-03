@@ -49,20 +49,24 @@ class _RecipesListState extends State<RecipesList> {
       scrollDirection: Axis.horizontal,
       itemBuilder: (context, index) {
         final scale = max(0.8, (1 - (currentPageValue! - index).abs()));
+        final opacity = max(0.6, (1 - (currentPageValue! - index).abs()));
 
         return Transform(
           transform: Matrix4.identity()..scale(scale),
           alignment: Alignment.center,
-          child: LayoutBuilder(
-            builder: (_, constraints) {
-              return RecipeWidget(
-                recipe: widget.recipes[index],
-                color: Colors.white,
-                size: constraints.smallest,
-                disableTouch: currentPage != index,
-                fromDashboard: widget.fromDashboard,
-              );
-            },
+          child: Opacity(
+            opacity: opacity,
+            child: LayoutBuilder(
+              builder: (_, constraints) {
+                return RecipeWidget(
+                  recipe: widget.recipes[index],
+                  color: Colors.white,
+                  size: constraints.smallest,
+                  disableTouch: currentPage != index,
+                  fromDashboard: widget.fromDashboard,
+                );
+              },
+            ),
           ),
         );
       },
